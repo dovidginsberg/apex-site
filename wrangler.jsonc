@@ -1,0 +1,13 @@
+{
+  "$schema": "./apex-site/node_modules/wrangler/config-schema.json",
+  "name": "apex-event-management",
+  "compatibility_date": "2026-07-21",
+  "build": {
+    "command": "npm install && npm run build",
+    "cwd": "apex-site"
+  },
+  "assets": {
+    "directory": "./apex-site/dist",
+    "not_found_handling": "404-page"
+  }
+}
