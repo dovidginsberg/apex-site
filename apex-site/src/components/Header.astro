@@ -1,0 +1,132 @@
+---
+const links = [
+  { href: '#services', label: 'Services' },
+  { href: '#gallery', label: 'Gallery' },
+  { href: '#process', label: 'Process' },
+  { href: '#testimonials', label: 'Testimonials' },
+];
+---
+
+<header class="header">
+  <div class="wrap header-in">
+    <a href="#" class="wordmark">
+      <img src="/logo/logo-ink.svg" alt="Apex Event Management & Concierge" />
+    </a>
+    <nav class="nav" aria-label="Primary">
+      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+      <a href="#contact" class="btn btn-solid nav-cta">Begin Planning</a>
+    </nav>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile">
+    {links.map((l) => <a href={l.href}>{l.label}</a>)}
+    <a href="#contact" class="btn btn-solid">Begin Planning</a>
+  </nav>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(247, 244, 238, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header-in {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 96px;
+  }
+
+  .wordmark {
+    display: flex;
+    align-items: center;
+  }
+
+  .wordmark img {
+    height: 52px;
+    width: auto;
+  }
+
+  .nav {
+    display: none;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  .nav a:not(.nav-cta) {
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--stone);
+    transition: color 0.2s ease;
+  }
+
+  .nav a:not(.nav-cta):hover { color: var(--ink); }
+
+  .menu-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+
+  .menu-btn span {
+    width: 22px;
+    height: 1px;
+    background: var(--ink);
+    display: block;
+  }
+
+  .mobile-nav {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid var(--line);
+    background: var(--ivory);
+  }
+
+  .mobile-nav.is-open { display: flex; }
+
+  .mobile-nav a {
+    padding: 1rem var(--gutter);
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--line);
+    color: var(--stone);
+  }
+
+  .mobile-nav .btn {
+    margin: 1rem var(--gutter);
+    justify-content: center;
+  }
+
+  @media (min-width: 900px) {
+    .nav { display: flex; }
+    .menu-btn { display: none; }
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const nav = document.getElementById('mobile-nav');
+  btn?.addEventListener('click', () => {
+    const open = nav?.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  nav?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      nav.classList.remove('is-open');
+      btn?.setAttribute('aria-expanded', 'false');
+    })
+  );
+</script>

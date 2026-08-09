@@ -1,0 +1,30 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <img class="word" src="/logo/logo-ink.svg" alt="Apex Event Management & Concierge" />
+    <span class="copy">&copy; {year} Apex Event Management &amp; Concierge. All rights reserved.</span>
+  </div>
+</footer>
+
+<style>
+  .foot { border-top: 1px solid var(--line); background: var(--ivory); }
+
+  .foot-in {
+    padding-block: 2.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    text-align: center;
+  }
+
+  .word { height: 44px; width: auto; }
+  .copy { font-size: 0.72rem; color: var(--stone-light); }
+
+  @media (min-width: 700px) {
+    .foot-in { flex-direction: row; justify-content: space-between; text-align: left; }
+  }
+</style>

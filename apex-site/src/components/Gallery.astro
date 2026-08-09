@@ -1,0 +1,152 @@
+---
+const items = [
+  {
+    type: 'image',
+    img: '/images/real-ceremony-aisle.webp',
+    alt: 'Bride walking down a floral-lined aisle toward a garden chuppah',
+    name: 'Garden Chuppah Ceremony',
+    meta: 'Private Estate',
+    span: 'tall',
+  },
+  {
+    type: 'image',
+    img: '/images/real-flower-dome-stage.webp',
+    alt: 'Grand floral dome stage installation with crystal chandelier',
+    name: 'Floral Dome Stage',
+    meta: 'Ballroom Reception',
+    span: '',
+  },
+  {
+    type: 'video',
+    src: '/videos/gallery-clip-1.mp4',
+    poster: '/images/gallery-clip-1-poster.jpg',
+    name: 'Golden Hour Aisle',
+    meta: 'Outdoor Ceremony',
+    span: '',
+  },
+  {
+    type: 'image',
+    img: '/images/real-rose-arch-aisle.webp',
+    alt: 'White rose arch aisle installation beneath crystal chandeliers',
+    name: 'Rose Arch Aisle',
+    meta: 'Ballroom Ceremony',
+    span: '',
+  },
+  {
+    type: 'video',
+    src: '/videos/gallery-clip-2.mp4',
+    poster: '/images/gallery-clip-2-poster.jpg',
+    name: 'Garden Walkway Reveal',
+    meta: 'Reception Entrance',
+    span: '',
+  },
+  {
+    type: 'image',
+    img: '/images/real-color-stage-lounge.webp',
+    alt: 'Custom-designed floral lounge stage with bespoke seating',
+    name: 'Bespoke Lounge Stage',
+    meta: 'Private Celebration',
+    span: '',
+  },
+  {
+    type: 'image',
+    img: '/images/real-cherry-blossom-cascade.webp',
+    alt: 'Cascading cherry blossom floral installation lining a reception corridor',
+    name: 'Cherry Blossom Cascade',
+    meta: 'Reception Corridor',
+    span: '',
+  },
+];
+---
+
+<section class="gallery" id="gallery">
+  <div class="wrap head reveal">
+    <h2>A selection of<br /><em>extraordinary moments.</em></h2>
+  </div>
+  <div class="wrap grid">
+    {items.map((it) => (
+      <a class={`item ${it.span} reveal`} href="#contact">
+        {it.type === 'video' ? (
+          <video
+            src={it.src}
+            poster={it.poster}
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          />
+        ) : (
+          <img src={it.img} alt={it.alt} loading="lazy" />
+        )}
+        <span class="ov"></span>
+        <span class="info">
+          <span class="name">{it.name}</span>
+          <span class="meta">{it.meta}</span>
+        </span>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .gallery { padding-block: clamp(3rem, 8vw, 7rem); }
+  .head h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; margin-top: 1.2rem; }
+  .head em { font-style: italic; color: var(--brass-deep); }
+
+  .grid {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .item { position: relative; display: block; overflow: hidden; height: 260px; }
+
+  .item img,
+  .item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .item:hover img,
+  .item:hover video { transform: scale(1.04); }
+
+  .ov {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(27, 25, 22, 0.75), transparent 55%);
+  }
+
+  .info {
+    position: absolute;
+    left: 1.4rem;
+    bottom: 1.2rem;
+    right: 1.4rem;
+    color: var(--ivory);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .name { font-family: var(--display); font-size: 1.15rem; }
+
+  .meta {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--stone-light);
+  }
+
+  @media (min-width: 750px) {
+    .grid {
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 260px;
+      grid-auto-flow: row;
+    }
+    .item.tall { grid-row: span 2; height: 100%; }
+    .item:not(.tall) { height: 100%; }
+  }
+</style>

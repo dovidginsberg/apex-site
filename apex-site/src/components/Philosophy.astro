@@ -1,0 +1,74 @@
+---
+---
+
+<section class="phil">
+  <div class="wrap phil-in">
+    <div class="phil-copy reveal">
+      <h2 class="phil-h2">
+        We craft <em>experiences.</em>
+      </h2>
+      <p class="phil-lead">
+        Besides planning events, we create experiences worry-free.
+      </p>
+      <blockquote>
+        "The most beautiful moments are those where neither the couple nor
+        their guests ever once thought about logistics."
+      </blockquote>
+      <p class="phil-body">
+        Apex sits at the intersection of artistry and precision. We bring an
+        obsessive attention to detail, a quiet command of every room, and the
+        rare ability to make the extraordinary feel effortless.
+      </p>
+      <a href="#process" class="btn btn-line">Our Approach</a>
+    </div>
+    <div class="phil-media reveal">
+      <img
+        src="/images/philosophy-staircase.webp"
+        alt="Floral chuppah ceremony under a clear-top tent surrounded by cherry blossoms"
+        width="700"
+        height="880"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .phil { padding-block: clamp(3rem, 8vw, 7rem); }
+  .phil-in { display: grid; gap: clamp(2.5rem, 6vw, 5rem); }
+
+  .phil-h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+    margin-top: 1.2rem;
+  }
+
+  .phil-h2 em { font-style: italic; color: var(--brass-deep); }
+
+  .phil-lead {
+    margin-top: 1.2rem;
+    color: var(--stone);
+    font-size: 1.1rem;
+  }
+
+  blockquote {
+    margin: 2rem 0 0;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  .phil-body { margin-top: 1.8rem; color: var(--stone); max-width: 46ch; }
+  .phil-in .btn { margin-top: 2.2rem; }
+
+  .phil-media img {
+    width: 100%;
+    height: clamp(280px, 45vw, 560px);
+    object-fit: cover;
+  }
+
+  @media (min-width: 900px) {
+    .phil-in { grid-template-columns: 1.1fr 0.9fr; align-items: center; }
+  }
+</style>

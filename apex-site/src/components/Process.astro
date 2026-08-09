@@ -1,0 +1,74 @@
+---
+const steps = [
+  { n: '01', title: 'Discovery', desc: "We listen deeply to understand your vision, your guests, and the emotional experience you want to create. No detail is too small, no dream too ambitious." },
+  { n: '02', title: 'Vision Architecture', desc: 'A bespoke event concept is crafted around your aesthetic, priorities, and guest journey — presented as a complete experiential blueprint.' },
+  { n: '03', title: 'Production Planning', desc: 'Every vendor, timeline, and contingency is mapped with precision. We prepare for everything so you never have to.' },
+  { n: '04', title: 'Coordination', desc: 'We liaise with all partners, manage communications, and conduct walkthroughs so every element arrives exactly as envisioned.' },
+  { n: '05', title: 'Flawless Execution', desc: 'On the day, we are everywhere and invisible. You and your guests experience nothing but the moment — exactly as planned.' },
+];
+---
+
+<section class="process" id="process">
+  <div class="wrap head reveal">
+    <h2>A process built on<br /><em>trust and precision.</em></h2>
+  </div>
+  <div class="wrap timeline">
+    <div class="tline" aria-hidden="true"></div>
+    {steps.map((s) => (
+      <div class="step reveal">
+        <div class="dot">{s.n}</div>
+        <div class="body">
+          <h3>{s.title}</h3>
+          <p>{s.desc}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .process { padding-block: clamp(3rem, 8vw, 7rem); }
+  .head h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; margin-top: 1.2rem; }
+  .head em { font-style: italic; color: var(--brass-deep); }
+
+  .timeline {
+    position: relative;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+  }
+
+  .tline {
+    position: absolute;
+    left: 27px;
+    top: 6px;
+    bottom: 6px;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .step { display: flex; gap: 1.6rem; position: relative; }
+
+  .dot {
+    flex: none;
+    width: 56px;
+    height: 56px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--stamp);
+    font-size: 1.05rem;
+    color: var(--brass-deep);
+    z-index: 1;
+  }
+
+  .body h3 { font-size: 1.3rem; padding-top: 0.9rem; }
+  .body p { margin-top: 0.6rem; color: var(--stone); max-width: 60ch; }
+
+  @media (min-width: 700px) {
+    .timeline { gap: 3rem; }
+  }
+</style>

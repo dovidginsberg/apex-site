@@ -1,0 +1,99 @@
+---
+---
+
+<section class="hero">
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <h1 class="hero-h1">
+        Every detail,<br />
+        <em>flawlessly</em><br />
+        orchestrated.
+      </h1>
+      <p class="hero-sub">
+        From intimate celebrations to grand productions — we craft moments
+        that leave guests breathless and memories that last.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-solid">Begin Planning</a>
+        <a href="#gallery" class="btn btn-line">View Our Work</a>
+      </div>
+    </div>
+    <div class="hero-media">
+      <img
+        src="/images/real-ceremony-aisle.webp"
+        alt="Bride walking down a floral-lined aisle toward a lush garden chuppah"
+        width="900"
+        height="1100"
+      />
+      <figure class="hero-cap">
+        <p>"The room fell completely silent when the doors opened."</p>
+        <figcaption>Private Estate Wedding — The Hamptons</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { padding-block: clamp(2.5rem, 6vw, 5rem); }
+  .hero-in { display: grid; gap: clamp(2.5rem, 5vw, 4rem); }
+
+  .hero-h1 {
+    font-size: clamp(2.6rem, 6vw, 4.6rem);
+    line-height: 1.05;
+    font-weight: 400;
+  }
+
+  .hero-h1 em { font-style: italic; color: var(--brass-deep); }
+
+  .hero-sub {
+    margin-top: 1.6rem;
+    max-width: 34ch;
+    color: var(--stone);
+    font-size: 1.05rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2.4rem;
+  }
+
+  .hero-media { position: relative; }
+
+  .hero-media img {
+    width: 100%;
+    height: clamp(320px, 55vw, 620px);
+    object-fit: cover;
+  }
+
+  .hero-cap {
+    position: absolute;
+    left: -1px;
+    right: 20%;
+    bottom: 0;
+    background: var(--ink);
+    color: var(--ivory);
+    padding: 1.6rem 1.8rem;
+  }
+
+  .hero-cap p {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.4;
+  }
+
+  .hero-cap figcaption {
+    margin-top: 0.7rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--stone-light);
+  }
+
+  @media (min-width: 900px) {
+    .hero-in { grid-template-columns: 0.9fr 1.1fr; align-items: center; }
+    .hero-cap { right: 35%; }
+  }
+</style>
