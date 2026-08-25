@@ -4,18 +4,26 @@ const stats = [
   { n: '7+', l: 'Years of\nExcellence' },
   { n: '100%', l: 'Day-of\nPresence' },
 ];
+
+function parseStat(n: string) {
+  const m = n.match(/^(\d+)(.*)$/);
+  return m ? { value: Number(m[1]), suffix: m[2] } : { value: null, suffix: '' };
+}
 ---
 
 <div class="wrap">
   <div class="strip">
-    {stats.map((s, i) => (
-      <div class="cell">
-        <span class="num">{s.n}</span>
-        <span class="label">
-          {s.l.split('\n').map((line) => <span>{line}</span>)}
-        </span>
-      </div>
-    ))}
+    {stats.map((s) => {
+      const { value, suffix } = parseStat(s.n);
+      return (
+        <div class="cell">
+          <span class="num" data-count={value ?? undefined} data-suffix={suffix}>{s.n}</span>
+          <span class="label">
+            {s.l.split('\n').map((line) => <span>{line}</span>)}
+          </span>
+        </div>
+      );
+    })}
   </div>
 </div>
 
@@ -52,3 +60,8 @@ const stats = [
     line-height: 1.5;
   }
 </style>
+
+<script>
+  import { initCountUp } from '../scripts/count-up';
+  initCountUp('.num[data-count]');
+</script>
