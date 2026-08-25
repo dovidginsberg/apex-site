@@ -1,0 +1,129 @@
+---
+---
+
+<section class="voice">
+  <div class="wrap head reveal">
+    <h2>Hear it <em>in their own words.</em></h2>
+  </div>
+  <div class="wrap">
+    <div class="player reveal" id="voice-player">
+      <button class="play-btn" type="button" aria-label="Play voice message">
+        <svg class="icon icon-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8 5v14l11-7z"></path>
+        </svg>
+        <svg class="icon icon-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M6 5h4v14H6zM14 5h4v14h-4z"></path>
+        </svg>
+      </button>
+
+      <div class="player-body">
+        <div class="wave" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+          <div class="wave-base"></div>
+          <div class="wave-progress"></div>
+        </div>
+        <div class="times">
+          <span class="time-current">0:00</span>
+          <span class="time-duration">0:00</span>
+        </div>
+      </div>
+
+      <audio preload="metadata">
+        <source src="/audio/client-testimonial.mp3" type="audio/mpeg" />
+        <source src="/audio/client-testimonial.ogg" type="audio/ogg" />
+      </audio>
+    </div>
+
+    <p class="caption reveal">A voice message from one of our couples, shared just as it came in.</p>
+  </div>
+</section>
+
+<style>
+  .voice { padding-block: clamp(3rem, 8vw, 6rem); }
+  .head h2 { font-size: clamp(1.9rem, 4vw, 2.7rem); line-height: 1.2; margin-top: 1.2rem; }
+  .head em { font-style: italic; color: var(--brass-deep); }
+
+  .player {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 1.6rem 1.8rem;
+  }
+
+  .play-btn {
+    flex: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--ivory);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  .play-btn:hover { background: var(--brass-deep); transform: scale(1.05); }
+  .play-btn .icon-play { margin-left: 2px; }
+  .play-btn .icon-pause { display: none; }
+  .play-btn.is-playing .icon-play { display: none; }
+  .play-btn.is-playing .icon-pause { display: block; }
+
+  .player-body { flex: 1; min-width: 0; }
+
+  .wave {
+    position: relative;
+    height: 44px;
+    cursor: pointer;
+  }
+
+  .wave-base,
+  .wave-progress {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .wave-base :global(span),
+  .wave-progress :global(span) {
+    flex: 1;
+    min-width: 0;
+    border-radius: 2px;
+  }
+
+  .wave-base :global(span) { background: var(--line); }
+
+  .wave-progress {
+    width: 100%;
+    clip-path: inset(0 100% 0 0);
+  }
+
+  .wave-progress :global(span) { background: var(--brass-deep); }
+
+  .times {
+    margin-top: 0.6rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--stone);
+  }
+
+  .caption {
+    margin-top: 1.2rem;
+    font-size: 0.85rem;
+    color: var(--stone);
+  }
+</style>
+
+<script>
+  import { initAudioPlayer } from '../scripts/audio-player';
+  const root = document.getElementById('voice-player');
+  if (root) initAudioPlayer(root);
+</script>
