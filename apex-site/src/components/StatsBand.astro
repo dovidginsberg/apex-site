@@ -1,10 +1,15 @@
 ---
 const stats = [
-  { n: '250+', l: 'Weddings Planned' },
+  { n: '250+', l: 'Weddings' },
   { n: '7+', l: 'Years of Excellence' },
   { n: '100%', l: 'Day-of Presence' },
   { n: '∞', l: 'Attention to Detail' },
 ];
+
+function parseStat(n: string) {
+  const m = n.match(/^(\d+)(.*)$/);
+  return m ? { value: Number(m[1]), suffix: m[2] } : { value: null, suffix: '' };
+}
 ---
 
 <section class="band">
@@ -14,12 +19,15 @@ const stats = [
   />
   <div class="scrim"></div>
   <div class="wrap band-in">
-    {stats.map((s, i) => (
-      <div class="b">
-        <span class="n">{s.n}</span>
-        <span class="l">{s.l}</span>
-      </div>
-    ))}
+    {stats.map((s) => {
+      const { value, suffix } = parseStat(s.n);
+      return (
+        <div class="b">
+          <span class="n" data-count={value ?? undefined} data-suffix={suffix}>{s.n}</span>
+          <span class="l">{s.l}</span>
+        </div>
+      );
+    })}
   </div>
 </section>
 
@@ -65,3 +73,8 @@ const stats = [
     .band-in { grid-template-columns: repeat(4, 1fr); }
   }
 </style>
+
+<script>
+  import { initCountUp } from '../scripts/count-up';
+  initCountUp();
+</script>
