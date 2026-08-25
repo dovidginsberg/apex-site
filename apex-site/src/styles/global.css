@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap');
 
 @font-face {
   font-family: 'Mackora';
@@ -18,7 +18,7 @@
   --brass: #7c6a45;
   --brass-deep: #5c4e33;
 
-  --display: 'Bodoni Moda', serif;
+  --display: 'Jost', sans-serif;
   --body: 'Jost', sans-serif;
   --stamp: 'Mackora', serif;
 
@@ -52,8 +52,8 @@ body {
 h1, h2, h3, h4 {
   margin: 0;
   font-family: var(--display);
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  font-weight: 500;
+  letter-spacing: -0.02em;
   color: var(--ink);
 }
 
