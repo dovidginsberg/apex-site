@@ -1,41 +1,34 @@
 ---
+// Teaser only: cards overlap so just a sliver of each page shows, and the
+// images are low-resolution so the fine print can't be read.
 const pages = [
-  { img: '/images/plan/01-cover.webp', alt: 'Cover of an Apex tablescape and room design operations plan', label: 'The Plan' },
-  { img: '/images/plan/02-inventory.webp', alt: 'Tablescape and room design inventory with item counts', label: 'Inventory & Setup' },
-  { img: '/images/plan/03-tablescape.webp', alt: 'Tablescape visual references: linens, chargers, glassware and cutlery', label: 'Tablescape' },
-  { img: '/images/plan/04-room-design.webp', alt: 'Room design visual references: chairs, couches, bar and tree', label: 'Room Design' },
-  { img: '/images/plan/05-friday-floorplan.webp', alt: 'Friday night room layout floor plan with 100 dining seats', label: 'Friday Night Layout', wide: true },
-  { img: '/images/plan/06-kiddish-inventory.webp', alt: 'Kiddish service inventory with linen options', label: 'Kiddish Inventory' },
-  { img: '/images/plan/07-kiddish-floorplan.webp', alt: 'Kiddish room layout floor plan', label: 'Kiddish Floor Plan' },
-  { img: '/images/plan/08-shabbos-floorplan.webp', alt: 'Shabbos lunch room layout floor plan', label: 'Shabbos Day Layout' },
-  { img: '/images/plan/09-shalosh-seudos-inventory.webp', alt: 'Shalosh Seudos service inventory with linen options', label: 'Shalosh Seudos Inventory' },
-  { img: '/images/plan/10-shalosh-seudos-floorplan.webp', alt: 'Shalosh Seudos room layout floor plan', label: 'Shalosh Seudos Floor Plan' },
+  { img: '/images/plan/01-cover.webp', label: 'The Plan' },
+  { img: '/images/plan/02-inventory.webp', label: 'Inventory' },
+  { img: '/images/plan/03-tablescape.webp', label: 'Tablescape' },
+  { img: '/images/plan/04-room-design.webp', label: 'Room Design' },
+  { img: '/images/plan/07-kiddish-floorplan.webp', label: 'Floor Plans' },
+  { img: '/images/plan/06-kiddish-inventory.webp', label: 'Linens' },
+  { img: '/images/plan/08-shabbos-floorplan.webp', label: 'Seating' },
+  { img: '/images/plan/09-shalosh-seudos-inventory.webp', label: 'Service' },
 ];
 ---
 
 <section class="plan" id="every-detail" aria-label="Every detail, planned">
   <div class="pin">
-    <div class="wrap head reveal">
+    <div class="wrap head">
       <h2>Every detail,<br /><em>planned.</em></h2>
       <p>
         Before a single chair is placed, every tablescape, linen, and floor plan is mapped out
         in a full operations plan.
       </p>
     </div>
-    <div class="track-outer">
-      <div class="track">
-        {pages.map((p, i) => (
-          <figure class:list={['page', { wide: p.wide }]}>
-            <img src={p.img} alt={p.alt} loading="lazy" decoding="async" />
-            <figcaption>
-              <span class="pn">{String(i + 1).padStart(2, '0')}</span>
-              {p.label}
-            </figcaption>
-          </figure>
-        ))}
-      </div>
+    <div class="stage" aria-hidden="true">
+      {pages.map((p, i) => (
+        <div class="card" style={`--i:${i};z-index:${pages.length - i}`}>
+          <img src={p.img} alt="" loading="lazy" decoding="async" draggable="false" />
+        </div>
+      ))}
     </div>
-    <div class="wrap hint" aria-hidden="true">Scroll to explore &rarr;</div>
   </div>
 </section>
 
@@ -46,73 +39,51 @@ const pages = [
     padding-block: clamp(3rem, 7vw, 5.5rem);
     display: flex;
     flex-direction: column;
-    gap: clamp(1.6rem, 3vw, 2.4rem);
+    gap: clamp(2rem, 4vw, 3rem);
   }
 
   .head h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; }
   .head em { font-style: italic; color: var(--brass-deep); }
   .head p { margin-top: 1rem; color: var(--stone); max-width: 58ch; }
 
-  .track-outer {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .track-outer::-webkit-scrollbar { display: none; }
-
-  .track {
-    display: flex;
-    gap: clamp(1rem, 2.4vw, 1.8rem);
-    padding-inline: var(--gutter);
-    width: max-content;
+  .stage {
+    --w: clamp(170px, 24vw, 300px);
+    --step: clamp(26px, 6.5vw, 96px);
+    position: relative;
+    height: calc(var(--w) * 1.294 + 40px);
+    margin-inline: auto;
+    width: calc(var(--w) + var(--step) * 7);
+    max-width: calc(100% - 2 * var(--gutter));
+    user-select: none;
+    pointer-events: none;
   }
 
-  .page { margin: 0; scroll-snap-align: center; flex: none; }
-
-  .page img {
-    height: clamp(340px, 62vh, 620px);
-    width: auto;
+  .card {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: var(--w);
     aspect-ratio: 612 / 792;
-    object-fit: cover;
     background: #fff;
     border: 1px solid var(--line);
-    box-shadow: 0 18px 40px rgba(27, 25, 22, 0.12);
+    box-shadow: -10px 14px 30px rgba(27, 25, 22, 0.16);
+    transform-origin: 50% 120%;
+    /* Fanned-out resting state; JS animates from a closed stack to this. */
+    transform: translateX(calc(var(--step) * var(--i))) rotate(calc((var(--i) - 3.5) * 2deg));
+    overflow: hidden;
   }
-  .page.wide img { aspect-ratio: 792 / 612; }
 
-  figcaption {
-    margin-top: 0.8rem;
-    font-size: 0.68rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--stone);
-  }
-  .pn { font-family: var(--stamp); color: var(--brass-deep); margin-right: 0.6em; letter-spacing: 0; font-size: 0.85rem; }
-
-  .hint {
-    font-size: 0.68rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--stone-light);
-  }
+  .card img { width: 100%; height: 100%; object-fit: cover; }
 
   @media (max-width: 699px) {
-    .page img { height: auto; width: 78vw; }
-    .page.wide img { width: 88vw; }
-    .hint { display: none; }
+    .stage {
+      --w: 150px;
+      --step: calc((100vw - 2 * var(--gutter) - var(--w) - 40px) / 7);
+      width: calc(var(--w) + var(--step) * 7);
+    }
   }
 
-  /* Desktop: section pins and the pages scroll sideways with the page scroll. */
-  :global(.plan.is-pinned) .track-outer { overflow: visible; scroll-snap-type: none; }
-  :global(.plan.is-pinned) .pin {
-    height: 100vh;
-    justify-content: center;
-    padding-top: 108px;
-    padding-bottom: 1.5rem;
-    gap: 1.4rem;
-  }
-  :global(.plan.is-pinned) .page img { height: clamp(260px, calc(100vh - 430px), 600px); }
+  :global(.plan.is-pinned) .pin { min-height: 100vh; justify-content: center; padding-top: 108px; }
 </style>
 
 <script>
@@ -122,36 +93,26 @@ const pages = [
   gsap.registerPlugin(ScrollTrigger);
 
   const section = document.querySelector<HTMLElement>('.plan');
-  const track = section?.querySelector<HTMLElement>('.track');
+  const cards = gsap.utils.toArray<HTMLElement>('.plan .card');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (section && track && !reduced) {
-    const mm = gsap.matchMedia();
-    mm.add('(min-width: 700px)', () => {
-      section.classList.add('is-pinned');
-      const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
-      const tween = gsap.to(track, {
-        x: () => -distance(),
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: () => '+=' + distance(),
-          pin: section.querySelector('.pin'),
-          scrub: 0.6,
-          invalidateOnRefresh: true,
-        },
-      });
-      // Lazy images change the track width once they load.
-      track.querySelectorAll('img').forEach((img) => {
-        if (!img.complete) img.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
-      });
-      return () => {
-        tween.scrollTrigger?.kill();
-        tween.kill();
-        gsap.set(track, { clearProps: 'transform' });
-        section.classList.remove('is-pinned');
-      };
+  if (section && cards.length && !reduced) {
+    section.classList.add('is-pinned');
+    // Start as a closed stack, then deal the cards out as the page scrolls.
+    // Resting x is step * i, so the middle of the fan is where the stack closes up.
+    const mid = () => gsap.getProperty(cards[cards.length - 1], 'x') as number / 2;
+    gsap.from(cards, {
+      x: mid,
+      rotate: (i) => (i % 2 ? 1.5 : -1.5),
+      ease: 'power2.out',
+      stagger: 0.06,
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: '+=900',
+        pin: section.querySelector('.pin'),
+        scrub: 0.6,
+      },
     });
   }
 </script>
