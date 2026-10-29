@@ -2,14 +2,14 @@
 // Teaser only: cards overlap so just a sliver of each page shows, and the
 // images are low-resolution so the fine print can't be read.
 const pages = [
-  { img: '/images/plan/01-cover.webp', label: 'The Plan' },
-  { img: '/images/plan/02-inventory.webp', label: 'Inventory' },
-  { img: '/images/plan/03-tablescape.webp', label: 'Tablescape' },
-  { img: '/images/plan/04-room-design.webp', label: 'Room Design' },
-  { img: '/images/plan/07-kiddish-floorplan.webp', label: 'Floor Plans' },
-  { img: '/images/plan/06-kiddish-inventory.webp', label: 'Linens' },
-  { img: '/images/plan/08-shabbos-floorplan.webp', label: 'Seating' },
-  { img: '/images/plan/09-shalosh-seudos-inventory.webp', label: 'Service' },
+  '/images/plan/01-cover.webp',
+  '/images/plan/02-inventory.webp',
+  '/images/plan/03-tablescape.webp',
+  '/images/plan/04-room-design.webp',
+  '/images/plan/07-kiddish-floorplan.webp',
+  '/images/plan/06-kiddish-inventory.webp',
+  '/images/plan/08-shabbos-floorplan.webp',
+  '/images/plan/09-shalosh-seudos-inventory.webp',
 ];
 ---
 
@@ -23,9 +23,17 @@ const pages = [
       </p>
     </div>
     <div class="stage" aria-hidden="true">
-      {pages.map((p, i) => (
-        <div class="card" style={`--i:${i};z-index:${pages.length - i}`}>
-          <img src={p.img} alt="" loading="lazy" decoding="async" draggable="false" />
+      {pages.map((src, i) => (
+        <div class="card" style={`z-index:${pages.length - i}`}>
+          <div class="inner">
+            <div class="face front">
+              <img src={src} alt="" loading="lazy" decoding="async" draggable="false" />
+              {i === 0 && <span class="sheen"></span>}
+            </div>
+            <div class="face back">
+              <img src="/logo/logo-ivory.svg" alt="" draggable="false" />
+            </div>
+          </div>
         </div>
       ))}
     </div>
@@ -47,40 +55,59 @@ const pages = [
   .head p { margin-top: 1rem; color: var(--stone); max-width: 58ch; }
 
   .stage {
-    --w: clamp(170px, 24vw, 300px);
-    --step: clamp(26px, 6.5vw, 96px);
+    --w: clamp(150px, 22vw, 280px);
     position: relative;
-    height: calc(var(--w) * 1.294 + 40px);
-    margin-inline: auto;
-    width: calc(var(--w) + var(--step) * 7);
-    max-width: calc(100% - 2 * var(--gutter));
+    height: calc(var(--w) * 1.294 + 70px);
     user-select: none;
     pointer-events: none;
   }
 
   .card {
     position: absolute;
-    top: 20px;
-    left: 0;
+    top: 10px;
+    left: 50%;
     width: var(--w);
+    margin-left: calc(var(--w) / -2);
     aspect-ratio: 612 / 792;
-    background: #fff;
-    border: 1px solid var(--line);
-    box-shadow: -10px 14px 30px rgba(27, 25, 22, 0.16);
-    transform-origin: 50% 120%;
-    /* Fanned-out resting state; JS animates from a closed stack to this. */
-    transform: translateX(calc(var(--step) * var(--i))) rotate(calc((var(--i) - 3.5) * 2deg));
-    overflow: hidden;
+    perspective: 1400px;
+    transform-origin: 50% 110%;
   }
 
-  .card img { width: 100%; height: 100%; object-fit: cover; }
+  .inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+  }
 
-  @media (max-width: 699px) {
-    .stage {
-      --w: 150px;
-      --step: calc((100vw - 2 * var(--gutter) - var(--w) - 40px) / 7);
-      width: calc(var(--w) + var(--step) * 7);
-    }
+  .face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+    box-shadow: -10px 16px 32px rgba(27, 25, 22, 0.18);
+  }
+
+  .front { background: #fff; border: 1px solid var(--line); }
+  .front img { width: 100%; height: 100%; object-fit: cover; }
+
+  .back {
+    transform: rotateY(180deg);
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: 1px solid var(--brass);
+    outline-offset: -10px;
+  }
+  .back img { width: 58%; opacity: 0.9; }
+
+  .sheen {
+    position: absolute;
+    inset: -20%;
+    background: linear-gradient(105deg, transparent 40%, rgba(214, 190, 140, 0.35) 50%, transparent 60%);
+    transform: translateX(-120%);
   }
 
   :global(.plan.is-pinned) .pin { min-height: 100vh; justify-content: center; padding-top: 108px; }
@@ -93,26 +120,47 @@ const pages = [
   gsap.registerPlugin(ScrollTrigger);
 
   const section = document.querySelector<HTMLElement>('.plan');
+  const stage = section?.querySelector<HTMLElement>('.stage');
   const cards = gsap.utils.toArray<HTMLElement>('.plan .card');
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const inners = gsap.utils.toArray<HTMLElement>('.plan .inner');
+  const sheen = section?.querySelector<HTMLElement>('.sheen');
 
-  if (section && cards.length && !reduced) {
-    section.classList.add('is-pinned');
-    // Start as a closed stack, then deal the cards out as the page scrolls.
-    // Resting x is step * i, so the middle of the fan is where the stack closes up.
-    const mid = () => gsap.getProperty(cards[cards.length - 1], 'x') as number / 2;
-    gsap.from(cards, {
-      x: mid,
-      rotate: (i) => (i % 2 ? 1.5 : -1.5),
-      ease: 'power2.out',
-      stagger: 0.06,
-      scrollTrigger: {
-        trigger: section,
-        start: 'top top',
-        end: '+=900',
-        pin: section.querySelector('.pin'),
-        scrub: 0.6,
-      },
-    });
+  if (section && stage && cards.length) {
+    const mid = (cards.length - 1) / 2;
+    // Spread the fan to fit the stage: wide on desktop, tight on phones.
+    const step = () => {
+      const w = cards[0].offsetWidth;
+      return Math.min(w * 0.36, (stage.offsetWidth - w - 40) / (cards.length - 1));
+    };
+    // Fanned-out arc: outer cards drop lower and tilt further.
+    const fan = {
+      x: (i: number) => (i - mid) * step(),
+      y: (i: number) => Math.pow(i - mid, 2) * 2.4,
+      rotate: (i: number) => (i - mid) * 3.5,
+    };
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.set(cards, fan);
+    } else {
+      section.classList.add('is-pinned');
+      // Face-down stack, lying back slightly like a deck on a table.
+      gsap.set(cards, { x: (i) => i * 1.5, y: (i) => -i * 1.5, rotate: (i) => (i % 2 ? 2 : -2) });
+      gsap.set(inners, { rotateY: 180, rotateX: 18 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: '+=1300',
+          pin: section.querySelector('.pin'),
+          scrub: 0.8,
+          invalidateOnRefresh: true,
+        },
+      });
+      // Deal from the back of the deck so the cover lands last, on top.
+      tl.to(cards, { ...fan, duration: 1, ease: 'power3.out', stagger: { each: 0.12, from: 'end' } }, 0)
+        .to(inners, { rotateY: 0, rotateX: 0, duration: 0.7, ease: 'power2.inOut', stagger: { each: 0.12, from: 'end' } }, 0.25);
+      if (sheen) tl.to(sheen, { x: '120%', duration: 0.6, ease: 'power1.inOut' }, '>-0.1');
+    }
   }
 </script>
