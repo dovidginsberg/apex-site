@@ -21,7 +21,7 @@ export function initReveal() {
   });
 }
 
-// Several sections pin themselves while scrolling (hero, campaign scenes, plan deck) and each
+// Several sections pin themselves while scrolling (such as the home hero) and each
 // registers from its own script, in whatever order the bundle runs them. Once everything is in,
 // put the triggers back in page order and remeasure, so each pin accounts for the ones above it.
 export function settleScrollTriggers() {

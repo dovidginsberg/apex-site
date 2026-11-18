@@ -38,13 +38,6 @@ export const testimonials = {
   },
 };
 
-export const campaign = [
-  { src: '/images/campaign/jet.webp', alt: 'A hand in a dark suit adjusts a champagne flute aboard a private jet. Juuuust perfect. An Apex Standard.' },
-  { src: '/images/campaign/arrival.webp', alt: 'A chauffeur checks his watch as a limousine waits at the end of a red carpet. Juuuust perfect. An Apex Standard.' },
-  { src: '/images/campaign/table.webp', alt: 'Seen from above, a hand pulls out a velvet chair at a set table. Juuuust perfect. An Apex Standard.' },
-  { src: '/images/campaign/glasses.webp', alt: 'A hand nudges one champagne flute into line with the rest. Juuuust perfect. An Apex Standard.' },
-];
-
 // Authentic Apex event photography and footage.
 export const work = [
   { type: 'image', src: '/images/real-gala-marriott-marquis.webp', alt: 'Guests fill a ballroom of round tables beneath a crystal chandelier at an annual gala', title: 'Annual gala', cat: 'corporate', meta: 'Marriott Marquis, NYC', w: 2400, h: 1600 },
