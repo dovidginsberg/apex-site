@@ -146,7 +146,7 @@ const preview = work.filter((w) => w.type === 'image').slice(0, 5);
           day&nbsp;— calm, early, and already three steps ahead.
         </p>
         <div class="dp-links reveal">
-          <a href="/daniel/" class="link">More about Daniel</a>
+          <a href="/about/" class="link">More about Daniel</a>
           <a href={`mailto:${site.email}`} class="dp-mail">{site.email}</a>
         </div>
       </div>
@@ -260,9 +260,11 @@ const preview = work.filter((w) => w.type === 'image').slice(0, 5);
 
   .hh-cue {
     position: absolute;
-    left: 50%;
+    left: 0;
+    right: 0;
     bottom: 1.8rem;
-    transform: translateX(-50%);
+    width: max-content;
+    margin-inline: auto;
     display: flex;
     flex-direction: column;
     align-items: center;

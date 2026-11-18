@@ -14,7 +14,7 @@ export const nav = [
   { href: '/celebrations/', label: 'Celebrations' },
   { href: '/concierge/', label: 'Concierge' },
   { href: '/work/', label: 'Work' },
-  { href: '/daniel/', label: 'Daniel Pearlman' },
+  { href: '/about/', label: 'About' },
 ];
 
 export const testimonials = {

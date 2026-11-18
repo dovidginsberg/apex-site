@@ -5,7 +5,7 @@
   href="https://wa.me/18453766359"
   target="_blank"
   rel="noopener"
-  class="wa-float"
+  class="wa-float is-away"
   aria-label="Chat with us on WhatsApp"
 >
   <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
@@ -23,16 +23,24 @@
     height: 56px;
     border-radius: 50%;
     background: var(--ink);
-    color: var(--ivory);
+    color: var(--white);
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 8px 24px rgba(13, 13, 13, 0.35);
-    transition: background 0.25s ease, transform 0.25s ease;
+    transition: background 0.25s ease, transform 0.35s var(--ease), opacity 0.35s var(--ease), visibility 0s;
+  }
+
+  /* Hidden while the opening section fills the screen; it slides in once the reader is past it. */
+  .wa-float.is-away {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px);
+    transition: opacity 0.35s var(--ease), transform 0.35s var(--ease), visibility 0s 0.35s;
   }
 
   .wa-float:hover {
-    background: var(--brass-deep);
+    background: var(--rose-deep);
     transform: translateY(-2px);
   }
 
@@ -49,3 +57,16 @@
     }
   }
 </style>
+
+<script>
+  const btn = document.querySelector<HTMLElement>('.wa-float')!;
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  const update = () => {
+    // Pages without an opening section show the button straight away.
+    const end = hero ? hero.offsetTop + hero.offsetHeight - window.innerHeight * 0.35 : 0;
+    btn.classList.toggle('is-away', window.scrollY < end);
+  };
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+</script>

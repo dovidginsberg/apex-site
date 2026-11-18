@@ -9,7 +9,7 @@ interface Props {
 const { image, alt, lede, focus = 'center' } = Astro.props;
 ---
 
-<section class="ph dark">
+<section class="ph dark" data-hero>
   <div class="ph-media">
     <img src={image} alt={alt} style={`object-position:${focus}`} fetchpriority="high" />
   </div>
