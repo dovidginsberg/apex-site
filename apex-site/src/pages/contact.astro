@@ -71,6 +71,10 @@ const types = [
             <input name="guests" inputmode="numeric" placeholder="Approx." />
           </label>
           <label class="field">
+            <span class="lbl">Budget</span>
+            <input name="budget" placeholder="Approx." />
+          </label>
+          <label class="field">
             <span class="lbl">Location</span>
             <input name="location" placeholder="City or venue" />
           </label>
@@ -120,7 +124,7 @@ const types = [
   .row { display: grid; gap: 1.6rem; }
   @media (min-width: 700px) {
     .row { grid-template-columns: 1fr 1fr; }
-    .row-3 { grid-template-columns: 1fr 0.7fr 1.3fr; }
+    .row-3 { grid-template-columns: 1fr 0.7fr 0.8fr 1.2fr; }
   }
 
   .lbl {
@@ -231,6 +235,7 @@ const types = [
       v('phone') && `Phone: ${v('phone')}`,
       date && `Date: ${date}`,
       v('guests') && `Guests: ${v('guests')}`,
+      v('budget') && `Budget: ${v('budget')}`,
       v('location') && `Location: ${v('location')}`,
     ].filter(Boolean);
     const body = [
