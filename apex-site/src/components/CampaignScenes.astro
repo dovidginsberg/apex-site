@@ -8,12 +8,13 @@ const W = 1174;
 const H = 1600;
 
 type Layer = { src: string; x: number; y: number; w: number; h: number; move?: boolean; origin?: string };
-type Scene = { id: string; caption: string; alt: string; layers: Layer[]; from: { x?: number; y?: number; rotate?: number } };
+type Scene = { id: string; caption: string; line?: string; alt: string; layers: Layer[]; from: { x?: number; y?: number; rotate?: number } };
 
 const scenes: Scene[] = [
   {
     id: 'arrival',
-    caption: 'The car, at the end of the carpet. Before anyone checks the time.',
+    caption: 'The car, at the end of the carpet.',
+    line: 'Before anyone checks the time.',
     alt: 'A chauffeur checks his watch as a limousine glides along a red carpet and stops exactly at its end.',
     from: { x: -560 },
     layers: [
@@ -24,7 +25,8 @@ const scenes: Scene[] = [
   },
   {
     id: 'table',
-    caption: 'The chair, exactly where it belongs.',
+    caption: 'The chair, drawn into place.',
+    line: 'Exactly where it belongs.',
     alt: 'Seen from above, a hand straightens a velvet chair into its place at a set table.',
     from: { x: 10, y: -125, rotate: 8 },
     layers: [
@@ -79,8 +81,14 @@ const base = '/images/campaign/scenes/';
         </div>
         <div class="scene-copy">
           <p class="scene-cap">{s.caption}</p>
-          <p class="scene-line"><Juuust manual /> perfect.</p>
-          <p class="standard scene-std">An Apex Standard.</p>
+          {s.line ? (
+            <p class="scene-line scene-line-text">{s.line}</p>
+          ) : (
+            <>
+              <p class="scene-line"><Juuust manual /> perfect.</p>
+              <p class="standard scene-std">An Apex Standard.</p>
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -143,6 +151,8 @@ const base = '/images/campaign/scenes/';
     line-height: 0.95;
     letter-spacing: -0.03em;
   }
+
+  .scene-line-text { font-size: clamp(2.2rem, 6.5vw, 4.4rem); line-height: 1.02; max-width: 12ch; }
 
   .scene-std { margin-top: 0.8rem; color: var(--accent-on-dark); }
 
@@ -231,7 +241,7 @@ const base = '/images/campaign/scenes/';
       .to(copy[0], { opacity: 1, y: 0, duration: 0.15 }, 0.02)
       .to(movers, { xPercent: 0, yPercent: 0, rotate: 0, duration: 0.55, ease: 'power3.out' }, 0.05)
       .to(copy[1], { opacity: 1, y: 0, duration: 0.15 }, 0.55)
-      .to(copy[2], { opacity: 1, y: 0, duration: 0.12 }, 0.72)
+      .to(copy[2] || {}, { opacity: 1, y: 0, duration: 0.12 }, 0.72)
       .to({}, { duration: 0.16 });
   });
 </script>

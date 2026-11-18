@@ -9,7 +9,6 @@ const year = new Date().getFullYear();
       <a href="/" aria-label={`${site.name} — home`}>
         <img src="/logo/logo-dp-ivory.png" alt="" width="900" height="352" loading="lazy" />
       </a>
-      <p class="muted">Juuuust perfect. An Apex Standard.</p>
     </div>
 
     <div class="foot-col">
@@ -28,6 +27,10 @@ const year = new Date().getFullYear();
         <li><a href="/contact/">Plan an event</a></li>
       </ul>
     </div>
+  </div>
+
+  <div class="mark-wrap" aria-hidden="true">
+    <img class="mark" src="/logo/mark-white.svg" alt="" width="557" height="166" loading="lazy" />
   </div>
 
   <div class="wrap">
@@ -49,7 +52,6 @@ const year = new Date().getFullYear();
   }
 
   .foot-brand img { width: 170px; height: auto; }
-  .foot-brand p { margin-top: 1.2rem; font-size: 0.95rem; }
 
   .ft {
     font-size: 0.72rem;
@@ -64,13 +66,23 @@ const year = new Date().getFullYear();
   .foot-col a { color: rgba(255, 255, 255, 0.85); transition: color 0.3s; }
   .foot-col a:hover { color: var(--white); }
 
+  /* The wordmark runs edge to edge and sinks below the bottom of the page. */
+  .mark-wrap {
+    padding-inline: clamp(0.5rem, 1.5vw, 1.5rem);
+    height: clamp(80px, 24vw, 330px);
+    overflow: hidden;
+  }
+
+  .mark { width: 100%; height: auto; opacity: 0.96; }
+
   .legal {
     display: grid;
     gap: 0.4rem;
     padding-block: 1.4rem 1.8rem;
     border-top: 1px solid var(--line-dark);
     font-size: 0.78rem;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
     color: rgba(255, 255, 255, 0.5);
   }
 
