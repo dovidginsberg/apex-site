@@ -222,12 +222,19 @@ const isActive = (href: string) => path.startsWith(href);
   const menu = document.getElementById('menu')!;
   let lastY = window.scrollY;
 
+  // A page can mark a full-screen opening with [data-hero]; the header stays transparent
+  // and visible until the reader has scrolled past it.
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  const heroEnd = () => (hero ? hero.offsetTop + hero.offsetHeight - hdr.offsetHeight : 40);
+
   const onScroll = () => {
     const y = window.scrollY;
-    hdr.classList.toggle('is-solid', y > 40);
+    const end = heroEnd();
+    hdr.classList.toggle('is-solid', y > end);
     // Tuck the header away while reading down; bring it back on any upward scroll.
-    hdr.classList.toggle('is-hidden', y > 500 && y > lastY + 4);
-    if (y < lastY - 4 || y <= 500) hdr.classList.remove('is-hidden');
+    const past = Math.max(end, 500);
+    hdr.classList.toggle('is-hidden', y > past && y > lastY + 4);
+    if (y < lastY - 4 || y <= past) hdr.classList.remove('is-hidden');
     lastY = y;
   };
   onScroll();
