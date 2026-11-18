@@ -14,7 +14,7 @@ const types = [
   title="Plan an Event"
   description="Tell Daniel Pearlman what you're planning. Email daniel@apexconcierge.co, call (845) 376-6359, or send an inquiry by email or WhatsApp."
 >
-  <section class="ch dark">
+  <section class="ch dark" data-hero>
     <div class="wrap ch-in">
       <h1 class="h-xl">Tell us what you're <em>planning.</em></h1>
       <p class="lede">
@@ -71,6 +71,10 @@ const types = [
             <input name="guests" inputmode="numeric" placeholder="Approx." />
           </label>
           <label class="field">
+            <span class="lbl">Budget</span>
+            <input name="budget" placeholder="Approx." />
+          </label>
+          <label class="field">
             <span class="lbl">Location</span>
             <input name="location" placeholder="City or venue" />
           </label>
@@ -120,7 +124,7 @@ const types = [
   .row { display: grid; gap: 1.6rem; }
   @media (min-width: 700px) {
     .row { grid-template-columns: 1fr 1fr; }
-    .row-3 { grid-template-columns: 1fr 0.7fr 1.3fr; }
+    .row-3 { grid-template-columns: 1fr 0.7fr 0.8fr 1.2fr; }
   }
 
   .lbl {
@@ -133,7 +137,7 @@ const types = [
     margin-bottom: 0.55rem;
   }
 
-  .lbl i { color: var(--rose); font-style: normal; }
+  .lbl i { color: var(--accent); font-style: normal; }
   .lbl em { color: var(--mute); font-style: normal; font-weight: 400; text-transform: none; letter-spacing: 0.02em; }
 
   .field input, .field textarea {
@@ -170,9 +174,9 @@ const types = [
 
   .type span:hover { border-color: var(--ink); }
   .type input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--white); }
-  .type input:focus-visible + span { outline: 2px solid var(--rose); outline-offset: 3px; }
+  .type input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-  .err { color: var(--rose-deep); font-size: 0.95rem; }
+  .err { color: var(--accent-strong); font-size: 0.95rem; }
   .send { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 0.4rem; }
   .note { font-size: 0.88rem; color: var(--mute); max-width: 52ch; }
 
@@ -181,7 +185,7 @@ const types = [
   .direct ul { margin: 1.6rem 0 2rem; border-top: 1px solid var(--line); }
   .direct li { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.4rem 1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
   .direct li span { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mute); }
-  .direct li a:hover { color: var(--rose); }
+  .direct li a:hover { color: var(--accent); }
   .direct-photo { margin: 0; aspect-ratio: 4 / 3; }
 
   @media (min-width: 1000px) {
@@ -231,6 +235,7 @@ const types = [
       v('phone') && `Phone: ${v('phone')}`,
       date && `Date: ${date}`,
       v('guests') && `Guests: ${v('guests')}`,
+      v('budget') && `Budget: ${v('budget')}`,
       v('location') && `Location: ${v('location')}`,
     ].filter(Boolean);
     const body = [

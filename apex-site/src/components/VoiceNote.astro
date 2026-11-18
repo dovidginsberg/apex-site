@@ -52,7 +52,7 @@ const { caption } = Astro.props;
   }
 
   :global(.dark) .play-btn { background: var(--white); color: var(--ink); }
-  .play-btn:hover { background: var(--rose-deep); color: var(--white); transform: scale(1.05); }
+  .play-btn:hover { background: var(--accent-strong); color: var(--white); transform: scale(1.05); }
   .icon-play { margin-left: 2px; }
   .icon-pause { display: none; }
   .play-btn.is-playing .icon-play { display: none; }
@@ -65,8 +65,8 @@ const { caption } = Astro.props;
   .wave-base :global(span) { background: var(--line); }
   :global(.dark) .wave-base :global(span) { background: rgba(255, 255, 255, 0.18); }
   .wave-progress { width: 100%; clip-path: inset(0 100% 0 0); }
-  .wave-progress :global(span) { background: var(--rose); }
-  :global(.dark) .wave-progress :global(span) { background: var(--blush); }
+  .wave-progress :global(span) { background: var(--accent); }
+  :global(.dark) .wave-progress :global(span) { background: var(--accent-on-dark); }
 
   .times {
     margin-top: 0.5rem;

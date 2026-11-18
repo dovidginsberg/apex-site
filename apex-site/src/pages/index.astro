@@ -1,8 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Juuust from '../components/Juuust.astro';
-import Campaign from '../components/Campaign.astro';
-import PlanScroll from '../components/PlanScroll.astro';
+import CampaignScenes from '../components/CampaignScenes.astro';
 import Quote from '../components/Quote.astro';
 import VoiceNote from '../components/VoiceNote.astro';
 import { site, testimonials, work } from '../data/site';
@@ -29,8 +28,8 @@ const practices = [
     n: '03',
     title: 'Concierge & hospitality',
     text: 'Front-of-house teams, VIP guest care and travel coordination — the kind of hospitality people feel long before they could tell you why.',
-    img: '/images/stock/dining.webp',
-    alt: 'Plated dishes and glassware being served at a candlelit dinner',
+    img: '/images/real-tablescape.webp',
+    alt: 'A long marble table set with gold-rimmed glassware, white orchids and monogrammed napkins',
   },
 ];
 
@@ -130,7 +129,7 @@ const preview = work.filter((w) => w.type === 'image').slice(0, 5);
     ))}
   </section>
 
-  <Campaign />
+  <CampaignScenes />
 
   <section class="section">
     <div class="wrap dp">
@@ -146,7 +145,7 @@ const preview = work.filter((w) => w.type === 'image').slice(0, 5);
           day&nbsp;— calm, early, and already three steps ahead.
         </p>
         <div class="dp-links reveal">
-          <a href="/daniel/" class="link">More about Daniel</a>
+          <a href="/about/" class="link">More about Daniel</a>
           <a href={`mailto:${site.email}`} class="dp-mail">{site.email}</a>
         </div>
       </div>
@@ -162,8 +161,6 @@ const preview = work.filter((w) => w.type === 'image').slice(0, 5);
       </ul>
     </div>
   </section>
-
-  <PlanScroll />
 
   <section class="section">
     <div class="wrap work-head">
@@ -233,7 +230,7 @@ const preview = work.filter((w) => w.type === 'image').slice(0, 5);
     font-weight: 700;
   }
 
-  .hh-std { margin-top: 1.1rem; color: var(--blush); }
+  .hh-std { margin-top: 1.1rem; color: var(--accent-on-dark); }
   .hh-lede { margin-top: 1.6rem; max-width: 40ch; color: rgba(255, 255, 255, 0.85); }
   .hh-actions { margin-top: 2.2rem; padding-bottom: 2.4rem; }
   @media (min-width: 960px) { .hh-actions { padding-bottom: 0; } }
@@ -256,13 +253,15 @@ const preview = work.filter((w) => w.type === 'image').slice(0, 5);
   }
 
   .hh-index a:hover { color: var(--white); }
-  .hh-index span { color: var(--blush); font-weight: 400; }
+  .hh-index span { color: var(--accent-on-dark); font-weight: 400; }
 
   .hh-cue {
     position: absolute;
-    left: 50%;
+    left: 0;
+    right: 0;
     bottom: 1.8rem;
-    transform: translateX(-50%);
+    width: max-content;
+    margin-inline: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -335,7 +334,7 @@ const preview = work.filter((w) => w.type === 'image').slice(0, 5);
   .pr-copy .muted { max-width: 42ch; }
   .pr-copy .link { margin-top: 0.6rem; }
 
-  .pr-n { font-size: 0.8rem; letter-spacing: 0.18em; color: var(--rose); font-weight: 600; }
+  .pr-n { font-size: 0.8rem; letter-spacing: 0.18em; color: var(--accent); font-weight: 600; }
 
   @media (min-width: 860px) {
     .pr { grid-template-columns: 1.25fr 1fr; gap: clamp(3rem, 6vw, 6rem); align-items: center; }
