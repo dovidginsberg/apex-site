@@ -50,8 +50,7 @@ const isActive = (href: string) => path.startsWith(href);
     z-index: 60;
     height: var(--header-h);
     color: var(--white);
-    transition: background 0.45s var(--ease), color 0.45s var(--ease), box-shadow 0.45s var(--ease),
-      transform 0.45s var(--ease);
+    transition: background 0.45s var(--ease), color 0.45s var(--ease), box-shadow 0.45s var(--ease);
   }
 
   .hdr.is-solid {
@@ -60,7 +59,6 @@ const isActive = (href: string) => path.startsWith(href);
     box-shadow: 0 1px 0 var(--line);
   }
 
-  .hdr.is-hidden { transform: translateY(-100%); }
 
   .hdr-in {
     height: 100%;
@@ -134,7 +132,7 @@ const isActive = (href: string) => path.startsWith(href);
   .burger span:last-child { top: 27px; left: 18px; }
   .burger:hover span:last-child { left: 10px; }
 
-  :global(body.menu-open) .hdr { color: var(--white); background: transparent; box-shadow: none; transform: none; }
+  :global(body.menu-open) .hdr { color: var(--white); background: transparent; box-shadow: none; }
   :global(body.menu-open) .burger span:first-child { top: 22px; transform: rotate(45deg); }
   :global(body.menu-open) .burger span:last-child { top: 22px; left: 10px; transform: rotate(-45deg); }
 
@@ -220,22 +218,15 @@ const isActive = (href: string) => path.startsWith(href);
   const hdr = document.getElementById('hdr')!;
   const burger = document.getElementById('burger')!;
   const menu = document.getElementById('menu')!;
-  let lastY = window.scrollY;
 
   // A page can mark a full-screen opening with [data-hero]; the header stays transparent
   // and visible until the reader has scrolled past it.
   const hero = document.querySelector<HTMLElement>('[data-hero]');
   const heroEnd = () => (hero ? hero.offsetTop + hero.offsetHeight - hdr.offsetHeight : 40);
 
+  // The header stays put; it only switches from transparent to solid white.
   const onScroll = () => {
-    const y = window.scrollY;
-    const end = heroEnd();
-    hdr.classList.toggle('is-solid', y > end);
-    // Tuck the header away while reading down; bring it back on any upward scroll.
-    const past = Math.max(end, 500);
-    hdr.classList.toggle('is-hidden', y > past && y > lastY + 4);
-    if (y < lastY - 4 || y <= past) hdr.classList.remove('is-hidden');
-    lastY = y;
+    hdr.classList.toggle('is-solid', window.scrollY > heroEnd());
   };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
