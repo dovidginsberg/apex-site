@@ -49,6 +49,7 @@ export const campaign = [
 export const work = [
   { type: 'image', src: '/images/real-gala-marriott-marquis.webp', alt: 'Guests fill a ballroom of round tables beneath a crystal chandelier at an annual gala', title: 'Annual gala', cat: 'corporate', meta: 'Marriott Marquis, NYC', w: 2400, h: 1600 },
   { type: 'video', src: '/videos/hero-daniel-720.mp4', poster: '/images/hero-daniel-poster.webp', alt: 'Daniel Pearlman directing guests at an evening ceremony', title: 'Daniel on the floor', cat: 'ceremony', meta: 'Evening ceremony', w: 1920, h: 1080 },
+  { type: 'image', src: '/images/real-tablescape.webp', alt: 'A long marble table set with gold-rimmed glassware, white orchids and monogrammed napkins', title: 'Marble tablescape', cat: 'reception', meta: 'Evening reception', w: 1500, h: 2000 },
   { type: 'image', src: '/images/real-ceremony-aisle.webp', alt: 'A bride walks a floral-lined garden aisle toward the chuppah', title: 'Garden chuppah', cat: 'ceremony', meta: 'Private estate ceremony', w: 1600, h: 1200 },
   { type: 'image', src: '/images/real-rose-arch-aisle.webp', alt: 'White rose arches line a ballroom aisle beneath crystal chandeliers', title: 'Rose arch aisle', cat: 'ceremony', meta: 'Ballroom ceremony', w: 1200, h: 1600 },
   { type: 'video', src: '/videos/gallery-clip-1.mp4', poster: '/images/gallery-clip-1-poster.jpg', alt: 'Golden-hour footage of an outdoor ceremony aisle', title: 'Golden hour aisle', cat: 'ceremony', meta: 'Outdoor ceremony', w: 960, h: 1706 },

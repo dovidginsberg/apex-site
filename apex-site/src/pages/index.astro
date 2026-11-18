@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import Juuust from '../components/Juuust.astro';
 import CampaignScenes from '../components/CampaignScenes.astro';
-import PlanScroll from '../components/PlanScroll.astro';
 import Quote from '../components/Quote.astro';
 import VoiceNote from '../components/VoiceNote.astro';
 import { site, testimonials, work } from '../data/site';
@@ -29,8 +28,8 @@ const practices = [
     n: '03',
     title: 'Concierge & hospitality',
     text: 'Front-of-house teams, VIP guest care and travel coordination — the kind of hospitality people feel long before they could tell you why.',
-    img: '/images/stock/dining.webp',
-    alt: 'Plated dishes and glassware being served at a candlelit dinner',
+    img: '/images/real-tablescape.webp',
+    alt: 'A long marble table set with gold-rimmed glassware, white orchids and monogrammed napkins',
   },
 ];
 
@@ -162,8 +161,6 @@ const preview = work.filter((w) => w.type === 'image').slice(0, 5);
       </ul>
     </div>
   </section>
-
-  <PlanScroll />
 
   <section class="section">
     <div class="wrap work-head">
