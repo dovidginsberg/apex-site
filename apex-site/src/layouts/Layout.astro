@@ -11,7 +11,7 @@ interface Props {
   image?: string;
 }
 
-const { title, description, image = '/og-image.jpg' } = Astro.props;
+const { title, description, image = '/og-image.jpg?v=2' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const ogImage = new URL(image, site.url).href;
 const fullTitle = title === site.name ? `${site.name} | Daniel Pearlman` : `${title} | ${site.name}`;
