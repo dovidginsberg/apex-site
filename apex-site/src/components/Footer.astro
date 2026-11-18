@@ -5,7 +5,7 @@ const year = new Date().getFullYear();
 <footer class="foot">
   <div class="wrap foot-in">
     <img class="word" src="/logo/logo-dp-ink.png" alt="Apex — Events & Concierge | Daniel Pearlman" />
-    <span class="copy">Led by Daniel Pearlman</span>
+    <span class="copy">Led by Daniel Pearlman · <a class="mail" href="mailto:Daniel@ApexConcierge.co">Daniel@ApexConcierge.co</a></span>
     <span class="copy">&copy; {year} Apex Events &amp; Concierge. All rights reserved.</span>
   </div>
 </footer>
@@ -23,6 +23,7 @@ const year = new Date().getFullYear();
   }
 
   .word { height: 44px; width: auto; }
+  .mail { color: var(--ink); border-bottom: 1px solid var(--brass); }
   .copy { font-size: 0.72rem; color: var(--stone-light); }
 
   @media (min-width: 700px) {
