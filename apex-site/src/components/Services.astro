@@ -1,17 +1,25 @@
 ---
 const services = [
   {
+    img: '/images/real-flower-dome-stage.webp',
+    alt: 'Grand ballroom stage installation with crystal chandelier',
+    n: '01',
+    name: 'Corporate Events & Galas',
+    desc: 'Galas, conferences, product launches, executive retreats, and client summits — produced on schedule, on budget, and on brand.',
+    cta: 'Plan a Corporate Event',
+  },
+  {
     img: '/images/real-ceremony-aisle.webp',
     alt: 'Bride walking down a floral-lined aisle toward a garden chuppah',
-    n: '01',
-    name: 'Wedding Planning',
-    desc: 'End-to-end wedding management with vendor relationships, timeline mastery, and flawless day-of execution — every detail handled with grace.',
-    cta: 'Begin Your Journey',
+    n: '02',
+    name: 'Weddings & Private Celebrations',
+    desc: 'End-to-end management with vendor relationships, timeline mastery, and flawless day-of execution — every detail handled with grace.',
+    cta: 'Begin Planning',
   },
   {
     img: '/images/service-champagne.webp',
     alt: 'Bride and groom embracing on the garden path of a luxury estate',
-    n: '02',
+    n: '03',
     name: 'Front of House',
     desc: 'Seamless guest management, reception flow, and hospitality direction. Every arrival feels anticipated, every departure feels warm.',
     cta: 'Explore This Service',
@@ -19,9 +27,9 @@ const services = [
   {
     img: '/images/real-color-stage-lounge.webp',
     alt: 'Custom-designed floral lounge stage with bespoke seating',
-    n: '03',
-    name: 'Concierge Services',
-    desc: 'Bespoke support for VIP guests and travel coordination — the quiet luxury of every need met before it is expressed.',
+    n: '04',
+    name: 'Executive Concierge',
+    desc: 'Dedicated support for executives, VIP guests, and travel coordination — the quiet luxury of every need met before it is expressed.',
     cta: 'Discover More',
   },
 ];
@@ -29,7 +37,7 @@ const services = [
 
 <section class="services" id="services">
   <div class="wrap head reveal">
-    <h2>Full-spectrum luxury,<br /><em>complete presence.</em></h2>
+    <h2>Full-service event management,<br /><em>complete presence.</em></h2>
   </div>
   <div class="wrap grid">
     {services.map((s) => (
@@ -95,6 +103,6 @@ const services = [
   }
 
   @media (min-width: 700px) {
-    .grid { grid-template-columns: repeat(3, 1fr); }
+    .grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>

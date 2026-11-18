@@ -1,0 +1,156 @@
+---
+import fs from 'node:fs';
+
+// Drop Daniel's photo at public/images/daniel-pearlman.webp (or .jpg) and it
+// replaces the monogram automatically on the next build.
+const photo = ['webp', 'jpg', 'jpeg', 'png']
+  .map((ext) => `/images/daniel-pearlman.${ext}`)
+  .find((p) => fs.existsSync(`public${p}`));
+
+const pillars = [
+  { t: 'One point of contact', d: 'Daniel leads your event from first call to final guest — no hand-offs, no layers.' },
+  { t: 'Executive-level discretion', d: 'Trusted by corporate leadership and private families alike to protect every detail.' },
+  { t: 'On site, every time', d: 'Daniel is in the room on the day, directing the team and the timeline in real time.' },
+];
+---
+
+<section class="lead-sec" id="daniel">
+  <div class="wrap lead-in">
+    <div class="lead-media reveal">
+      {photo ? (
+        <img src={photo} alt="Daniel Pearlman" width="700" height="880" loading="lazy" />
+      ) : (
+        <div class="monogram" role="img" aria-label="Daniel Pearlman">
+          <span>DP</span>
+        </div>
+      )}
+      <div class="name-plate">
+        <span class="np-name">Daniel Pearlman</span>
+        <span class="np-role">Apex Event Planning &amp; Management</span>
+      </div>
+    </div>
+
+    <div class="lead-copy reveal">
+      <span class="eyebrow">Leadership</span>
+      <h2>Meet <em>Daniel Pearlman.</em></h2>
+      <p class="lead-lead">
+        Behind every Apex event is Daniel Pearlman — the person clients call
+        when the stakes are high and the details cannot slip.
+      </p>
+      <p class="lead-body">
+        From corporate galas and executive summits to weddings and private
+        celebrations, Daniel brings the same standard to every room: meticulous
+        planning, calm command on the day, and a team that executes exactly as
+        promised. When you work with Apex, you work with Daniel.
+      </p>
+
+      <ul class="pillars">
+        {pillars.map((p) => (
+          <li>
+            <span class="p-t">{p.t}</span>
+            <span class="p-d">{p.d}</span>
+          </li>
+        ))}
+      </ul>
+
+      <a href="#contact" class="btn btn-solid">Speak with Daniel</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lead-sec {
+    padding-block: clamp(3rem, 8vw, 7rem);
+    background: var(--paper);
+    border-block: 1px solid var(--line);
+    scroll-margin-top: 96px;
+  }
+
+  .lead-in { display: grid; gap: clamp(2.5rem, 6vw, 5rem); }
+
+  .lead-media { position: relative; }
+
+  .lead-media img,
+  .monogram {
+    width: 100%;
+    height: clamp(340px, 50vw, 600px);
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .monogram {
+    display: grid;
+    place-items: center;
+    background: var(--ink);
+    color: var(--ivory);
+  }
+
+  .monogram span {
+    font-family: var(--stamp);
+    font-size: clamp(5rem, 14vw, 9rem);
+    letter-spacing: 0.04em;
+    color: var(--stone-light);
+  }
+
+  .name-plate {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: var(--paper);
+    padding: 1.1rem 1.6rem 1.2rem 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .np-name { font-size: 1.25rem; font-weight: 500; letter-spacing: -0.01em; }
+
+  .np-role {
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  .eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--brass);
+  }
+
+  .lead-copy h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+    margin-top: 0.9rem;
+  }
+
+  .lead-copy h2 em { font-style: italic; color: var(--brass-deep); }
+
+  .lead-lead { margin-top: 1.2rem; font-size: 1.15rem; color: var(--ink); max-width: 44ch; }
+  .lead-body { margin-top: 1.2rem; color: var(--stone); max-width: 50ch; }
+
+  .pillars {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .pillars li {
+    display: grid;
+    gap: 0.2rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .p-t { font-weight: 500; }
+  .p-d { color: var(--stone); font-size: 0.95rem; }
+
+  .lead-copy .btn { margin-top: 2.2rem; }
+
+  @media (min-width: 900px) {
+    .lead-in { grid-template-columns: 0.9fr 1.1fr; align-items: center; }
+    .pillars li { grid-template-columns: 14rem 1fr; gap: 1.5rem; }
+  }
+</style>
