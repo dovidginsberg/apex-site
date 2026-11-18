@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Juuust from '../components/Juuust.astro';
-import CampaignScenes from '../components/CampaignScenes.astro';
 import Quote from '../components/Quote.astro';
 import VoiceNote from '../components/VoiceNote.astro';
 import { site, testimonials, work } from '../data/site';
@@ -128,8 +127,6 @@ const preview = work.filter((w) => w.type === 'image').slice(0, 5);
       </a>
     ))}
   </section>
-
-  <CampaignScenes />
 
   <section class="section">
     <div class="wrap dp">
