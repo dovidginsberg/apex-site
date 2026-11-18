@@ -20,3 +20,15 @@ export function initReveal() {
       gsap.to(batch, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: 0.1, overwrite: true }),
   });
 }
+
+// Several sections pin themselves while scrolling (hero, campaign scenes, plan deck) and each
+// registers from its own script, in whatever order the bundle runs them. Once everything is in,
+// put the triggers back in page order and remeasure, so each pin accounts for the ones above it.
+export function settleScrollTriggers() {
+  const settle = () => {
+    ScrollTrigger.sort();
+    ScrollTrigger.refresh();
+  };
+  if (document.readyState === 'complete') requestAnimationFrame(settle);
+  else window.addEventListener('load', settle, { once: true });
+}
