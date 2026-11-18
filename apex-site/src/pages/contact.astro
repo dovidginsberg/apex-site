@@ -1,0 +1,250 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site';
+
+const types = [
+  { id: 'corporate', label: 'Corporate event' },
+  { id: 'celebration', label: 'Wedding or celebration' },
+  { id: 'concierge', label: 'Concierge & hospitality' },
+  { id: 'other', label: 'Something else' },
+];
+---
+
+<Layout
+  title="Plan an Event"
+  description="Tell Daniel Pearlman what you're planning. Email daniel@apexconcierge.co, call (845) 376-6359, or send an inquiry by email or WhatsApp."
+>
+  <section class="ch dark">
+    <div class="wrap ch-in">
+      <h1 class="h-xl">Tell us what you're <em>planning.</em></h1>
+      <p class="lede">
+        A few details are enough to start. Daniel reads every inquiry himself and will come back
+        to you personally.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap contact">
+      <form class="form" id="inquiry" novalidate>
+        <fieldset class="types">
+          <legend class="lbl">What are you planning?</legend>
+          <div class="type-row">
+            {types.map((t, i) => (
+              <label class="type">
+                <input type="radio" name="type" value={t.label} data-id={t.id} checked={i === 0} />
+                <span>{t.label}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <div class="row">
+          <label class="field">
+            <span class="lbl">Your name <i aria-hidden="true">*</i></span>
+            <input name="name" autocomplete="name" required />
+          </label>
+          <label class="field">
+            <span class="lbl">Company <em>(if corporate)</em></span>
+            <input name="company" autocomplete="organization" />
+          </label>
+        </div>
+
+        <div class="row">
+          <label class="field">
+            <span class="lbl">Email</span>
+            <input name="email" type="email" autocomplete="email" />
+          </label>
+          <label class="field">
+            <span class="lbl">Phone</span>
+            <input name="phone" type="tel" autocomplete="tel" />
+          </label>
+        </div>
+
+        <div class="row row-3">
+          <label class="field">
+            <span class="lbl">Date</span>
+            <input name="date" type="date" />
+          </label>
+          <label class="field">
+            <span class="lbl">Guests</span>
+            <input name="guests" inputmode="numeric" placeholder="Approx." />
+          </label>
+          <label class="field">
+            <span class="lbl">Location</span>
+            <input name="location" placeholder="City or venue" />
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="lbl">Tell us about it</span>
+          <textarea name="message" rows="5" placeholder="The occasion, the feeling you're after, anything we should know."></textarea>
+        </label>
+
+        <p class="err" id="form-err" role="alert" hidden></p>
+
+        <div class="send">
+          <button type="submit" class="btn btn-dark" data-via="email">Send by email</button>
+          <button type="submit" class="btn btn-ghost" data-via="whatsapp">Send on WhatsApp</button>
+        </div>
+        <p class="note">
+          Choosing a button opens your email app or WhatsApp with the inquiry written out, ready to
+          send to Daniel.
+        </p>
+      </form>
+
+      <aside class="direct">
+        <h2 class="h-md">Or reach Daniel directly.</h2>
+        <ul>
+          <li><span>Email</span><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><span>Phone</span><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></li>
+          <li><span>WhatsApp</span><a href={site.whatsapp} target="_blank" rel="noopener">Message Daniel</a></li>
+        </ul>
+        <figure class="direct-photo frame">
+          <img src="/images/daniel-pearlman.webp" alt="Daniel Pearlman" loading="lazy" />
+        </figure>
+      </aside>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .ch-in { padding-top: calc(var(--header-h) + clamp(3rem, 8vw, 6rem)); padding-bottom: clamp(3rem, 6vw, 4.5rem); }
+  .ch h1 { max-width: 12ch; }
+  .ch .lede { margin-top: 1.4rem; max-width: 46ch; }
+
+  .contact { display: grid; gap: clamp(3.5rem, 7vw, 6rem); }
+
+  .form { display: grid; gap: 1.6rem; }
+  .row { display: grid; gap: 1.6rem; }
+  @media (min-width: 700px) {
+    .row { grid-template-columns: 1fr 1fr; }
+    .row-3 { grid-template-columns: 1fr 0.7fr 1.3fr; }
+  }
+
+  .lbl {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 0.55rem;
+  }
+
+  .lbl i { color: var(--rose); font-style: normal; }
+  .lbl em { color: var(--mute); font-style: normal; font-weight: 400; text-transform: none; letter-spacing: 0.02em; }
+
+  .field input, .field textarea {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid #cfcfcf;
+    border-radius: 0;
+    background: transparent;
+    padding: 0.7rem 0 0.6rem;
+    font-size: 1.05rem;
+    transition: border-color 0.3s var(--ease);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .field textarea { border: 1px solid #cfcfcf; padding: 0.9rem 1rem; resize: vertical; }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--ink); }
+  .field input::placeholder, .field textarea::placeholder { color: #a9a9a9; }
+
+  .types { border: 0; margin: 0; padding: 0; }
+  .type-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .type input { position: absolute; opacity: 0; pointer-events: none; }
+
+  .type span {
+    display: inline-block;
+    padding: 0.95em 1.3em 0.8em;
+    border: 1px solid #cfcfcf;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.3s var(--ease);
+  }
+
+  .type span:hover { border-color: var(--ink); }
+  .type input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--white); }
+  .type input:focus-visible + span { outline: 2px solid var(--rose); outline-offset: 3px; }
+
+  .err { color: var(--rose-deep); font-size: 0.95rem; }
+  .send { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 0.4rem; }
+  .note { font-size: 0.88rem; color: var(--mute); max-width: 52ch; }
+
+  .direct { align-self: start; }
+  .direct ul { margin: 1.6rem 0 2rem; border-top: 1px solid var(--line); }
+  .direct li { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.4rem 1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+  .direct li span { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mute); }
+  .direct li a:hover { color: var(--rose); }
+  .direct-photo { margin: 0; aspect-ratio: 4 / 3; }
+
+  @media (min-width: 1000px) {
+    .contact { grid-template-columns: 1.4fr 1fr; }
+    .direct { position: sticky; top: calc(var(--header-h) + 2rem); }
+  }
+</style>
+
+<script>
+  const EMAIL = 'daniel@apexconcierge.co';
+  const WA = '18453766359';
+  const form = document.getElementById('inquiry') as HTMLFormElement;
+  const err = document.getElementById('form-err')!;
+
+  // Preselect the event type from ?type=… (links from the service pages).
+  const wanted = new URLSearchParams(location.search).get('type');
+  if (wanted) {
+    const r = form.querySelector<HTMLInputElement>(`input[name="type"][data-id="${wanted}"]`);
+    if (r) r.checked = true;
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const via = ((e as SubmitEvent).submitter as HTMLButtonElement | null)?.dataset.via || 'email';
+    const d = new FormData(form);
+    const v = (k: string) => String(d.get(k) || '').trim();
+
+    if (!v('name')) {
+      err.textContent = 'Please add your name so Daniel knows who to reply to.';
+      err.hidden = false;
+      form.querySelector<HTMLInputElement>('[name="name"]')!.focus();
+      return;
+    }
+    if (via === 'email' && !v('email') && !v('phone')) {
+      err.textContent = 'Please add an email or phone number so Daniel can get back to you.';
+      err.hidden = false;
+      form.querySelector<HTMLInputElement>('[name="email"]')!.focus();
+      return;
+    }
+    err.hidden = true;
+
+    const date = v('date') ? new Date(v('date') + 'T12:00').toLocaleDateString('en-US', { dateStyle: 'long' }) : '';
+    const details = [
+      `Name: ${v('name')}`,
+      v('company') && `Company: ${v('company')}`,
+      v('email') && `Email: ${v('email')}`,
+      v('phone') && `Phone: ${v('phone')}`,
+      date && `Date: ${date}`,
+      v('guests') && `Guests: ${v('guests')}`,
+      v('location') && `Location: ${v('location')}`,
+    ].filter(Boolean);
+    const body = [
+      'Hi Daniel,',
+      '',
+      `I'm getting in touch about: ${v('type')}.`,
+      '',
+      ...details,
+      ...(v('message') ? ['', v('message')] : []),
+    ].join('\n');
+
+    if (via === 'whatsapp') {
+      window.open(`https://wa.me/${WA}?text=${encodeURIComponent(body)}`, '_blank', 'noopener');
+    } else {
+      const subject = `Inquiry: ${v('type')}${v('company') ? ` — ${v('company')}` : ''}`;
+      location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+  });
+</script>

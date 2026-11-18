@@ -1,0 +1,57 @@
+---
+// Dark, full-bleed opening for inner pages. The headline goes in the default slot.
+interface Props {
+  image: string;
+  alt: string;
+  lede?: string;
+  focus?: string;
+}
+const { image, alt, lede, focus = 'center' } = Astro.props;
+---
+
+<section class="ph dark">
+  <div class="ph-media">
+    <img src={image} alt={alt} style={`object-position:${focus}`} fetchpriority="high" />
+  </div>
+  <div class="ph-scrim"></div>
+  <div class="wrap ph-in">
+    <h1 class="h-xl ph-title"><slot /></h1>
+    {lede && <p class="lede ph-lede">{lede}</p>}
+    {Astro.slots.has('actions') && <div class="btn-row ph-actions"><slot name="actions" /></div>}
+  </div>
+</section>
+
+<style>
+  .ph {
+    position: relative;
+    min-height: min(84vh, 860px);
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+
+  .ph-media { position: absolute; inset: 0; }
+  .ph-media img { width: 100%; height: 100%; object-fit: cover; animation: settle 2.4s var(--ease) both; }
+
+  .ph-scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(18, 17, 17, 0.55) 0%, rgba(18, 17, 17, 0) 30%),
+      linear-gradient(0deg, rgba(18, 17, 17, 0.92) 0%, rgba(18, 17, 17, 0.55) 45%, rgba(18, 17, 17, 0.2) 100%);
+  }
+
+  .ph-in {
+    position: relative;
+    width: 100%;
+    padding-top: calc(var(--header-h) + 4rem);
+    padding-bottom: clamp(3rem, 7vw, 5.5rem);
+  }
+
+  .ph-title { max-width: 13ch; animation: rise 1.1s 0.15s var(--ease) both; }
+  .ph-lede { margin-top: 1.6rem; max-width: 46ch; animation: rise 1.1s 0.3s var(--ease) both; }
+  .ph-actions { margin-top: 2.2rem; animation: rise 1.1s 0.45s var(--ease) both; }
+
+  @keyframes settle { from { transform: scale(1.08); } to { transform: scale(1); } }
+  @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+</style>

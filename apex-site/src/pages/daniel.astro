@@ -1,0 +1,127 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Quote from '../components/Quote.astro';
+import NextPage from '../components/NextPage.astro';
+import { site, testimonials } from '../data/site';
+
+const pillars = [
+  { t: 'One point of contact', d: 'Daniel leads your event from the first call to the final guest. No hand-offs, no layers.' },
+  { t: 'Calm under pressure', d: 'When something changes on the day, it is handled quietly. Your guests never need to know.' },
+  { t: 'On site, every time', d: 'Daniel is in the room on the day, directing the team and the timeline as it unfolds.' },
+];
+---
+
+<Layout
+  title="Daniel Pearlman"
+  description="Meet Daniel Pearlman of Apex Events & Concierge — the person who plans and runs every Apex event, from corporate galas to family celebrations."
+  image="/images/daniel-pearlman.webp"
+>
+  <section class="dh dark">
+    <div class="dh-media">
+      <img src="/images/daniel-pearlman.webp" alt="Daniel Pearlman" width="1600" height="1067" fetchpriority="high" />
+    </div>
+    <div class="wrap dh-in">
+      <h1 class="h-xl">Daniel<br />Pearlman</h1>
+      <p class="standard dh-std">Apex Events &amp; Concierge</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap bio">
+      <h2 class="h-lg reveal">His name is on the logo for a reason.</h2>
+      <div class="bio-copy">
+        <p class="lede reveal">
+          When you work with Apex, you aren't passed to a junior coordinator once the contract is
+          signed. Daniel takes the first call, builds the plan and runs it on the day&nbsp;— whether
+          it's a corporate gala for four hundred or a Shabbos weekend for the family.
+        </p>
+        <p class="lede reveal">
+          His standard is simple to describe and hard to keep: nothing is left nearly right. The
+          glass gets nudged into line. The car is early. The plan has an answer for the thing
+          nobody thought to ask about.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section paper">
+    <div class="wrap">
+      <ul class="pillars">
+        {pillars.map((p, i) => (
+          <li class="reveal">
+            <span class="pl-n">0{i + 1}</span>
+            <h3 class="h-sm">{p.t}</h3>
+            <p class="muted">{p.d}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap reach">
+      <Quote {...testimonials.sarah} />
+      <div class="reach-card reveal">
+        <p class="h-sm">Reach Daniel directly.</p>
+        <ul>
+          <li><span>Email</span><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><span>Phone</span><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></li>
+          <li><span>WhatsApp</span><a href={site.whatsapp} target="_blank" rel="noopener">Send a message</a></li>
+        </ul>
+        <a href="/contact/" class="btn btn-dark">Plan an event</a>
+      </div>
+    </div>
+  </section>
+
+  <NextPage href="/corporate/" title="Corporate events" image="/images/stock/keynote.webp" />
+</Layout>
+
+<style>
+  .dh { position: relative; min-height: min(92vh, 900px); display: flex; align-items: flex-end; overflow: hidden; }
+  .dh-media { position: absolute; inset: 0; }
+  .dh-media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; animation: settle 2.4s var(--ease) both; }
+  .dh-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(18, 17, 17, 0.95) 0%, rgba(18, 17, 17, 0.4) 40%, rgba(18, 17, 17, 0) 70%);
+  }
+  .dh-in { position: relative; width: 100%; padding-bottom: clamp(3rem, 7vw, 5rem); padding-top: 50vh; }
+  .dh-in h1 { animation: rise 1.1s 0.2s var(--ease) both; }
+  .dh-std { margin-top: 1rem; color: var(--blush); animation: rise 1.1s 0.4s var(--ease) both; }
+
+  @media (min-width: 960px) {
+    .dh-media { left: 34%; }
+    .dh-media::after {
+      background: linear-gradient(90deg, var(--night) 0%, rgba(18, 17, 17, 0) 40%),
+        linear-gradient(0deg, rgba(18, 17, 17, 0.6) 0%, rgba(18, 17, 17, 0) 30%);
+    }
+    .dh-in { padding-top: calc(var(--header-h) + 8rem); }
+  }
+
+  .bio { display: grid; gap: 2rem; }
+  .bio h2 { max-width: 13ch; }
+  .bio-copy { display: grid; gap: 1.4rem; }
+  .bio-copy .lede { max-width: 46ch; }
+  @media (min-width: 900px) { .bio { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+
+  .pillars { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .pillars li { padding: 1.8rem 0; border-bottom: 1px solid var(--line); display: grid; gap: 0.6rem; }
+  .pl-n { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.16em; color: var(--rose); }
+  @media (min-width: 860px) {
+    .pillars { grid-template-columns: repeat(3, 1fr); border-top: 0; }
+    .pillars li { border-bottom: 0; border-top: 1px solid var(--ink); padding: 2rem 2.4rem 0 0; }
+    .pillars li + li { padding-left: 0; }
+  }
+
+  .reach { display: grid; gap: clamp(3rem, 6vw, 5rem); align-items: center; }
+  .reach-card { border: 1px solid var(--line); padding: clamp(1.8rem, 4vw, 2.8rem); }
+  .reach-card ul { margin: 1.6rem 0 2rem; border-top: 1px solid var(--line); }
+  .reach-card li { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .reach-card li span { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mute); }
+  .reach-card li a:hover { color: var(--rose); }
+  @media (min-width: 960px) { .reach { grid-template-columns: 1.2fr 1fr; } }
+
+  @keyframes settle { from { transform: scale(1.06); } to { transform: scale(1); } }
+  @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+</style>

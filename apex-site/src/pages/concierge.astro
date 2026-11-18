@@ -1,0 +1,64 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import OfferList from '../components/OfferList.astro';
+import Campaign from '../components/Campaign.astro';
+import NextPage from '../components/NextPage.astro';
+import { site } from '../data/site';
+
+const services = [
+  { name: 'Front of house', text: 'Guest management, reception flow and hospitality direction. Every arrival feels expected, every departure feels warm.' },
+  { name: 'Executive & VIP care', text: 'A dedicated point of contact for the guests who matter most — anticipating needs before they are spoken.' },
+  { name: 'Travel & arrivals', text: 'Travel coordination, transfers and timing, so guests arrive relaxed and exactly when they should.' },
+];
+---
+
+<Layout
+  title="Concierge & Hospitality"
+  description="Front-of-house teams, executive and VIP guest care, and travel coordination from Apex Events & Concierge."
+  image="/images/stock/dining.webp"
+>
+  <PageHero
+    image="/images/stock/dining.webp"
+    alt="Plated dishes and glassware being served at a candlelit dinner"
+    lede="Front-of-house teams, VIP care and travel coordination — as part of an Apex event, or on their own."
+  >
+    Hospitality guests feel <em>before</em> they notice.
+    <Fragment slot="actions">
+      <a href="/contact/?type=concierge" class="btn btn-light">Arrange concierge</a>
+      <a href={site.whatsapp} target="_blank" rel="noopener" class="btn btn-ghost-light">WhatsApp Daniel</a>
+    </Fragment>
+  </PageHero>
+
+  <OfferList title="What concierge covers." items={services} />
+
+  <section class="section paper">
+    <div class="wrap fit">
+      <h2 class="h-lg reveal">The service is the part nobody sees.</h2>
+      <div class="fit-copy">
+        <p class="lede reveal">
+          Good hospitality doesn't announce itself. It's the coat taken before it's offered, the
+          table that's ready the moment the party arrives, the driver who already knows the
+          change of plan.
+        </p>
+        <p class="lede reveal">
+          Apex concierge can run alongside any event we plan, or be arranged on its own for a
+          visiting executive, a family weekend or a private dinner.
+        </p>
+        <a href="/contact/?type=concierge" class="link reveal">Tell us what you need</a>
+      </div>
+    </div>
+  </section>
+
+  <Campaign />
+
+  <NextPage href="/work/" title="See the work" image="/images/real-flower-dome-stage.webp" />
+</Layout>
+
+<style>
+  .fit { display: grid; gap: 2rem; }
+  .fit h2 { max-width: 14ch; }
+  .fit-copy { display: grid; gap: 1.4rem; justify-items: start; }
+  .fit-copy .lede { max-width: 46ch; }
+  @media (min-width: 900px) { .fit { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+</style>

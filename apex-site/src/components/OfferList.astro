@@ -1,0 +1,45 @@
+---
+// Numbered list of what a practice covers. Rows rule off like a printed menu.
+interface Props { title: string; items: { name: string; text: string }[] }
+const { title, items } = Astro.props;
+---
+
+<section class="section">
+  <div class="wrap ol">
+    <h2 class="h-lg ol-h reveal">{title}</h2>
+    <ol class="ol-list">
+      {items.map((it, i) => (
+        <li class="reveal">
+          <span class="ol-n">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="h-sm">{it.name}</h3>
+          <p class="muted">{it.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .ol { display: grid; gap: clamp(2rem, 5vw, 4rem); }
+  .ol-h { max-width: 12ch; }
+
+  .ol-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+
+  .ol-list li {
+    display: grid;
+    grid-template-columns: 2.6rem 1fr;
+    gap: 0.4rem 1rem;
+    padding: 1.6rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .ol-n { grid-row: span 2; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.16em; color: var(--rose); padding-top: 0.3rem; }
+  .ol-list p { max-width: 52ch; }
+
+  @media (min-width: 900px) {
+    .ol { grid-template-columns: 0.8fr 1.2fr; }
+    .ol-h { position: sticky; top: calc(var(--header-h) + 2rem); align-self: start; }
+    .ol-list li { grid-template-columns: 3.4rem 0.9fr 1.1fr; align-items: baseline; padding: 2rem 0; }
+    .ol-n { grid-row: auto; }
+  }
+</style>

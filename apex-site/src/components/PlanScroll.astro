@@ -16,10 +16,10 @@ const pages = [
 <section class="plan" id="every-detail" aria-label="Every detail, planned">
   <div class="pin">
     <div class="wrap head">
-      <h2>Every detail,<br /><em>planned.</em></h2>
-      <p>
-        Before a single chair is placed, every tablescape, linen, and floor plan is mapped out
-        in a full operations plan.
+      <h2 class="h-lg">Every detail,<br /><em>on paper first.</em></h2>
+      <p class="lede">
+        Before a single chair is placed, every tablescape, linen count and floor plan lives in a
+        full operations plan. This is a glimpse&nbsp;— the details stay with our clients.
       </p>
     </div>
     <div class="stage" aria-hidden="true">
@@ -31,7 +31,7 @@ const pages = [
               {i === 0 && <span class="sheen"></span>}
             </div>
             <div class="face back">
-              <img src="/logo/logo-ivory.svg" alt="" draggable="false" />
+              <img src="/logo/mark-white.svg" alt="" draggable="false" />
             </div>
           </div>
         </div>
@@ -50,9 +50,7 @@ const pages = [
     gap: clamp(2rem, 4vw, 3rem);
   }
 
-  .head h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; }
-  .head em { font-style: normal; color: var(--brass-deep); }
-  .head p { margin-top: 1rem; color: var(--stone); max-width: 58ch; }
+  .head p { margin-top: 1.4rem; max-width: 52ch; }
 
   .stage {
     --w: clamp(150px, 22vw, 280px);
@@ -98,7 +96,7 @@ const pages = [
     display: flex;
     align-items: center;
     justify-content: center;
-    outline: 1px solid var(--brass);
+    outline: 1px solid var(--rose);
     outline-offset: -10px;
   }
   .back img { width: 58%; opacity: 0.9; }
@@ -106,11 +104,11 @@ const pages = [
   .sheen {
     position: absolute;
     inset: -20%;
-    background: linear-gradient(105deg, transparent 40%, rgba(214, 190, 140, 0.35) 50%, transparent 60%);
+    background: linear-gradient(105deg, transparent 40%, rgba(233, 191, 179, 0.4) 50%, transparent 60%);
     transform: translateX(-120%);
   }
 
-  :global(.plan.is-pinned) .pin { min-height: 100vh; justify-content: center; padding-top: 108px; }
+  :global(.plan.is-pinned) .pin { min-height: 100vh; justify-content: center; padding-top: calc(var(--header-h) + 1rem); }
 </style>
 
 <script>

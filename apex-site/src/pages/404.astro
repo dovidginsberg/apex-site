@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Page not found" description="This page doesn't exist. Head back to Apex Events & Concierge.">
+  <section class="nf dark">
+    <div class="wrap nf-in">
+      <h1 class="h-xl">Not <em>quite</em> right.</h1>
+      <p class="lede">The page you're looking for isn't here. Everything else is exactly where it should be.</p>
+      <div class="btn-row">
+        <a href="/" class="btn btn-light">Back to home</a>
+        <a href="/contact/" class="btn btn-ghost-light">Plan an event</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .nf { min-height: 92vh; display: flex; align-items: center; }
+  .nf-in { width: 100%; padding-top: var(--header-h); }
+  .nf .lede { margin: 1.4rem 0 2.2rem; max-width: 40ch; }
+</style>

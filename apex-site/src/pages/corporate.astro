@@ -1,0 +1,91 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import OfferList from '../components/OfferList.astro';
+import Quote from '../components/Quote.astro';
+import NextPage from '../components/NextPage.astro';
+import { site, testimonials } from '../data/site';
+
+const offers = [
+  { name: 'Galas & award dinners', text: 'Seating that respects the politics, a run-of-show timed to the minute, and a room that makes the honoree look good.' },
+  { name: 'Conferences & summits', text: 'Registration, rooms, AV coordination and the hundred small handoffs between sessions that attendees should never see.' },
+  { name: 'Product launches', text: 'Reveals timed to the second, guest and press flow, and a set that photographs as well as it feels.' },
+  { name: 'Client & board dinners', text: 'Private rooms, considered menus and service that never interrupts the conversation.' },
+  { name: 'Leadership retreats', text: 'Travel, accommodation and agendas handled end to end, so the team arrives ready to work.' },
+  { name: 'Company celebrations', text: 'Holiday parties and milestone events your people actually look forward to.' },
+];
+
+const points = [
+  { t: 'One accountable lead', d: 'Daniel Pearlman is your single point of contact, from the first brief to the last guest out. One number to call, and straight answers.' },
+  { t: 'A plan you can circulate', d: 'Every event is built into a full operations plan — run-of-show, floor plans and inventories — that your stakeholders can review before anything is booked.' },
+  { t: 'Run from the floor', d: 'On the day, Daniel and the Apex team are in the room, not on the phone. Problems are solved before your guests notice them.' },
+];
+---
+
+<Layout
+  title="Corporate Events"
+  description="Galas, conferences, product launches, client dinners and leadership retreats, planned and run by Daniel Pearlman and the Apex team."
+  image="/images/stock/keynote.webp"
+>
+  <PageHero
+    image="/images/stock/keynote.webp"
+    alt="A presenter on a large stage in front of a seated audience"
+    lede="Galas, conferences, launches and client dinners — produced by a team that treats your schedule, your budget and your brand as fixed points."
+  >
+    Corporate events, run <em>exactly</em> to plan.
+    <Fragment slot="actions">
+      <a href="/contact/?type=corporate" class="btn btn-light">Plan a corporate event</a>
+      <a href={`tel:${site.phone}`} class="btn btn-ghost-light">Call {site.phoneDisplay}</a>
+    </Fragment>
+  </PageHero>
+
+  <OfferList title="What we take on." items={offers} />
+
+  <section class="lead-band dark">
+    <div class="lb-media">
+      <img src="/images/real-flower-dome-stage.webp" alt="A dome of white and gold florals frames a ballroom stage" loading="lazy" />
+    </div>
+    <div class="wrap lb-in">
+      <div class="lb-copy">
+        <h2 class="h-lg reveal">Your team deals with one person.</h2>
+        <ul class="lb-points">
+          {points.map((p) => (
+            <li class="reveal"><h3 class="h-sm">{p.t}</h3><p class="muted">{p.d}</p></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap duo">
+      <figure class="duo-a frame reveal"><img src="/images/stock/audience.webp" alt="An audience seated in a darkened conference hall" loading="lazy" /></figure>
+      <div class="duo-q">
+        <Quote {...testimonials.jonathan} />
+      </div>
+    </div>
+  </section>
+
+  <NextPage href="/celebrations/" title="Weddings & celebrations" image="/images/real-ceremony-aisle.webp" />
+</Layout>
+
+<style>
+  .lead-band { position: relative; overflow: hidden; }
+  .lb-media { position: relative; height: clamp(260px, 50vw, 420px); }
+  .lb-media img { width: 100%; height: 100%; object-fit: cover; }
+  .lb-in { padding-block: clamp(3.5rem, 8vw, 7rem); }
+  .lb-copy h2 { max-width: 13ch; }
+  .lb-points { margin-top: clamp(2rem, 4vw, 3rem); display: grid; gap: 1.8rem; }
+  .lb-points li { padding-top: 1.4rem; border-top: 1px solid var(--line-dark); }
+  .lb-points p { margin-top: 0.6rem; max-width: 46ch; }
+
+  @media (min-width: 960px) {
+    .lead-band { display: grid; grid-template-columns: 1fr 1fr; min-height: 760px; }
+    .lb-media { height: auto; order: 2; }
+    .lb-in { max-width: none; margin: 0; padding-left: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter))); padding-right: clamp(2rem, 5vw, 5rem); display: flex; align-items: center; }
+  }
+
+  .duo { display: grid; gap: clamp(2.5rem, 6vw, 5rem); align-items: center; }
+  .duo-a { aspect-ratio: 4 / 5; }
+  @media (min-width: 900px) { .duo { grid-template-columns: 0.9fr 1.1fr; } }
+</style>
