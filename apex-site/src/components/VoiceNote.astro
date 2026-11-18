@@ -1,0 +1,87 @@
+---
+// A real voice message from a client, with a waveform player (scripts/audio-player.js).
+interface Props { caption: string }
+const { caption } = Astro.props;
+---
+
+<div class="vn reveal">
+  <div class="player" id="voice-player">
+    <button class="play-btn" type="button" aria-label="Play voice message">
+      <svg class="icon icon-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+      <svg class="icon icon-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"></path></svg>
+    </button>
+    <div class="player-body">
+      <div class="wave" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+        <div class="wave-base"></div>
+        <div class="wave-progress"></div>
+      </div>
+      <div class="times"><span class="time-current">0:00</span><span class="time-duration">0:00</span></div>
+    </div>
+    <audio preload="metadata">
+      <source src="/audio/client-testimonial.mp3" type="audio/mpeg" />
+      <source src="/audio/client-testimonial.ogg" type="audio/ogg" />
+    </audio>
+  </div>
+  <p class="caption">{caption}</p>
+</div>
+
+<style>
+  .player {
+    display: flex;
+    align-items: center;
+    gap: 1.3rem;
+    padding: 1.4rem 1.5rem;
+    border: 1px solid var(--line);
+    background: var(--white);
+  }
+
+  :global(.dark) .player { background: transparent; border-color: var(--line-dark); }
+
+  .play-btn {
+    flex: none;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: 0;
+    background: var(--ink);
+    color: var(--white);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background 0.3s var(--ease), transform 0.3s var(--ease);
+  }
+
+  :global(.dark) .play-btn { background: var(--white); color: var(--ink); }
+  .play-btn:hover { background: var(--rose-deep); color: var(--white); transform: scale(1.05); }
+  .icon-play { margin-left: 2px; }
+  .icon-pause { display: none; }
+  .play-btn.is-playing .icon-play { display: none; }
+  .play-btn.is-playing .icon-pause { display: block; }
+
+  .player-body { flex: 1; min-width: 0; }
+  .wave { position: relative; height: 42px; cursor: pointer; }
+  .wave-base, .wave-progress { position: absolute; inset: 0; display: flex; align-items: center; gap: 3px; }
+  .wave-base :global(span), .wave-progress :global(span) { flex: 1; min-width: 0; border-radius: 1px; }
+  .wave-base :global(span) { background: var(--line); }
+  :global(.dark) .wave-base :global(span) { background: rgba(255, 255, 255, 0.18); }
+  .wave-progress { width: 100%; clip-path: inset(0 100% 0 0); }
+  .wave-progress :global(span) { background: var(--rose); }
+  :global(.dark) .wave-progress :global(span) { background: var(--blush); }
+
+  .times {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--mute);
+  }
+
+  .caption { margin-top: 1rem; font-size: 0.9rem; color: var(--mute); }
+</style>
+
+<script>
+  import { initAudioPlayer } from '../scripts/audio-player';
+  const root = document.getElementById('voice-player');
+  if (root) initAudioPlayer(root);
+</script>

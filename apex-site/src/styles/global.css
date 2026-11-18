@@ -1,68 +1,82 @@
-@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap');
-
-@font-face {
-  font-family: 'Mackora';
-  src: url('/fonts/mackora.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
+/* Fonts are loaded with <link> tags in Layout.astro. */
 
 :root {
-  --ivory: #f7f4ee;
-  --paper: #fdfbf7;
-  --ink: #1b1916;
-  --stone: #726b5e;
-  --stone-light: #a49c8b;
-  --line: #ddd5c3;
-  --brass: #7c6a45;
-  --brass-deep: #5c4e33;
+  /* Crisp white and near-black, with the rose gold of the "An Apex Standard" campaign. */
+  --white: #ffffff;
+  --paper: #f6f5f4;
+  --ink: #0d0d0d;
+  --night: #121111;
+  --stone: #555555;
+  --mute: #8c8c8c;
+  --line: #e6e6e6;
+  --line-dark: rgba(255, 255, 255, 0.14);
+  --rose: #a8665a;
+  --rose-deep: #8a4f45;
+  --blush: #e9bfb3;
 
-  --display: 'Jost', sans-serif;
-  --body: 'Jost', sans-serif;
-  --stamp: 'Mackora', serif;
+  --display: 'Josefin Sans', 'Helvetica Neue', Arial, sans-serif;
+  --body: 'Josefin Sans', 'Helvetica Neue', Arial, sans-serif;
 
-  --max: 1240px;
-  --gutter: clamp(1.5rem, 5vw, 4rem);
+  --max: 1280px;
+  --gutter: clamp(1.4rem, 5vw, 4.5rem);
+  --header-h: 88px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  * {
+  *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
   }
 }
 
 body {
   margin: 0;
-  background: var(--ivory);
+  background: var(--white);
   color: var(--ink);
   font-family: var(--body);
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 17px;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, h4 {
   margin: 0;
   font-family: var(--display);
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: -0.02em;
-  color: var(--ink);
+  line-height: 1.04;
+  text-wrap: balance;
 }
 
-p { margin: 0; }
+h1 em, h2 em, h3 em { font-style: normal; color: var(--rose); }
+
+p { margin: 0; text-wrap: pretty; }
 a { color: inherit; text-decoration: none; }
-img { display: block; max-width: 100%; }
-button { font-family: inherit; }
-::selection { background: var(--brass); color: var(--paper); }
-a:focus-visible, button:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+img, video { display: block; max-width: 100%; height: auto; }
+button, input, select, textarea { font: inherit; color: inherit; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+::selection { background: var(--rose); color: var(--white); }
+:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; }
+
+.skip {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--white);
+  padding: 0.8rem 1.2rem;
+}
+.skip:focus { top: 1rem; }
 
 .wrap {
   max-width: var(--max);
@@ -71,30 +85,95 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brass); outline
   padding-right: var(--gutter);
 }
 
+.section { padding-block: clamp(4.5rem, 10vw, 8.5rem); }
+.dark { background: var(--night); color: var(--white); }
+.dark h1, .dark h2, .dark h3 { color: var(--white); }
+.dark h1 em, .dark h2 em, .dark h3 em { color: var(--blush); }
+.paper { background: var(--paper); }
+
+.h-xl { font-size: clamp(3rem, 8.4vw, 7.4rem); line-height: 0.98; }
+.h-lg { font-size: clamp(2.3rem, 5.2vw, 4.4rem); }
+.h-md { font-size: clamp(1.8rem, 3.4vw, 2.8rem); line-height: 1.12; }
+.h-sm { font-size: clamp(1.35rem, 2vw, 1.65rem); line-height: 1.2; }
+
+.lede { font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.6; color: var(--stone); }
+.dark .lede { color: rgba(255, 255, 255, 0.78); }
+.muted { color: var(--stone); }
+.dark .muted { color: rgba(255, 255, 255, 0.66); }
+
+/* The campaign sign-off, set like the posters. */
+.standard {
+  font-family: var(--body);
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+/* Buttons: square, letterspaced, quiet until touched. */
 .btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7em;
+  font-family: var(--body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1;
+  padding: 1.3em 2.3em 1.15em;
+  border: 1px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.35s var(--ease), color 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+
+.btn-dark { background: var(--ink); border-color: var(--ink); color: var(--white); }
+.btn-dark:hover { background: var(--rose-deep); border-color: var(--rose-deep); }
+.btn-light { background: var(--white); border-color: var(--white); color: var(--ink); }
+.btn-light:hover { background: var(--blush); border-color: var(--blush); }
+.btn-ghost { color: var(--ink); border-color: rgba(13, 13, 13, 0.35); }
+.btn-ghost:hover { border-color: var(--ink); background: var(--ink); color: var(--white); }
+.btn-ghost-light { color: var(--white); border-color: rgba(255, 255, 255, 0.4); }
+.btn-ghost-light:hover { background: var(--white); color: var(--ink); border-color: var(--white); }
+
+.btn-row { display: flex; flex-wrap: wrap; gap: 0.9rem; }
+
+/* Underlined text link with a sliding arrow. */
+.link {
   display: inline-flex;
   align-items: center;
   gap: 0.6em;
-  font-family: var(--body);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  padding: 0.95em 2.2em;
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease,
-    transform 0.3s ease, box-shadow 0.3s ease;
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid var(--rose);
+}
+.link::after { content: '→'; transition: transform 0.35s var(--ease); }
+.link:hover::after { transform: translateX(5px); }
+.dark .link { border-color: var(--blush); }
+
+/* Reveal-on-scroll (see scripts/reveal.js). */
+.js .reveal { opacity: 0; transform: translateY(26px); }
+
+/* Image that slowly settles when it enters the viewport. */
+.frame { overflow: hidden; position: relative; background: #1c1b1b; }
+.frame img, .frame video { width: 100%; height: 100%; object-fit: cover; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
   white-space: nowrap;
+  border: 0;
 }
-
-.btn-solid { background: var(--ink); color: var(--ivory); }
-.btn-solid:hover {
-  background: var(--brass-deep);
-  border-color: var(--brass-deep);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(27, 25, 22, 0.18);
-}
-
-.btn-line { background: transparent; color: var(--ink); border-color: var(--ink); }
-.btn-line:hover { background: var(--ink); color: var(--ivory); transform: translateY(-2px); }

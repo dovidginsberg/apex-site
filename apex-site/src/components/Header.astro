@@ -1,133 +1,249 @@
 ---
-const links = [
-  { href: '#daniel', label: 'Daniel Pearlman' },
-  { href: '#services', label: 'Services' },
-  { href: '#gallery', label: 'Gallery' },
-  { href: '#process', label: 'Process' },
-  { href: '#testimonials', label: 'Testimonials' },
-];
+import { nav, site } from '../data/site';
+const path = Astro.url.pathname;
+const isActive = (href: string) => path.startsWith(href);
 ---
 
-<header class="header">
-  <div class="wrap header-in">
-    <a href="#" class="wordmark">
-      <img src="/logo/logo-dp-ink.png" alt="Apex — Events & Concierge | Daniel Pearlman" />
+<header class="hdr" id="hdr">
+  <div class="wrap hdr-in">
+    <a href="/" class="brand" aria-label={`${site.name} — home`}>
+      <img class="logo logo-light" src="/logo/logo-dp-ivory.png" alt="" width="900" height="352" />
+      <img class="logo logo-dark" src="/logo/logo-dp-ink.png" alt="" width="900" height="352" />
     </a>
+
     <nav class="nav" aria-label="Primary">
-      {links.map((l) => <a href={l.href}>{l.label}</a>)}
-      <a href="#contact" class="btn btn-solid nav-cta">Begin Planning</a>
+      {nav.map((l) => (
+        <a href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a>
+      ))}
     </nav>
-    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
-      <span></span><span></span><span></span>
+
+    <a href="/contact/" class="btn hdr-cta">Plan an event</a>
+
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+      <span></span><span></span>
     </button>
   </div>
-  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile">
-    {links.map((l) => <a href={l.href}>{l.label}</a>)}
-    <a href="#contact" class="btn btn-solid">Begin Planning</a>
-  </nav>
 </header>
 
+<div class="menu" id="menu" aria-hidden="true">
+  <div class="wrap menu-in">
+    <nav class="menu-nav" aria-label="Menu">
+      {nav.map((l, i) => (
+        <a href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>
+          <span class="mi">0{i + 1}</span>{l.label}
+        </a>
+      ))}
+      <a href="/contact/"><span class="mi">0{nav.length + 1}</span>Plan an event</a>
+    </nav>
+    <div class="menu-foot">
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+      <a href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
+      <a href={site.whatsapp} target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+</div>
+
 <style>
-  .header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: rgba(247, 244, 238, 0.92);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line);
+  .hdr {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 60;
+    height: var(--header-h);
+    color: var(--white);
+    transition: background 0.45s var(--ease), color 0.45s var(--ease), box-shadow 0.45s var(--ease),
+      transform 0.45s var(--ease);
   }
 
-  .header-in {
+  .hdr.is-solid {
+    background: rgba(255, 255, 255, 0.97);
+    color: var(--ink);
+    box-shadow: 0 1px 0 var(--line);
+  }
+
+  .hdr.is-hidden { transform: translateY(-100%); }
+
+  .hdr-in {
+    height: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    height: 96px;
+    gap: 2rem;
   }
 
-  .wordmark {
-    display: flex;
-    align-items: center;
-  }
+  .brand { position: relative; display: block; height: 46px; aspect-ratio: 900 / 352; flex: none; }
+  .logo { position: absolute; inset: 0; width: 100%; height: 100%; transition: opacity 0.45s var(--ease); }
+  .logo-dark { opacity: 0; }
+  .hdr.is-solid .logo-dark,
+  :global(body.menu-open) .hdr .logo-light { opacity: 1; }
+  .hdr.is-solid .logo-light { opacity: 0; }
+  :global(body.menu-open) .hdr .logo-dark { opacity: 0; }
 
-  .wordmark img {
-    height: 52px;
-    width: auto;
-  }
+  .nav { display: none; margin-left: auto; gap: 2.2rem; }
 
-  .nav {
-    display: none;
-    align-items: center;
-    gap: 2.5rem;
-  }
-
-  .nav a:not(.nav-cta) {
-    font-size: 0.85rem;
-    letter-spacing: 0.06em;
+  .nav a {
+    position: relative;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--stone);
-    transition: color 0.2s ease;
+    padding-block: 0.4rem;
   }
 
-  .nav a:not(.nav-cta):hover { color: var(--ink); }
-
-  .menu-btn {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-  }
-
-  .menu-btn span {
-    width: 22px;
+  .nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
     height: 1px;
-    background: var(--ink);
-    display: block;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s var(--ease);
   }
 
-  .mobile-nav {
-    display: none;
+  .nav a:hover::after,
+  .nav a[aria-current='page']::after { transform: scaleX(1); transform-origin: left; }
+
+  .hdr-cta { display: none; padding: 1.15em 1.8em 1em; }
+  .hdr.is-solid .hdr-cta { background: var(--ink); border-color: var(--ink); color: var(--white); }
+  .hdr.is-solid .hdr-cta:hover { background: var(--rose-deep); border-color: var(--rose-deep); }
+  .hdr:not(.is-solid) .hdr-cta { border-color: rgba(255, 255, 255, 0.6); }
+  .hdr:not(.is-solid) .hdr-cta:hover { background: var(--white); color: var(--ink); border-color: var(--white); }
+
+  .burger {
+    margin-left: auto;
+    width: 46px;
+    height: 46px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    position: relative;
+    color: inherit;
+  }
+
+  .burger span {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform 0.45s var(--ease), top 0.45s var(--ease);
+  }
+
+  .burger span:first-child { top: 18px; }
+  .burger span:last-child { top: 27px; left: 18px; }
+  .burger:hover span:last-child { left: 10px; }
+
+  :global(body.menu-open) .hdr { color: var(--white); background: transparent; box-shadow: none; transform: none; }
+  :global(body.menu-open) .burger span:first-child { top: 22px; transform: rotate(45deg); }
+  :global(body.menu-open) .burger span:last-child { top: 22px; left: 10px; transform: rotate(-45deg); }
+
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    background: var(--night);
+    color: var(--white);
+    clip-path: inset(0 0 100% 0);
+    visibility: hidden;
+    transition: clip-path 0.7s var(--ease), visibility 0s 0.7s;
+  }
+
+  :global(body.menu-open) .menu {
+    clip-path: inset(0 0 0 0);
+    visibility: visible;
+    transition: clip-path 0.7s var(--ease), visibility 0s;
+  }
+
+  .menu-in {
+    height: 100%;
+    display: flex;
     flex-direction: column;
-    gap: 0;
-    border-top: 1px solid var(--line);
-    background: var(--ivory);
+    justify-content: space-between;
+    padding-top: calc(var(--header-h) + 3vh);
+    padding-bottom: 2.5rem;
   }
 
-  .mobile-nav.is-open { display: flex; }
+  .menu-nav { display: flex; flex-direction: column; }
 
-  .mobile-nav a {
-    padding: 1rem var(--gutter);
-    font-size: 0.9rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--line);
-    color: var(--stone);
+  .menu-nav a {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(2rem, 8.5vw, 3.6rem);
+    line-height: 1.25;
+    padding-block: 0.15em;
+    border-bottom: 1px solid var(--line-dark);
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease), color 0.3s;
   }
 
-  .mobile-nav .btn {
-    margin: 1rem var(--gutter);
-    justify-content: center;
+  .menu-nav a:hover, .menu-nav a[aria-current='page'] { color: var(--blush); }
+
+  :global(body.menu-open) .menu-nav a { opacity: 1; transform: none; }
+  :global(body.menu-open) .menu-nav a:nth-child(1) { transition-delay: 0.18s; }
+  :global(body.menu-open) .menu-nav a:nth-child(2) { transition-delay: 0.23s; }
+  :global(body.menu-open) .menu-nav a:nth-child(3) { transition-delay: 0.28s; }
+  :global(body.menu-open) .menu-nav a:nth-child(4) { transition-delay: 0.33s; }
+  :global(body.menu-open) .menu-nav a:nth-child(5) { transition-delay: 0.38s; }
+  :global(body.menu-open) .menu-nav a:nth-child(6) { transition-delay: 0.43s; }
+
+  .mi {
+    font-family: var(--body);
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    color: var(--blush);
+    min-width: 2.2em;
   }
 
-  @media (min-width: 900px) {
-    .nav { display: flex; }
-    .menu-btn { display: none; }
+  .menu-foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 2rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .menu-foot a:hover { color: var(--white); }
+
+  @media (min-width: 1100px) {
+    .nav, .hdr-cta { display: flex; }
+    .burger, .menu { display: none; }
+    .brand { height: 50px; }
   }
 </style>
 
 <script>
-  const btn = document.getElementById('menu-btn');
-  const nav = document.getElementById('mobile-nav');
-  btn?.addEventListener('click', () => {
-    const open = nav?.classList.toggle('is-open');
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  const hdr = document.getElementById('hdr')!;
+  const burger = document.getElementById('burger')!;
+  const menu = document.getElementById('menu')!;
+  let lastY = window.scrollY;
+
+  const onScroll = () => {
+    const y = window.scrollY;
+    hdr.classList.toggle('is-solid', y > 40);
+    // Tuck the header away while reading down; bring it back on any upward scroll.
+    hdr.classList.toggle('is-hidden', y > 500 && y > lastY + 4);
+    if (y < lastY - 4 || y <= 500) hdr.classList.remove('is-hidden');
+    lastY = y;
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const setMenu = (open: boolean) => {
+    document.body.classList.toggle('menu-open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    menu.setAttribute('aria-hidden', String(!open));
+  };
+
+  burger.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setMenu(false);
   });
-  nav?.querySelectorAll('a').forEach((a) =>
-    a.addEventListener('click', () => {
-      nav.classList.remove('is-open');
-      btn?.setAttribute('aria-expanded', 'false');
-    })
-  );
 </script>

@@ -1,0 +1,17 @@
+---
+// "Juuuust" with the three extra u's wrapped so they can stretch open on load.
+interface Props { delay?: number }
+const { delay = 0.5 } = Astro.props;
+---
+
+<span class="juuust" data-juuust data-delay={delay} aria-label="Juuuust"><span aria-hidden="true">Ju<span class="ux">u</span><span class="ux">u</span><span class="ux">u</span>st</span></span>
+
+<style>
+  .juuust { white-space: nowrap; }
+  .ux {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    line-height: inherit;
+  }
+</style>

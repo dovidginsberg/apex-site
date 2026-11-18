@@ -1,14 +1,36 @@
 ---
 import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import { site } from '../data/site';
 
 interface Props {
   title: string;
   description: string;
+  image?: string;
 }
 
-const { title, description } = Astro.props;
-const siteUrl = 'https://apex-event-management.dovidginsberg.workers.dev';
+const { title, description, image = '/og-image.jpg' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImage = new URL(image, site.url).href;
+const fullTitle = title === site.name ? `${site.name} | Daniel Pearlman` : `${title} | ${site.name}`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: site.name,
+  url: site.url,
+  email: site.email,
+  telephone: site.phone,
+  logo: `${site.url}/logo/logo-dp-ink.png`,
+  image: ogImage,
+  description:
+    'Corporate events, weddings, private celebrations and concierge service, planned and run by Daniel Pearlman and the Apex team.',
+  address: { '@type': 'PostalAddress', addressLocality: 'New York', addressRegion: 'NY', addressCountry: 'US' },
+  areaServed: { '@type': 'Country', name: 'United States' },
+  employee: { '@type': 'Person', name: 'Daniel Pearlman', email: site.email },
+};
 ---
 
 <!doctype html>
@@ -16,8 +38,18 @@ const siteUrl = 'https://apex-event-management.dovidginsberg.workers.dev';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title}</title>
+    <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#121111" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap"
+    />
 
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
@@ -26,24 +58,30 @@ const siteUrl = 'https://apex-event-management.dovidginsberg.workers.dev';
     <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Apex Events & Concierge | Daniel Pearlman" />
-    <meta property="og:title" content={title} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={`${siteUrl}/og-image.jpg`} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:url" content={siteUrl} />
-
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
+    <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={`${siteUrl}/og-image.jpg`} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
-    <slot />
+    <a class="skip" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
     <WhatsAppFloat />
     <script>
       import { initReveal } from '../scripts/reveal';
+      import { initJuuust } from '../scripts/juuust';
+      initJuuust();
       initReveal();
     </script>
   </body>

@@ -1,41 +1,383 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import StatsStrip from '../components/StatsStrip.astro';
-import Leadership from '../components/Leadership.astro';
-import Philosophy from '../components/Philosophy.astro';
-import Services from '../components/Services.astro';
-import Gallery from '../components/Gallery.astro';
-import StatsBand from '../components/StatsBand.astro';
-import Difference from '../components/Difference.astro';
-import Process from '../components/Process.astro';
+import Juuust from '../components/Juuust.astro';
+import Campaign from '../components/Campaign.astro';
 import PlanScroll from '../components/PlanScroll.astro';
-import Testimonials from '../components/Testimonials.astro';
-import AudioTestimonial from '../components/AudioTestimonial.astro';
-import Cta from '../components/Cta.astro';
-import Footer from '../components/Footer.astro';
+import Quote from '../components/Quote.astro';
+import VoiceNote from '../components/VoiceNote.astro';
+import { site, testimonials, work } from '../data/site';
+
+const practices = [
+  {
+    href: '/corporate/',
+    n: '01',
+    title: 'Corporate events',
+    text: 'Galas, conferences, product launches, client dinners and leadership retreats — run to schedule, on budget and on brand, by a team that knows how to work alongside yours.',
+    img: '/images/real-gala-marriott-marquis.webp',
+    alt: 'Guests fill a ballroom of round tables beneath a crystal chandelier at an annual gala',
+  },
+  {
+    href: '/celebrations/',
+    n: '02',
+    title: 'Weddings & celebrations',
+    text: 'Weddings, milestones, Shabbos weekends and family simchas, from the first floor plan to the final send-off. You get to be a guest at your own event.',
+    img: '/images/real-ceremony-aisle.webp',
+    alt: 'A bride walks a floral-lined garden aisle toward the chuppah',
+  },
+  {
+    href: '/concierge/',
+    n: '03',
+    title: 'Concierge & hospitality',
+    text: 'Front-of-house teams, VIP guest care and travel coordination — the kind of hospitality people feel long before they could tell you why.',
+    img: '/images/stock/dining.webp',
+    alt: 'Plated dishes and glassware being served at a candlelit dinner',
+  },
+];
+
+const stats = [
+  { n: 250, s: '+', l: 'Events delivered', count: true },
+  { n: 2019, s: '', l: 'Running events since', count: false },
+  { n: 'NYC', s: '', l: 'Based here, serving nationwide', count: false },
+  { n: 100, s: '%', l: 'Day-of presence', count: true },
+];
+
+const preview = work.filter((w) => w.type === 'image').slice(0, 5);
+// Five tiles: one large feature and four smaller ones fill a 4 × 2 grid exactly.
 ---
 
 <Layout
-  title="Apex Events & Concierge | Daniel Pearlman"
-  description="Led by Daniel Pearlman, Apex plans and manages corporate events, galas, conferences, weddings, and private celebrations — every detail flawlessly orchestrated."
+  title={site.name}
+  description="Corporate events, weddings, private celebrations and concierge service — planned and run by Daniel Pearlman and the Apex team. Based in New York City, serving clients nationwide."
 >
-  <Header />
-  <main>
-    <Hero />
-    <Difference />
-    <StatsStrip />
-    <Leadership />
-    <Philosophy />
-    <Services />
-    <Gallery />
-    <StatsBand />
-    <Process />
-    <PlanScroll />
-    <Testimonials />
-    <AudioTestimonial />
-    <Cta />
-  </main>
-  <Footer />
+  <section class="hh dark">
+    <div class="hh-media">
+      <video
+        class="hh-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        poster="/images/hero-daniel-poster.webp"
+        aria-label="Daniel Pearlman directing guests at an evening ceremony"
+      >
+        <source src="/videos/hero-daniel-1080.mp4" type="video/mp4" media="(min-width: 900px)" />
+        <source src="/videos/hero-daniel-720.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="wrap hh-in">
+      <div class="hh-copy">
+        <h1 class="hh-title"><Juuust delay={0.7} /><br />perfect.</h1>
+        <p class="standard hh-std">An Apex Standard.</p>
+        <p class="lede hh-lede">
+          Corporate events, private celebrations and concierge service&nbsp;— planned and run by
+          Daniel&nbsp;Pearlman and the Apex team. Based in New York City, working nationwide.
+        </p>
+        <div class="btn-row hh-actions">
+          <a href="/contact/" class="btn btn-light">Plan your event</a>
+          <a href="/work/" class="btn btn-ghost-light">See the work</a>
+        </div>
+      </div>
+    </div>
+    <nav class="wrap hh-index" aria-label="What we do">
+      {practices.map((p) => (
+        <a href={p.href}><span>{p.n}</span>{p.title}</a>
+      ))}
+    </nav>
+  </section>
+
+  <section class="section">
+    <div class="wrap intro">
+      <h2 class="h-lg reveal">Nearly right is easy. <em>Exactly right</em> is the job.</h2>
+      <div class="intro-cols">
+        <p class="lede reveal">
+          The chair drawn back at the right moment. The car waiting before anyone checks the
+          time. The glasses set a few millimetres closer, because it simply looks better. Guests
+          never remember these details by name&nbsp;— they remember that the night felt effortless.
+        </p>
+        <p class="lede reveal">
+          That feeling is planned. Apex builds every event down to the linen count, then stays in
+          the room until the last guest leaves, making the small adjustments that turn a good
+          event into the one people talk about.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="practices" aria-label="Services">
+    {practices.map((p, i) => (
+      <a href={p.href} class={`pr ${i % 2 ? 'pr-flip' : ''}`}>
+        <div class="pr-media frame reveal">
+          <img src={p.img} alt={p.alt} loading="lazy" />
+        </div>
+        <div class="pr-copy reveal">
+          <span class="pr-n">{p.n}</span>
+          <h3 class="h-md">{p.title}</h3>
+          <p class="muted">{p.text}</p>
+          <span class="link">Explore</span>
+        </div>
+      </a>
+    ))}
+  </section>
+
+  <Campaign />
+
+  <section class="section">
+    <div class="wrap dp">
+      <div class="dp-media frame reveal">
+        <img src="/images/daniel-pearlman.webp" alt="Daniel Pearlman" width="1600" height="1067" loading="lazy" />
+      </div>
+      <div class="dp-copy">
+        <h2 class="h-lg reveal">Daniel Pearlman</h2>
+        <p class="lede reveal">
+          Since 2019, Daniel has planned and run some of the largest weddings and events in both
+          the Jewish community and the corporate world. Every Apex event still runs through him:
+          he's at the first conversation, he builds the plan, and he's in the room on the
+          day&nbsp;— calm, early, and already three steps ahead.
+        </p>
+        <div class="dp-links reveal">
+          <a href="/daniel/" class="link">More about Daniel</a>
+          <a href={`mailto:${site.email}`} class="dp-mail">{site.email}</a>
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <ul class="stats">
+        {stats.map((s) => (
+          <li class="reveal">
+            <span class="stat-n" data-count={s.count ? s.n : undefined} data-suffix={s.s}>{s.n}{s.s}</span>
+            <span class="stat-l">{s.l}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <PlanScroll />
+
+  <section class="section">
+    <div class="wrap work-head">
+      <h2 class="h-lg reveal">Recent rooms.</h2>
+      <a href="/work/" class="link reveal">All of the work</a>
+    </div>
+    <div class="wrap mosaic">
+      {preview.map((w, i) => (
+        <a href="/work/" class={`m m${i} frame reveal`}>
+          <img src={w.src} alt={w.alt} loading="lazy" />
+          <span class="m-cap">{w.title}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section paper">
+    <div class="wrap words">
+      <Quote {...testimonials.jonathan} />
+      <div class="words-side">
+        <Quote {...testimonials.sarah} size="md" />
+        <VoiceNote caption="A voice note from one of our couples, shared just as it came in." />
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  /* ---------- Opening ---------- */
+  .hh {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+  }
+
+  .hh-media { position: absolute; inset: 0; }
+  .hh-video { width: 100%; height: 100%; object-fit: cover; object-position: 60% center; animation: settle 2.6s var(--ease) both; }
+
+  .hh-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(18, 17, 17, 0.96) 8%, rgba(18, 17, 17, 0.6) 55%, rgba(18, 17, 17, 0.35) 100%);
+  }
+
+  .hh-in { position: relative; width: 100%; padding-top: calc(var(--header-h) + 3rem); }
+
+  .hh-title {
+    font-size: clamp(3.6rem, 12vw, 9.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    animation: rise 1.1s 0.1s var(--ease) both;
+  }
+
+  .hh-std { margin-top: 1.1rem; color: var(--blush); animation: rise 1.1s 0.9s var(--ease) both; }
+  .hh-lede { margin-top: 1.6rem; max-width: 40ch; animation: rise 1.1s 1.05s var(--ease) both; }
+  .hh-actions { margin-top: 2.2rem; animation: rise 1.1s 1.2s var(--ease) both; }
+
+  .hh-index {
+    position: relative;
+    width: 100%;
+    margin-top: clamp(2.5rem, 6vh, 4rem);
+    display: grid;
+    animation: rise 1.1s 1.35s var(--ease) both;
+  }
+
+  .hh-index a {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 1rem 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.82);
+    border-top: 1px solid var(--line-dark);
+    transition: color 0.3s;
+  }
+
+  .hh-index a:hover { color: var(--white); }
+  .hh-index span { color: var(--blush); font-weight: 400; }
+
+  @media (min-width: 960px) {
+    .hh-media::after {
+      background: linear-gradient(90deg, rgba(18, 17, 17, 0.88) 0%, rgba(18, 17, 17, 0.55) 38%, rgba(18, 17, 17, 0.1) 70%),
+        linear-gradient(0deg, rgba(18, 17, 17, 0.85) 0%, rgba(18, 17, 17, 0) 35%);
+    }
+    .hh-index { grid-template-columns: repeat(3, 1fr); }
+    .hh-index a { padding: 1.4rem 0 2rem; }
+  }
+
+  /* ---------- Intro ---------- */
+  .intro h2 { max-width: 17ch; }
+  .intro-cols { margin-top: clamp(2rem, 4vw, 3rem); display: grid; gap: 1.4rem; }
+  .intro-cols .lede { max-width: 44ch; }
+
+  @media (min-width: 860px) {
+    .intro-cols { grid-template-columns: 1fr 1fr; gap: 3rem; margin-left: 30%; }
+  }
+
+  /* ---------- Practices ---------- */
+  .practices { padding-bottom: clamp(4.5rem, 10vw, 8.5rem); display: grid; gap: clamp(3.5rem, 8vw, 6.5rem); }
+
+  .pr {
+    max-width: var(--max);
+    margin: 0 auto;
+    width: 100%;
+    padding-inline: var(--gutter);
+    display: grid;
+    gap: 1.8rem;
+  }
+
+  .pr-media { aspect-ratio: 4 / 3; }
+  .pr-media img { transition: transform 1.2s var(--ease); }
+  .pr:hover .pr-media img { transform: scale(1.04); }
+
+  .pr-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .pr-copy .muted { max-width: 42ch; }
+  .pr-copy .link { margin-top: 0.6rem; }
+
+  .pr-n { font-size: 0.8rem; letter-spacing: 0.18em; color: var(--rose); font-weight: 600; }
+
+  @media (min-width: 860px) {
+    .pr { grid-template-columns: 1.25fr 1fr; gap: clamp(3rem, 6vw, 6rem); align-items: center; }
+    .pr-flip { grid-template-columns: 1fr 1.25fr; }
+    .pr-flip .pr-media { order: 2; }
+  }
+
+  /* ---------- Daniel ---------- */
+  .dp { display: grid; gap: 2.4rem; align-items: center; }
+  .dp-media { aspect-ratio: 4 / 3; }
+  .dp-copy .lede { margin-top: 1.4rem; max-width: 42ch; }
+  .dp-links { margin-top: 2rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 2rem; }
+  .dp-mail { color: var(--stone); border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+  .dp-mail:hover { color: var(--ink); border-color: var(--ink); }
+
+  .stats {
+    margin-top: clamp(3.5rem, 7vw, 5.5rem);
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+
+  .stats li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.4rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stat-n { font-family: var(--display); font-weight: 600; font-size: clamp(2.6rem, 4.6vw, 3.8rem); line-height: 1; letter-spacing: -0.02em; }
+  .stat-l { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--stone); }
+
+  @media (min-width: 860px) {
+    .dp { grid-template-columns: 1fr 1fr; gap: clamp(3rem, 6vw, 6rem); }
+    .stats { grid-template-columns: repeat(4, 1fr); }
+    .stats li { flex-direction: column; align-items: flex-start; padding: 2rem 2rem 2rem 0; border-bottom: 0; }
+    .stats li + li { border-left: 1px solid var(--line); padding-left: 2rem; }
+  }
+
+  /* ---------- Work preview ---------- */
+  .work-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 1.2rem; }
+
+  .mosaic {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: clamp(150px, 22vw, 290px);
+    gap: 0.8rem;
+  }
+
+  .m { position: relative; }
+  .m img { transition: transform 1.2s var(--ease); }
+  .m:hover img { transform: scale(1.05); }
+  .m0 { grid-column: span 2; grid-row: span 2; }
+
+  .m-cap {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.55), transparent);
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+  }
+
+  .m:hover .m-cap { opacity: 1; }
+
+  @media (min-width: 860px) {
+    .mosaic { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* ---------- Words ---------- */
+  .words { display: grid; gap: clamp(3rem, 6vw, 5rem); }
+  .words-side { display: grid; gap: 3rem; align-content: start; }
+
+  @media (min-width: 960px) {
+    .words { grid-template-columns: 1.2fr 1fr; }
+  }
+
+  @keyframes settle { from { transform: scale(1.08); } to { transform: scale(1); } }
+  @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+</style>
+
+<script>
+  import { initCountUp } from '../scripts/count-up';
+
+  // Respect reduced-motion: hold the hero film on its first frame.
+  const film = document.querySelector<HTMLVideoElement>('.hh-video');
+  if (film && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    film.removeAttribute('autoplay');
+    film.pause();
+  }
+
+  initCountUp('.stat-n[data-count]');
+</script>

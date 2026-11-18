@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import OfferList from '../components/OfferList.astro';
+import Steps from '../components/Steps.astro';
+import Quote from '../components/Quote.astro';
+import VoiceNote from '../components/VoiceNote.astro';
+import NextPage from '../components/NextPage.astro';
+import { testimonials } from '../data/site';
+
+const occasions = [
+  { name: 'Weddings', text: 'The ceremony, the reception and everything between — vendors, timeline, family logistics and a calm hand on the day.' },
+  { name: 'Shabbos weekends & kiddushes', text: 'Floor plans, inventories and timing for every meal, from Friday night through Shalosh Seudos, so the hosts can simply be present.' },
+  { name: 'Milestone celebrations', text: 'Anniversaries, birthdays and family simchas, scaled from an intimate dinner to a full ballroom.' },
+  { name: 'Private dinners & parties', text: 'At home or at a venue — a table set exactly right and service that disappears into the evening.' },
+];
+
+const steps = [
+  { title: 'Conversation', text: 'Daniel meets you to understand the people, the priorities and how you want the day to feel.' },
+  { title: 'Concept', text: 'A design built around your taste and your guests, presented as one complete picture.' },
+  { title: 'Operations plan', text: 'Every vendor, timeline, floor plan and contingency, mapped down to the linen count.' },
+  { title: 'Coordination', text: 'We manage the partners, the walkthroughs and the communication, so everything arrives as agreed.' },
+  { title: 'The day itself', text: 'Daniel and the team run the room. You and your guests experience nothing but the moment.' },
+];
+
+const strip = [
+  { src: '/images/real-rose-arch-aisle.webp', alt: 'White rose arches line a ballroom aisle beneath crystal chandeliers' },
+  { src: '/images/real-cherry-blossom-cascade.webp', alt: 'Cascading blush blossoms line a reception corridor' },
+  { src: '/images/real-color-stage-lounge.webp', alt: 'A lounge stage washed in violet light and framed with florals' },
+];
+---
+
+<Layout
+  title="Weddings & Celebrations"
+  description="Weddings, Shabbos weekends, milestones and family simchas — planned down to the linen count and run by Daniel Pearlman and the Apex team."
+  image="/images/real-ceremony-aisle.webp"
+>
+  <PageHero
+    image="/images/real-ceremony-aisle.webp"
+    alt="A bride walks a floral-lined garden aisle toward the chuppah"
+    focus="center 40%"
+    lede="Weddings, milestones, Shabbos weekends and family simchas — planned to the last detail and run so smoothly you'll barely notice us."
+  >
+    Be a guest at your own <em>celebration.</em>
+    <Fragment slot="actions">
+      <a href="/contact/?type=celebration" class="btn btn-light">Plan your celebration</a>
+      <a href="/work/" class="btn btn-ghost-light">See the work</a>
+    </Fragment>
+  </PageHero>
+
+  <OfferList title="Occasions we plan." items={occasions} />
+
+  <div class="strip">
+    {strip.map((s) => <figure class="frame reveal"><img src={s.src} alt={s.alt} loading="lazy" /></figure>)}
+  </div>
+
+  <Steps title="From first call to last dance." steps={steps} />
+
+  <section class="section paper">
+    <div class="wrap words">
+      <Quote {...testimonials.sarah} />
+      <div class="words-side">
+        <Quote {...testimonials.alyssa} size="md" />
+        <VoiceNote caption="A voice note from one of our couples, shared just as it came in." />
+      </div>
+    </div>
+  </section>
+
+  <NextPage href="/concierge/" title="Concierge & hospitality" image="/images/stock/dining.webp" />
+</Layout>
+
+<style>
+  .strip {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 78vw;
+    gap: 0.8rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0 var(--gutter) clamp(4.5rem, 10vw, 8rem);
+    scrollbar-width: none;
+  }
+  .strip::-webkit-scrollbar { display: none; }
+  .strip figure { margin: 0; aspect-ratio: 3 / 4; scroll-snap-align: center; }
+
+  @media (min-width: 860px) {
+    .strip { grid-auto-flow: row; grid-template-columns: 1fr 1.3fr 1fr; overflow: visible; align-items: end; }
+    .strip figure:nth-child(2) { aspect-ratio: 4 / 4.4; }
+  }
+
+  .words { display: grid; gap: clamp(3rem, 6vw, 5rem); }
+  .words-side { display: grid; gap: 3rem; align-content: start; }
+  @media (min-width: 960px) { .words { grid-template-columns: 1.2fr 1fr; } }
+</style>

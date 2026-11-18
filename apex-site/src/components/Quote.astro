@@ -1,0 +1,47 @@
+---
+interface Props {
+  quote: string;
+  name: string;
+  event: string;
+  size?: 'lg' | 'md';
+}
+const { quote, name, event, size = 'lg' } = Astro.props;
+---
+
+<figure class={`q q-${size} reveal`}>
+  <span class="q-mark" aria-hidden="true">&ldquo;</span>
+  <blockquote>{quote}</blockquote>
+  <figcaption><span class="q-name">{name}</span><span class="q-event">{event}</span></figcaption>
+</figure>
+
+<style>
+  .q { margin: 0; position: relative; }
+
+  .q-mark {
+    display: block;
+    font-family: var(--display);
+    font-size: 5rem;
+    line-height: 0.6;
+    height: 0.5em;
+    color: var(--rose);
+  }
+
+  :global(.dark) .q-mark { color: var(--blush); }
+
+  blockquote { margin: 0.6rem 0 0; font-family: var(--display); font-weight: 400; letter-spacing: -0.01em; }
+  .q-lg blockquote { font-size: clamp(1.5rem, 3vw, 2.35rem); line-height: 1.3; max-width: 30ch; }
+  .q-md blockquote { font-size: clamp(1.15rem, 1.8vw, 1.35rem); line-height: 1.45; }
+
+  figcaption {
+    margin-top: 1.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .q-name { font-weight: 600; }
+  .q-event { color: var(--mute); }
+</style>
