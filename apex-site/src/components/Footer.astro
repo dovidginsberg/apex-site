@@ -1,103 +1,81 @@
 ---
 import { nav, site } from '../data/site';
 const year = new Date().getFullYear();
-// The contact page already asks the question; don't repeat it in the footer.
-const showLead = !Astro.url.pathname.startsWith('/contact');
 ---
 
 <footer class="foot dark">
-  <div class="wrap foot-top">
-    {showLead && <div class="foot-lead">
-      <p class="h-md">Tell us what you're planning.</p>
-      <a href="/contact/" class="link">Start an inquiry</a>
-    </div>}
+  <div class="wrap foot-in">
+    <div class="foot-brand">
+      <a href="/" aria-label={`${site.name} — home`}>
+        <img src="/logo/logo-dp-ivory.png" alt="" width="900" height="352" loading="lazy" />
+      </a>
+      <p class="muted">Juuuust perfect. An Apex Standard.</p>
+    </div>
 
-    <div class="foot-cols">
-      <div>
-        <p class="ft">Contact</p>
-        <ul>
-          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-          <li><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></li>
-          <li><a href={site.whatsapp} target="_blank" rel="noopener">WhatsApp</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="ft">Explore</p>
-        <ul>
-          {nav.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
-        </ul>
-      </div>
+    <div class="foot-col">
+      <p class="ft">Contact</p>
+      <ul>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></li>
+        <li><a href={site.whatsapp} target="_blank" rel="noopener">WhatsApp</a></li>
+      </ul>
+    </div>
+
+    <div class="foot-col">
+      <p class="ft">Explore</p>
+      <ul>
+        {nav.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        <li><a href="/contact/">Plan an event</a></li>
+      </ul>
     </div>
   </div>
 
-  <div class="wrap sign">
-    <p class="standard">Juuuust perfect. <span>An Apex Standard.</span></p>
-  </div>
-
-  <div class="mark-wrap" aria-hidden="true">
-    <img class="mark" src="/logo/mark-white.svg" alt="" width="557" height="166" loading="lazy" />
-  </div>
-
-  <div class="wrap legal">
-    <span>&copy; {year} {site.name}</span>
-    <span>New York City · Serving clients nationwide</span>
+  <div class="wrap">
+    <div class="legal">
+      <p>&copy; {year} {site.name}</p>
+      <p>New York City · Serving clients nationwide</p>
+    </div>
   </div>
 </footer>
 
 <style>
-  .foot { padding-top: clamp(4.5rem, 9vw, 7rem); overflow: hidden; }
+  .foot { padding-top: clamp(3.5rem, 8vw, 5.5rem); }
 
-  .foot-top {
+  /* One grid, one set of margins: everything starts on the same left edge. */
+  .foot-in {
     display: grid;
-    gap: 3rem;
-    padding-bottom: clamp(3rem, 6vw, 4.5rem);
-    border-bottom: 1px solid var(--line-dark);
+    gap: 2.8rem;
+    padding-bottom: clamp(2.5rem, 6vw, 4rem);
   }
 
-  .foot-lead .h-md { font-family: var(--display); max-width: 14ch; margin-bottom: 1.6rem; }
-
-  .foot-cols { display: grid; gap: 2.4rem; }
-  @media (min-width: 520px) { .foot-cols { grid-template-columns: 1.3fr 1fr; } }
+  .foot-brand img { width: 170px; height: auto; }
+  .foot-brand p { margin-top: 1.2rem; font-size: 0.95rem; }
 
   .ft {
     font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--blush);
-    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 0.9rem;
   }
 
-  .foot-cols li + li { margin-top: 0.45rem; }
-  .foot-cols a { color: rgba(255, 255, 255, 0.8); transition: color 0.3s; }
-  .foot-cols a:hover { color: var(--white); }
-
-  .sign { padding-top: 2.4rem; }
-  .sign .standard { color: rgba(255, 255, 255, 0.85); }
-  .sign span { color: var(--blush); }
-
-  /* The wordmark runs edge to edge and sinks below the fold of the page. */
-  .mark-wrap {
-    margin-top: clamp(1.5rem, 4vw, 3rem);
-    padding-inline: clamp(0.5rem, 1.5vw, 1.5rem);
-    height: clamp(80px, 24vw, 330px);
-    overflow: hidden;
-  }
-
-  .mark { width: 100%; height: auto; opacity: 0.96; }
+  .foot-col li + li { margin-top: 0.5rem; }
+  .foot-col a { color: rgba(255, 255, 255, 0.85); transition: color 0.3s; }
+  .foot-col a:hover { color: var(--white); }
 
   .legal {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
+    display: grid;
+    gap: 0.4rem;
     padding-block: 1.4rem 1.8rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    color: rgba(255, 255, 255, 0.5);
     border-top: 1px solid var(--line-dark);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.5);
   }
 
-  @media (min-width: 860px) {
-    .foot-top { grid-template-columns: 1.3fr 1fr; align-items: end; }
+  @media (min-width: 760px) {
+    .foot-in { grid-template-columns: 1.4fr 1fr 1fr; align-items: start; }
+    .legal { grid-template-columns: 1fr auto; }
   }
 </style>
