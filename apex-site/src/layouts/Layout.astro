@@ -27,6 +27,8 @@ const jsonLd = {
   image: ogImage,
   description:
     'Corporate events, weddings, private celebrations and concierge service, planned and run by Daniel Pearlman and the Apex team.',
+  address: { '@type': 'PostalAddress', addressLocality: 'New York', addressRegion: 'NY', addressCountry: 'US' },
+  areaServed: { '@type': 'Country', name: 'United States' },
   employee: { '@type': 'Person', name: 'Daniel Pearlman', email: site.email },
 };
 ---
@@ -46,7 +48,7 @@ const jsonLd = {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Josefin+Sans:wght@300;400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap"
     />
 
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />

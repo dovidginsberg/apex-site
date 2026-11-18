@@ -14,7 +14,7 @@
   --rose-deep: #8a4f45;
   --blush: #e9bfb3;
 
-  --display: 'Young Serif', Georgia, 'Times New Roman', serif;
+  --display: 'Josefin Sans', 'Helvetica Neue', Arial, sans-serif;
   --body: 'Josefin Sans', 'Helvetica Neue', Arial, sans-serif;
 
   --max: 1280px;
@@ -50,9 +50,9 @@ body {
 h1, h2, h3, h4 {
   margin: 0;
   font-family: var(--display);
-  font-weight: 400;
-  letter-spacing: -0.012em;
-  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.04;
   text-wrap: balance;
 }
 

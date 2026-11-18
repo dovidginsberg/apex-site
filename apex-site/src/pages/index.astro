@@ -35,9 +35,10 @@ const practices = [
 ];
 
 const stats = [
-  { n: 250, s: '+', l: 'Events delivered' },
-  { n: 7, s: '+', l: 'Years of practice' },
-  { n: 100, s: '%', l: 'Day-of presence' },
+  { n: 250, s: '+', l: 'Events delivered', count: true },
+  { n: 2019, s: '', l: 'Running events since', count: false },
+  { n: 'NYC', s: '', l: 'Based here, serving nationwide', count: false },
+  { n: 100, s: '%', l: 'Day-of presence', count: true },
 ];
 
 const preview = work.filter((w) => w.type === 'image').slice(0, 5);
@@ -46,7 +47,7 @@ const preview = work.filter((w) => w.type === 'image').slice(0, 5);
 
 <Layout
   title={site.name}
-  description="Corporate events, weddings, private celebrations and concierge service — planned and run by Daniel Pearlman and the Apex team. Juuuust perfect. An Apex Standard."
+  description="Corporate events, weddings, private celebrations and concierge service — planned and run by Daniel Pearlman and the Apex team. Based in New York City, serving clients nationwide."
 >
   <section class="hh dark">
     <div class="hh-media">
@@ -70,7 +71,7 @@ const preview = work.filter((w) => w.type === 'image').slice(0, 5);
         <p class="standard hh-std">An Apex Standard.</p>
         <p class="lede hh-lede">
           Corporate events, private celebrations and concierge service&nbsp;— planned and run by
-          Daniel&nbsp;Pearlman and the Apex team.
+          Daniel&nbsp;Pearlman and the Apex team. Based in New York City, working nationwide.
         </p>
         <div class="btn-row hh-actions">
           <a href="/contact/" class="btn btn-light">Plan your event</a>
@@ -129,9 +130,10 @@ const preview = work.filter((w) => w.type === 'image').slice(0, 5);
       <div class="dp-copy">
         <h2 class="h-lg reveal">Daniel Pearlman</h2>
         <p class="lede reveal">
-          Every Apex event runs through Daniel. He's the person at the first conversation, the
-          one who builds the plan, and the one you'll find in the room on the day&nbsp;— calm,
-          early, and already three steps ahead.
+          Since 2019, Daniel has planned and run some of the largest weddings and events in both
+          the Jewish community and the corporate world. Every Apex event still runs through him:
+          he's at the first conversation, he builds the plan, and he's in the room on the
+          day&nbsp;— calm, early, and already three steps ahead.
         </p>
         <div class="dp-links reveal">
           <a href="/daniel/" class="link">More about Daniel</a>
@@ -143,7 +145,7 @@ const preview = work.filter((w) => w.type === 'image').slice(0, 5);
       <ul class="stats">
         {stats.map((s) => (
           <li class="reveal">
-            <span class="stat-n" data-count={s.n} data-suffix={s.s}>{s.n}{s.s}</span>
+            <span class="stat-n" data-count={s.count ? s.n : undefined} data-suffix={s.s}>{s.n}{s.s}</span>
             <span class="stat-l">{s.l}</span>
           </li>
         ))}
@@ -307,12 +309,12 @@ const preview = work.filter((w) => w.type === 'image').slice(0, 5);
     border-bottom: 1px solid var(--line);
   }
 
-  .stat-n { font-family: var(--display); font-size: clamp(2.6rem, 5vw, 4rem); line-height: 1; }
+  .stat-n { font-family: var(--display); font-weight: 600; font-size: clamp(2.6rem, 4.6vw, 3.8rem); line-height: 1; letter-spacing: -0.02em; }
   .stat-l { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--stone); }
 
   @media (min-width: 860px) {
     .dp { grid-template-columns: 1fr 1fr; gap: clamp(3rem, 6vw, 6rem); }
-    .stats { grid-template-columns: repeat(3, 1fr); }
+    .stats { grid-template-columns: repeat(4, 1fr); }
     .stats li { flex-direction: column; align-items: flex-start; padding: 2rem 2rem 2rem 0; border-bottom: 0; }
     .stats li + li { border-left: 1px solid var(--line); padding-left: 2rem; }
   }
