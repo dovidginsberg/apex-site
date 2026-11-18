@@ -13,9 +13,6 @@
         Corporate events, galas, and private celebrations — planned and
         managed end to end with precision, discretion, and complete presence.
       </p>
-      <p class="hero-led">
-        Led by <a href="#daniel">Daniel Pearlman</a>
-      </p>
       <div class="hero-actions">
         <a href="#contact" class="btn btn-solid">Begin Planning</a>
         <a href="#gallery" class="btn btn-line">View Our Work</a>
@@ -51,16 +48,6 @@
     font-size: 1.05rem;
   }
 
-  .hero-led {
-    margin-top: 1.4rem;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--brass);
-  }
-
-  .hero-led a { color: var(--ink); border-bottom: 1px solid var(--brass); }
 
   .hero-actions {
     display: flex;
@@ -89,7 +76,7 @@
   import { gsap } from 'gsap';
 
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    gsap.set(['.hero-h1', '.hero-sub', '.hero-led', '.hero-actions', '.hero-media img'], {
+    gsap.set(['.hero-h1', '.hero-sub', '.hero-actions', '.hero-media img'], {
       autoAlpha: 0,
     });
 
@@ -97,7 +84,6 @@
       .timeline({ defaults: { ease: 'power3.out', duration: 1 } })
       .fromTo('.hero-h1', { y: 30 }, { y: 0, autoAlpha: 1 })
       .fromTo('.hero-sub', { y: 20 }, { y: 0, autoAlpha: 1 }, '-=0.6')
-      .fromTo('.hero-led', { y: 20 }, { y: 0, autoAlpha: 1 }, '-=0.6')
       .fromTo('.hero-actions', { y: 20 }, { y: 0, autoAlpha: 1 }, '-=0.6')
       .fromTo(
         '.hero-media img',
