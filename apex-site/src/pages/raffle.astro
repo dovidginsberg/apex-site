@@ -10,7 +10,7 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
 <Layout
   title="Chanukah Giveaway"
   description="$1,000 cash and two events on the house. Free to enter. Winners drawn the last night of Chanukah, Dec 11."
-  image="/images/chanukah-flyer.jpg"
+  image="/images/chanukah-flyer.jpg?v=2"
 >
   <section class="rf dark" data-hero>
     <div class="wrap rf-in">
@@ -288,7 +288,7 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
   const postMsg = document.getElementById('post-msg')!;
   // Fetch the flyer up front: iOS only allows sharing during the tap itself.
   let flyer: File | null = null;
-  fetch('/images/chanukah-flyer.jpg')
+  fetch("/images/chanukah-flyer.jpg?v=2")
     .then((r) => r.blob())
     .then((b) => (flyer = new File([b], 'Apex Chanukah Giveaway.jpg', { type: 'image/jpeg' })))
     .catch(() => {});
