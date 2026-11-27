@@ -6,6 +6,7 @@
 //   POST /api/raffle            save { name, phone } to the RAFFLE KV namespace
 //   GET  /raffle/entries?key=…  private list of everyone who entered (copy / CSV)
 //   GET  /raffle/entries.csv?key=…
+//   GET  /raffle/entries.vcf?key=…      everyone as phone contacts, to save in one go
 //   POST /api/raffle/screenshot          multipart { phone, file }: the 100-views screenshot
 //   GET  /raffle/entries/shot/<digits>?key=…   view a screenshot
 //   POST /raffle/entries/mark?key=…      { phone, status: approved | rejected | "" }
@@ -36,9 +37,11 @@ export default {
       }
       if (path.startsWith('/raffle/entries/shot/')) return showShot(env, path.split('/').pop());
       if (path === '/raffle/entries/mark' && request.method === 'POST') return mark(request, env);
-      if (path !== '/raffle/entries' && path !== '/raffle/entries.csv') return new Response('Not found', { status: 404 });
+      if (!['/raffle/entries', '/raffle/entries.csv', '/raffle/entries.vcf'].includes(path)) return new Response('Not found', { status: 404 });
       const entries = await listEntries(env);
-      return path.endsWith('.csv') ? csv(entries) : adminPage(entries, url.searchParams.get('key'));
+      if (path.endsWith('.csv')) return csv(entries);
+      if (path.endsWith('.vcf')) return vcf(entries);
+      return adminPage(entries, url.searchParams.get('key'));
     }
 
     return env.ASSETS.fetch(request);
@@ -176,6 +179,22 @@ function csv(entries) {
   });
 }
 
+// All subscribers as one contacts file. Opening it on a phone offers to add them all,
+// which is what lets them see the WhatsApp status.
+function vcf(entries) {
+  const v = (s) => String(s).replace(/([\\,;])/g, '\\$1').replace(/\n/g, ' ');
+  const cards = entries.map((e) =>
+    ['BEGIN:VCARD', 'VERSION:3.0', `FN:${v(e.name)}`, `N:${v(e.name)};;;;`, `TEL;TYPE=CELL:${e.phone}`, 'NOTE:Apex Chanukah Giveaway', 'END:VCARD'].join('\r\n'),
+  );
+  return new Response(cards.join('\r\n') + '\r\n', {
+    headers: {
+      'content-type': 'text/vcard; charset=utf-8',
+      'content-disposition': 'attachment; filename="Apex giveaway contacts.vcf"',
+      'cache-control': 'no-store',
+    },
+  });
+}
+
 const esc = (s) =>
   String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
@@ -237,6 +256,7 @@ function adminPage(entries, key) {
 <div class="bar">
   <button class="main" data-copy="approved">Copy approved (names + phones)</button>
   <button data-copy="all">Copy everyone</button>
+  <a class="btn" href="/raffle/entries.vcf?key=${k}">Save all to my contacts</a>
   <a class="btn" href="/raffle/entries.csv?key=${k}">Download CSV</a>
 </div>
 <div class="bar filter">

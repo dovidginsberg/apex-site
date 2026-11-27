@@ -4,12 +4,12 @@ import { site } from '../data/site';
 
 const shareUrl = `${site.url}/raffle`;
 // Caption that goes with the flyer on people's WhatsApp status. Edit freely.
-const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the house! Free to enter 👉 ${shareUrl.replace('https://', '')}`;
+const caption = `🕎 Apex Chanukah Giveaway: $500 cash + two events on the house! Free to enter 👉 ${shareUrl.replace('https://', '')}`;
 ---
 
 <Layout
   title="Chanukah Giveaway"
-  description="$1,000 cash and two events on the house. Free to enter. Winners drawn the last night of Chanukah, Dec 11."
+  description="$500 cash and two events on the house. Free to enter. Winners drawn the last night of Chanukah, Dec 11."
   image="/images/chanukah-flyer.jpg?v=3"
 >
   <section class="rf dark" data-hero>
@@ -17,7 +17,7 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
       <div class="rf-copy">
         <p class="pill">Chanukah giveaway · 3 winners</p>
         <ol class="prizes">
-          <li><span>1.</span> $1,000 Cash</li>
+          <li><span>1.</span> $500 Cash</li>
           <li><span>2.</span> Two Events on the House<sup>*</sup></li>
         </ol>
         <p class="lede">This Chanukah, the gelt is on us. Free to enter. Winners drawn Dec 11.</p>
@@ -46,9 +46,19 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
         </div>
 
         <!-- Step 2: post on status -->
-        <div class="pane" data-pane="2" hidden>
+        <!-- Step 1b: message on WhatsApp, so they see the status -->
+        <div class="pane" data-pane="wa" hidden>
           <p class="hi" tabindex="-1"></p>
-          <h2 class="h-md">Post it on your status</h2>
+          <h2 class="h-md">Now message us on WhatsApp</h2>
+          <p class="muted">So you can see our status. The message is written for you, just hit send.</p>
+          <a class="btn btn-light" id="wa" href={site.whatsapp} target="_blank" rel="noopener">Message us on WhatsApp</a>
+          <a class="save" href="/daniel-pearlman.vcf" download>Save our number</a>
+          <button type="button" class="next" data-go="2">I sent it →</button>
+        </div>
+
+        <!-- Step 2: post on status -->
+        <div class="pane" data-pane="2" hidden>
+          <h2 class="h-md" tabindex="-1">Post it on your status</h2>
           <p class="muted">Tap below, choose <b>WhatsApp</b>, then <b>My status</b>.</p>
           <button type="button" class="btn btn-light" id="post">Post to my status</button>
           <p class="note" id="post-msg" role="status"></p>
@@ -66,7 +76,7 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
 
         <!-- Step 3: upload screenshot -->
         <div class="pane" data-pane="3" hidden>
-          <h2 class="h-md">Send your 100 views</h2>
+          <h2 class="h-md" tabindex="-1">Send your 100 views</h2>
           <p class="muted">After 20 hours, upload a screenshot showing at least 100 views.</p>
           <label class="btn btn-light upload">
             <span id="up-label">Upload screenshot</span>
@@ -148,6 +158,7 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
     transition: all 0.3s var(--ease);
   }
   .card[data-step='1'] .dots li:nth-child(-n + 1),
+  .card[data-step='wa'] .dots li:nth-child(-n + 1),
   .card[data-step='2'] .dots li:nth-child(-n + 2),
   .card[data-step='3'] .dots li:nth-child(-n + 3),
   .card[data-step='4'] .dots li { background: var(--white); border-color: var(--white); color: var(--ink); }
@@ -203,6 +214,7 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
     text-underline-offset: 4px;
   }
   .reset { margin-top: 0.8rem; font-weight: 400; font-size: 0.85rem; color: rgba(255, 255, 255, 0.5); }
+  .save { display: block; margin-top: 1rem; font-size: 0.92rem; color: rgba(255, 255, 255, 0.7); text-decoration: underline; text-underline-offset: 3px; }
   .big-tick { font-size: 2.6rem; margin: 0 0 0.4rem; }
   .fine { margin: 2rem 0 0; font-size: 0.78rem; color: rgba(255, 255, 255, 0.45); }
 
@@ -215,21 +227,21 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
   const form = document.getElementById('raffle') as HTMLFormElement;
   const CAPTION = document.getElementById('caption')!.textContent!.trim();
 
-  type Saved = { name: string; phone: string; step: number };
+  type Saved = { name: string; phone: string; step: string };
   let me: Saved | null = null;
   try { me = JSON.parse(localStorage.getItem(STORE) || 'null'); } catch {}
   if (me && !me.phone) me = null; // saved by an older version of this page
 
   const save = () => { try { localStorage.setItem(STORE, JSON.stringify(me)); } catch {} };
 
-  const go = (step: number, focus = true) => {
-    card.dataset.step = String(step);
-    card.querySelectorAll<HTMLElement>('[data-pane]').forEach((p) => (p.hidden = p.dataset.pane !== String(step)));
-    document.getElementById('reset')!.hidden = step === 1;
+  const go = (step: string, focus = true) => {
+    card.dataset.step = step;
+    card.querySelectorAll<HTMLElement>('[data-pane]').forEach((p) => (p.hidden = p.dataset.pane !== step));
+    document.getElementById('reset')!.hidden = step === '1';
     if (me) { me.step = step; save(); }
     if (focus) card.querySelector<HTMLElement>(`[data-pane="${step}"] [tabindex="-1"]`)?.focus();
   };
-  card.querySelectorAll<HTMLElement>('[data-go]').forEach((b) => b.addEventListener('click', () => go(+b.dataset.go!)));
+  card.querySelectorAll<HTMLElement>('[data-go]').forEach((b) => b.addEventListener('click', () => go(b.dataset.go!)));
 
   const showErr = (pane: string, msg: string) => {
     const e = card.querySelector<HTMLElement>(`[data-pane="${pane}"] .err`)!;
@@ -238,17 +250,23 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
   };
 
   const greet = () => {
-    if (me) card.querySelector('.hi')!.textContent = `✓ You're entered, ${me.name.split(' ')[0]}.`;
+    if (!me) return;
+    card.querySelector('.hi')!.textContent = `✓ You're entered, ${me.name.split(' ')[0]}.`;
+    (document.getElementById('wa') as HTMLAnchorElement).href =
+      `https://wa.me/18453766359?text=${encodeURIComponent(`Hi Daniel, it's ${me.name}. Please subscribe me to the Apex Chanukah Giveaway!`)}`;
   };
 
+  // After they tap through to WhatsApp, have step 2 waiting when they come back.
+  document.getElementById('wa')!.addEventListener('click', () => setTimeout(() => go('2', false), 800));
+
   // Returning visitors pick up where they left off.
-  if (me) { greet(); go(me.step || 2, false); }
+  if (me) { greet(); go(String(me.step || 'wa'), false); }
 
   document.getElementById('reset')!.addEventListener('click', () => {
     me = null;
     try { localStorage.removeItem(STORE); } catch {}
     form.reset();
-    go(1);
+    go('1');
   });
 
   // ---- Step 1: enter ----
@@ -272,10 +290,10 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
       });
       const out = await res.json().catch(() => ({}));
       if (!res.ok || !out.ok) throw new Error(out.error || 'Something went wrong. Please try again.');
-      me = { name, phone, step: 2 };
+      me = { name, phone, step: 'wa' };
       save();
       greet();
-      go(2);
+      go('wa');
     } catch (x) {
       showErr('1', x instanceof Error && x.message !== 'Failed to fetch' ? x.message : 'Something went wrong. Please try again.');
     } finally {
@@ -355,7 +373,7 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
       const res = await fetch('/api/raffle/screenshot', { method: 'POST', body });
       const out = await res.json().catch(() => ({}));
       if (!res.ok || !out.ok) throw new Error(out.error || 'Upload failed. Please try again.');
-      go(4);
+      go('4');
     } catch (x) {
       showErr('3', x instanceof Error && x.message !== 'Failed to fetch' ? x.message : 'Upload failed. Please try again.');
     } finally {
