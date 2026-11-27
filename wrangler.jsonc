@@ -14,5 +14,7 @@
     "run_worker_first": ["/api/*", "/raffle/entries*"]
   },
   // Raffle sign-ups. No id needed: wrangler creates the namespace on first deploy.
+  // SHA-256 of the private key for /raffle/entries. The key itself is not stored here.
+  "vars": { "ADMIN_KEY_HASH": "87badfb38208e57af0b25ad8e83a4e352b23477c819c482c953525251b453622" },
   "kv_namespaces": [{ "binding": "RAFFLE" }]
 }

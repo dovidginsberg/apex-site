@@ -20,78 +20,72 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
           <li><span>1.</span> $1,000 Cash</li>
           <li><span>2.</span> Two Events on the House<sup>*</sup></li>
         </ol>
-        <p class="lede">
-          This Chanukah, the gelt is on us. Free to enter.<br />
-          Winners drawn the last night of Chanukah · Dec 11.
-        </p>
+        <p class="lede">This Chanukah, the gelt is on us. Free to enter. Winners drawn Dec 11.</p>
       </div>
 
-      <div class="card">
-        <p class="lbl">How to enter</p>
+      <div class="card" id="card" data-step="1">
+        <ol class="dots" aria-hidden="true"><li>1</li><li>2</li><li>3</li></ol>
 
-        <ol class="steps">
-          <li>
-            <span class="n">1</span>
-            <div class="step">
-              <strong>Subscribe</strong>
-              <p class="muted">Add your name and number, then message us on WhatsApp.</p>
+        <!-- Step 1: enter -->
+        <div class="pane" data-pane="1">
+          <h2 class="h-md">Enter</h2>
+          <form id="raffle" class="form" novalidate>
+            <label class="field">
+              <span class="sr">Your name</span>
+              <input name="name" autocomplete="name" required maxlength="80" placeholder="Your name" />
+            </label>
+            <label class="field">
+              <span class="sr">WhatsApp number</span>
+              <input name="phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="WhatsApp number" />
+            </label>
+            <!-- Honeypot for bots; hidden from people and screen readers. -->
+            <label class="hp" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off" /></label>
+            <p class="err" role="alert" hidden></p>
+            <button type="submit" class="btn btn-light">Enter</button>
+          </form>
+        </div>
 
-              <form id="raffle" class="form" novalidate>
-                <label class="field">
-                  <span class="sr">Your name</span>
-                  <input name="name" autocomplete="name" required maxlength="80" placeholder="Your name" />
-                </label>
-                <label class="field">
-                  <span class="sr">WhatsApp number</span>
-                  <input name="phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="WhatsApp number" />
-                </label>
-                <!-- Honeypot for bots; hidden from people and screen readers. -->
-                <label class="hp" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off" /></label>
-                <p class="err" id="rf-err" role="alert" hidden></p>
-                <button type="submit" class="btn btn-light">Subscribe</button>
-              </form>
-
-              <div id="subbed" hidden>
-                <p class="ok" id="ok" tabindex="-1"></p>
-                <a class="btn btn-light" id="wa-sub" href={site.whatsapp} target="_blank" rel="noopener">Message us on WhatsApp</a>
-              </div>
+        <!-- Step 2: post on status -->
+        <div class="pane" data-pane="2" hidden>
+          <p class="hi" tabindex="-1"></p>
+          <h2 class="h-md">Post it on your status</h2>
+          <p class="muted">Tap below, choose <b>WhatsApp</b>, then <b>My status</b>.</p>
+          <button type="button" class="btn btn-light" id="post">Post to my status</button>
+          <p class="note" id="post-msg" role="status"></p>
+          <details class="manual">
+            <summary>Doing it by hand?</summary>
+            <img src="/images/chanukah-flyer.jpg" alt="Apex Chanukah Giveaway flyer" width="1080" height="1920" loading="lazy" />
+            <p class="caption" id="caption">{caption}</p>
+            <div class="btn-row">
+              <a class="btn btn-ghost-light" href="/images/chanukah-flyer.jpg" download="Apex Chanukah Giveaway.jpg">Download flyer</a>
+              <button type="button" class="btn btn-ghost-light" id="copy">Copy caption</button>
             </div>
-          </li>
+          </details>
+          <button type="button" class="next" data-go="3">I posted it →</button>
+        </div>
 
-          <li class="later">
-            <span class="n">2</span>
-            <div class="step">
-              <strong>Post this on your status</strong>
-              <p class="muted">
-                Tap the button, choose <b>WhatsApp</b>, then <b>My status</b>. The flyer is attached
-                and the caption is copied. If it's not there, just paste it.
-              </p>
-              <button type="button" class="btn btn-light" id="post">Post to my status</button>
-              <p class="post-msg" id="post-msg" role="status"></p>
-              <details class="manual">
-                <summary>Doing it by hand?</summary>
-                <img src="/images/chanukah-flyer.jpg" alt="Apex Chanukah Giveaway flyer" width="1080" height="1920" loading="lazy" />
-                <p class="muted">Save the flyer (press and hold it), then post it with this caption:</p>
-                <p class="link-box" id="caption">{caption}</p>
-                <div class="btn-row">
-                  <a class="btn btn-ghost-light" href="/images/chanukah-flyer.jpg" download="Apex Chanukah Giveaway.jpg">Download flyer</a>
-                  <button type="button" class="btn btn-ghost-light" id="copy">Copy caption</button>
-                </div>
-              </details>
-            </div>
-          </li>
+        <!-- Step 3: upload screenshot -->
+        <div class="pane" data-pane="3" hidden>
+          <h2 class="h-md">Send your 100 views</h2>
+          <p class="muted">After 20 hours, upload a screenshot showing at least 100 views.</p>
+          <label class="btn btn-light upload">
+            <span id="up-label">Upload screenshot</span>
+            <input type="file" id="shot" accept="image/*" />
+          </label>
+          <p class="err" role="alert" hidden></p>
+          <button type="button" class="next" data-go="2">← Back</button>
+        </div>
 
-          <li class="later">
-            <span class="n">3</span>
-            <div class="step">
-              <strong>Hit 100 views</strong>
-              <p class="muted">After 20 hours, send us a screenshot showing at least 100 views.</p>
-              <a class="btn btn-ghost-light" id="wa-shot" href={site.whatsapp} target="_blank" rel="noopener">Send screenshot</a>
-            </div>
-          </li>
-        </ol>
+        <!-- Done -->
+        <div class="pane" data-pane="4" hidden>
+          <p class="big-tick" aria-hidden="true">✓</p>
+          <h2 class="h-md" tabindex="-1">You're all set.</h2>
+          <p class="muted">We got your screenshot. Winners are drawn the last night of Chanukah, Dec 11. Good luck!</p>
+          <button type="button" class="next" data-go="3">Upload a different screenshot</button>
+        </div>
 
         <p class="fine">*Includes full event planning. All expenses covered by winner or host.</p>
+        <button type="button" class="reset" id="reset" hidden>Not you? Start over</button>
       </div>
     </div>
   </section>
@@ -113,8 +107,8 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
 <style>
   .rf-in {
     display: grid;
-    gap: clamp(2.5rem, 6vw, 4.5rem);
-    padding-top: calc(var(--header-h) + clamp(2rem, 6vw, 4.5rem));
+    gap: clamp(2rem, 5vw, 4rem);
+    padding-top: calc(var(--header-h) + clamp(1.5rem, 5vw, 4rem));
     padding-bottom: clamp(3rem, 7vw, 5rem);
   }
   @media (min-width: 960px) { .rf-in { grid-template-columns: 1fr 1fr; align-items: start; } }
@@ -125,51 +119,47 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
     color: var(--ink);
     border-radius: 999px;
     padding: 0.6em 1.2em 0.45em;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-  }
-  .prizes { list-style: none; margin: 1.4rem 0 0; padding: 0; font-family: var(--display); font-weight: 700; line-height: 1.1; }
-  .prizes li { font-size: clamp(2rem, 5.4vw, 3.6rem); }
-  .prizes li:first-child { font-size: clamp(2.6rem, 7vw, 4.6rem); }
-  .prizes span { color: rgba(255, 255, 255, 0.45); font-size: 0.6em; margin-right: 0.2em; }
-  .prizes sup { font-size: 0.45em; }
-  .rf .lede { margin-top: 1.4rem; max-width: 44ch; }
-
-  .card { border: 1px solid var(--line-dark); padding: clamp(1.5rem, 4vw, 2.4rem); }
-  .card [hidden] { display: none; }
-
-  .lbl {
     font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.66);
-    margin: 0 0 1.4rem;
   }
-  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .prizes { list-style: none; margin: 1.2rem 0 0; padding: 0; font-family: var(--display); font-weight: 700; line-height: 1.1; }
+  .prizes li { font-size: clamp(1.8rem, 5vw, 3.4rem); }
+  .prizes li:first-child { font-size: clamp(2.5rem, 7vw, 4.6rem); }
+  .prizes span { color: rgba(255, 255, 255, 0.45); font-size: 0.6em; margin-right: 0.2em; }
+  .prizes sup { font-size: 0.45em; }
+  .rf .lede { margin-top: 1rem; max-width: 40ch; }
 
-  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.8rem; }
-  .steps li { display: flex; gap: 1rem; align-items: flex-start; }
-  .steps .n {
-    flex: none;
-    width: 2.1rem;
-    height: 2.1rem;
+  .card { border: 1px solid var(--line-dark); padding: clamp(1.5rem, 4vw, 2.4rem); }
+  .card [hidden] { display: none !important; }
+
+  .dots { list-style: none; display: flex; gap: 0.5rem; margin: 0 0 1.6rem; padding: 0; }
+  .dots li {
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
-    background: var(--white);
-    color: var(--ink);
+    border: 1px solid var(--line-dark);
     display: grid;
     place-items: center;
     font-weight: 700;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s var(--ease);
   }
-  .step { flex: 1; min-width: 0; }
-  .step strong { display: block; font-size: 1.2rem; margin-top: 0.2rem; }
-  .step .muted { margin: 0.3rem 0 0.9rem; font-size: 0.98rem; }
-  .later { transition: opacity 0.4s var(--ease); }
-  .card:not(.is-in) .later { opacity: 0.45; }
+  .card[data-step='1'] .dots li:nth-child(-n + 1),
+  .card[data-step='2'] .dots li:nth-child(-n + 2),
+  .card[data-step='3'] .dots li:nth-child(-n + 3),
+  .card[data-step='4'] .dots li { background: var(--white); border-color: var(--white); color: var(--ink); }
 
-  .form { display: grid; gap: 1.1rem; }
+  .pane .h-md { margin-bottom: 0.4rem; }
+  .pane .muted { margin: 0 0 1.4rem; }
+  .pane > .btn { width: 100%; justify-content: center; text-align: center; }
+  .hi { font-weight: 600; margin: 0 0 0.6rem; color: rgba(255, 255, 255, 0.8); }
+  .hi:focus, .pane .h-md:focus { outline: none; }
+
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .form { display: grid; gap: 1.1rem; margin-top: 1rem; }
   .field input {
     width: 100%;
     border: 0;
@@ -178,84 +168,102 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
     background: transparent;
     color: var(--white);
     padding: 0.6rem 0 0.5rem;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     -webkit-appearance: none;
     appearance: none;
   }
   .field input:focus { outline: none; border-color: var(--white); }
-  .field input::placeholder { color: rgba(255, 255, 255, 0.4); }
+  .field input::placeholder { color: rgba(255, 255, 255, 0.45); }
+  .form .btn { margin-top: 0.4rem; width: 100%; justify-content: center; }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-  .err { color: #ffb4b4; font-size: 0.95rem; }
-  .form .btn { justify-self: start; margin-top: 0.3rem; }
-  .form .btn[disabled] { opacity: 0.6; pointer-events: none; }
-  .ok { font-weight: 600; margin: 0 0 0.9rem; }
-  .ok:focus { outline: none; }
+  .err { color: #ffb4b4; font-size: 0.95rem; margin: 0.8rem 0 0; }
+  .btn[disabled], .upload.busy { opacity: 0.6; pointer-events: none; }
 
-  .link-box {
-    border: 1px dashed rgba(255, 255, 255, 0.35);
-    padding: 0.7rem 0.9rem 0.55rem;
-    margin: 0 0 0.9rem;
+  .upload { position: relative; cursor: pointer; }
+  .upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .upload:focus-within { outline: 2px solid var(--white); outline-offset: 3px; }
+
+  .note { min-height: 1.2em; margin: 0.7rem 0 0; font-size: 0.92rem; color: rgba(255, 255, 255, 0.8); }
+  .manual { margin-top: 0.4rem; font-size: 0.92rem; }
+  .manual summary { cursor: pointer; color: rgba(255, 255, 255, 0.65); }
+  .manual img { display: block; width: 55%; max-width: 200px; height: auto; margin: 1rem 0; }
+  .caption { border: 1px dashed rgba(255, 255, 255, 0.35); padding: 0.7rem 0.9rem 0.55rem; margin: 0 0 0.9rem; }
+
+  .next, .reset {
+    display: block;
+    margin-top: 1.6rem;
+    background: none;
+    border: 0;
+    padding: 0;
+    color: var(--white);
+    font: inherit;
     font-weight: 600;
-    word-break: break-all;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 4px;
   }
-  .post-msg { min-height: 1.2em; margin: 0.7rem 0 0; font-size: 0.92rem; color: rgba(255, 255, 255, 0.8); }
-  .manual { margin-top: 0.6rem; font-size: 0.92rem; }
-  .manual summary { cursor: pointer; color: rgba(255, 255, 255, 0.7); text-decoration: underline; text-underline-offset: 3px; }
-  .manual img { display: block; width: 60%; max-width: 220px; height: auto; margin: 1rem 0; }
-  .fine { margin: 2rem 0 0; font-size: 0.8rem; color: rgba(255, 255, 255, 0.5); }
+  .reset { margin-top: 0.8rem; font-weight: 400; font-size: 0.85rem; color: rgba(255, 255, 255, 0.5); }
+  .big-tick { font-size: 2.6rem; margin: 0 0 0.4rem; }
+  .fine { margin: 2rem 0 0; font-size: 0.78rem; color: rgba(255, 255, 255, 0.45); }
 
   .explore .muted { margin: 1rem 0 1.8rem; max-width: 48ch; }
 </style>
 
 <script>
-  const WA = '18453766359';
   const STORE = 'apex-raffle';
-
-  const card = document.querySelector('.card')!;
+  const card = document.getElementById('card')!;
   const form = document.getElementById('raffle') as HTMLFormElement;
-  const err = document.getElementById('rf-err')!;
-  const btn = form.querySelector('button')!;
-  const wa = (text: string) => `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
+  const CAPTION = document.getElementById('caption')!.textContent!.trim();
 
-  const showEntered = (name: string, already: boolean, focus: boolean) => {
-    const first = name.split(' ')[0];
-    (document.getElementById('wa-sub') as HTMLAnchorElement).href = wa(
-      `Hi Daniel, it's ${name}. Please subscribe me to the Apex Chanukah Giveaway!`,
-    );
-    (document.getElementById('wa-shot') as HTMLAnchorElement).href = wa(
-      `Hi Daniel, it's ${name}. Here's my status screenshot for the Chanukah Giveaway:`,
-    );
-    const ok = document.getElementById('ok')!;
-    ok.textContent = already ? `✓ You're on the list, ${first}. Now send us the message:` : `✓ Thanks, ${first}! Now send us the message:`;
-    form.hidden = true;
-    document.getElementById('subbed')!.hidden = false;
-    card.classList.add('is-in');
-    if (focus) ok.focus();
+  type Saved = { name: string; phone: string; step: number };
+  let me: Saved | null = null;
+  try { me = JSON.parse(localStorage.getItem(STORE) || 'null'); } catch {}
+  if (me && !me.phone) me = null; // saved by an older version of this page
+
+  const save = () => { try { localStorage.setItem(STORE, JSON.stringify(me)); } catch {} };
+
+  const go = (step: number, focus = true) => {
+    card.dataset.step = String(step);
+    card.querySelectorAll<HTMLElement>('[data-pane]').forEach((p) => (p.hidden = p.dataset.pane !== String(step)));
+    document.getElementById('reset')!.hidden = step === 1;
+    if (me) { me.step = step; save(); }
+    if (focus) card.querySelector<HTMLElement>(`[data-pane="${step}"] [tabindex="-1"]`)?.focus();
+  };
+  card.querySelectorAll<HTMLElement>('[data-go]').forEach((b) => b.addEventListener('click', () => go(+b.dataset.go!)));
+
+  const showErr = (pane: string, msg: string) => {
+    const e = card.querySelector<HTMLElement>(`[data-pane="${pane}"] .err`)!;
+    e.textContent = msg;
+    e.hidden = !msg;
   };
 
-  // Returning visitors (e.g. coming back for step 3) skip the form.
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORE) || 'null');
-    if (saved?.name) showEntered(saved.name, true, false);
-  } catch {}
-
-  const fail = (msg: string, field?: string) => {
-    err.textContent = msg;
-    err.hidden = false;
-    if (field) form.querySelector<HTMLInputElement>(`[name="${field}"]`)!.focus();
+  const greet = () => {
+    if (me) card.querySelector('.hi')!.textContent = `✓ You're entered, ${me.name.split(' ')[0]}.`;
   };
 
+  // Returning visitors pick up where they left off.
+  if (me) { greet(); go(me.step || 2, false); }
+
+  document.getElementById('reset')!.addEventListener('click', () => {
+    me = null;
+    try { localStorage.removeItem(STORE); } catch {}
+    form.reset();
+    go(1);
+  });
+
+  // ---- Step 1: enter ----
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const d = new FormData(form);
     const name = String(d.get('name') || '').trim();
     const phone = String(d.get('phone') || '').trim();
-    if (!name) return fail('Please add your name.', 'name');
-    if (phone.replace(/\D/g, '').length < 8) return fail('Please add your WhatsApp number.', 'phone');
-    err.hidden = true;
+    if (!name) return showErr('1', 'Please add your name.');
+    if (phone.replace(/\D/g, '').length < 8) return showErr('1', 'Please add your WhatsApp number.');
+    showErr('1', '');
 
+    const btn = form.querySelector('button')!;
     btn.disabled = true;
-    btn.textContent = 'Saving…';
+    btn.textContent = 'Entering…';
     try {
       const res = await fetch('/api/raffle', {
         method: 'POST',
@@ -264,20 +272,21 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
       });
       const out = await res.json().catch(() => ({}));
       if (!res.ok || !out.ok) throw new Error(out.error || 'Something went wrong. Please try again.');
-      try { localStorage.setItem(STORE, JSON.stringify({ name })); } catch {}
-      showEntered(name, !!out.already, true);
+      me = { name, phone, step: 2 };
+      save();
+      greet();
+      go(2);
     } catch (x) {
-      fail(x instanceof Error && x.message !== 'Failed to fetch' ? x.message : 'Something went wrong. Please try again.');
+      showErr('1', x instanceof Error && x.message !== 'Failed to fetch' ? x.message : 'Something went wrong. Please try again.');
+    } finally {
       btn.disabled = false;
-      btn.textContent = 'Subscribe';
+      btn.textContent = 'Enter';
     }
   });
 
-  const CAPTION = document.getElementById('caption')!.textContent!.trim();
+  // ---- Step 2: post flyer + caption to status ----
   const postMsg = document.getElementById('post-msg')!;
-
-  // Fetch the flyer up front: iOS only allows sharing during the tap itself,
-  // so there's no time to download it after the button is pressed.
+  // Fetch the flyer up front: iOS only allows sharing during the tap itself.
   let flyer: File | null = null;
   fetch('/images/chanukah-flyer.jpg')
     .then((r) => r.blob())
@@ -293,9 +302,7 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
       try {
         await navigator.share(data);
         postMsg.textContent = (await copied) ? 'Caption copied. Paste it if WhatsApp left it out.' : '';
-      } catch {
-        postMsg.textContent = '';
-      }
+      } catch {}
       return;
     }
     // Computers and older phones: download the flyer and copy the caption instead.
@@ -305,7 +312,7 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
     a.click();
     postMsg.textContent = (await copied)
       ? 'Flyer downloaded and caption copied. Post them on your WhatsApp status.'
-      : 'Flyer downloaded. Copy the caption below and post both on your WhatsApp status.';
+      : 'Flyer downloaded. Copy the caption below and post both on your status.';
     (document.querySelector('.manual') as HTMLDetailsElement).open = true;
   });
 
@@ -313,5 +320,48 @@ const caption = `🕎 Apex Chanukah Giveaway: $1,000 cash + two events on the ho
   copyBtn.addEventListener('click', async () => {
     copyBtn.textContent = (await copy(CAPTION)) ? 'Copied ✓' : 'Copy failed';
     setTimeout(() => (copyBtn.textContent = 'Copy caption'), 2000);
+  });
+
+  // ---- Step 3: upload screenshot ----
+  // Shrink big phone screenshots before uploading; the view count stays readable.
+  const shrink = async (file: File): Promise<Blob> => {
+    try {
+      const img = await createImageBitmap(file);
+      const scale = Math.min(1, 1800 / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * scale);
+      c.height = Math.round(img.height * scale);
+      c.getContext('2d')!.drawImage(img, 0, 0, c.width, c.height);
+      const out = await new Promise<Blob | null>((r) => c.toBlob(r, 'image/jpeg', 0.82));
+      return out && out.size < file.size ? out : file;
+    } catch {
+      return file;
+    }
+  };
+
+  const shot = document.getElementById('shot') as HTMLInputElement;
+  const upLabel = document.getElementById('up-label')!;
+  shot.addEventListener('change', async () => {
+    const file = shot.files?.[0];
+    if (!file || !me) return;
+    showErr('3', '');
+    const box = shot.parentElement!;
+    box.classList.add('busy');
+    upLabel.textContent = 'Uploading…';
+    try {
+      const body = new FormData();
+      body.append('phone', me.phone);
+      body.append('file', await shrink(file), 'screenshot.jpg');
+      const res = await fetch('/api/raffle/screenshot', { method: 'POST', body });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok || !out.ok) throw new Error(out.error || 'Upload failed. Please try again.');
+      go(4);
+    } catch (x) {
+      showErr('3', x instanceof Error && x.message !== 'Failed to fetch' ? x.message : 'Upload failed. Please try again.');
+    } finally {
+      box.classList.remove('busy');
+      upLabel.textContent = 'Upload screenshot';
+      shot.value = '';
+    }
   });
 </script>
