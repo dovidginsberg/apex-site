@@ -1,60 +1,86 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { site } from '../data/site';
+
+const shareUrl = `${site.url}/raffle`;
 ---
 
 <Layout
-  title="Enter the Raffle"
-  description="Enter Daniel Pearlman's raffle: add your name and number, then follow his WhatsApp status."
+  title="Chanukah Giveaway"
+  description="$1,000 cash or an event on the house. Three winners, free to enter. Winners drawn the last night of Chanukah, Dec 11."
+  image="/images/chanukah-giveaway.jpg"
 >
   <section class="rf dark" data-hero>
     <div class="wrap rf-in">
       <div class="rf-copy">
-        <h1 class="h-xl">Enter the <em>raffle.</em></h1>
+        <p class="pill">Chanukah giveaway · 3 winners</p>
+        <ol class="prizes">
+          <li><span>1.</span> $1,000 Cash</li>
+          <li><span>2.</span> Event on the House<sup>*</sup></li>
+          <li><span>3.</span> Event on the House<sup>*</sup></li>
+        </ol>
         <p class="lede">
-          Add your name and number to enter. Then save Daniel's number and send him a quick
-          WhatsApp so you're on his status.
+          This Chanukah, the gelt is on us. Three winners. Free to enter.<br />
+          Winners drawn the last night of Chanukah · Dec 11.
         </p>
       </div>
 
       <div class="card">
-        <form id="raffle" class="form" novalidate>
-          <label class="field">
-            <span class="lbl">Your name</span>
-            <input name="name" autocomplete="name" required maxlength="80" />
-          </label>
-          <label class="field">
-            <span class="lbl">WhatsApp number</span>
-            <input name="phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="(555) 123-4567" />
-          </label>
-          <!-- Honeypot for bots; hidden from people and screen readers. -->
-          <label class="hp" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off" /></label>
+        <p class="lbl">How to enter</p>
 
-          <p class="err" id="rf-err" role="alert" hidden></p>
-          <button type="submit" class="btn btn-light">Enter the raffle</button>
-        </form>
+        <ol class="steps">
+          <li>
+            <span class="n">1</span>
+            <div class="step">
+              <strong>Subscribe</strong>
+              <p class="muted">Add your name and number, then message us on WhatsApp.</p>
 
-        <div id="done" class="done" hidden>
-          <p class="tick" aria-hidden="true">✓</p>
-          <h2 class="h-md" id="done-title" tabindex="-1">You're in.</h2>
-          <p class="muted">Two quick steps so you see Daniel's status:</p>
-          <ol class="steps">
-            <li>
-              <span class="n">1</span>
-              <div>
-                <strong>Save Daniel's number</strong>
-                <a class="btn btn-ghost-light" href="/daniel-pearlman.vcf" download>Save contact</a>
+              <form id="raffle" class="form" novalidate>
+                <label class="field">
+                  <span class="sr">Your name</span>
+                  <input name="name" autocomplete="name" required maxlength="80" placeholder="Your name" />
+                </label>
+                <label class="field">
+                  <span class="sr">WhatsApp number</span>
+                  <input name="phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="WhatsApp number" />
+                </label>
+                <!-- Honeypot for bots; hidden from people and screen readers. -->
+                <label class="hp" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off" /></label>
+                <p class="err" id="rf-err" role="alert" hidden></p>
+                <button type="submit" class="btn btn-light">Subscribe</button>
+              </form>
+
+              <div id="subbed" hidden>
+                <p class="ok" id="ok" tabindex="-1"></p>
+                <a class="btn btn-light" id="wa-sub" href={site.whatsapp} target="_blank" rel="noopener">Message us on WhatsApp</a>
               </div>
-            </li>
-            <li>
-              <span class="n">2</span>
-              <div>
-                <strong>Say hi on WhatsApp</strong>
-                <a class="btn btn-light" id="wa" href={site.whatsapp} target="_blank" rel="noopener">Open WhatsApp</a>
+            </div>
+          </li>
+
+          <li class="later">
+            <span class="n">2</span>
+            <div class="step">
+              <strong>Post it on your status</strong>
+              <p class="muted">Share the video and this link on your WhatsApp status:</p>
+              <p class="link-box">{shareUrl.replace('https://', '')}</p>
+              <div class="btn-row">
+                <button type="button" class="btn btn-ghost-light" id="copy">Copy link</button>
+                <button type="button" class="btn btn-ghost-light" id="share" hidden>Share</button>
               </div>
-            </li>
-          </ol>
-        </div>
+            </div>
+          </li>
+
+          <li class="later">
+            <span class="n">3</span>
+            <div class="step">
+              <strong>Hit 100 views</strong>
+              <p class="muted">After 20 hours, send us a screenshot showing at least 100 views.</p>
+              <a class="btn btn-ghost-light" id="wa-shot" href={site.whatsapp} target="_blank" rel="noopener">Send screenshot</a>
+            </div>
+          </li>
+        </ol>
+
+        <p class="fine">*Includes full event planning. All expenses covered by winner or host.</p>
       </div>
     </div>
   </section>
@@ -62,7 +88,7 @@ import { site } from '../data/site';
   <section class="section">
     <div class="wrap explore">
       <h2 class="h-md">While you're here.</h2>
-      <p class="muted">Weddings, galas and private celebrations, planned and run by Daniel and the Apex team.</p>
+      <p class="muted">Weddings, galas and private celebrations, planned and run by Daniel Pearlman and the Apex team.</p>
       <div class="btn-row">
         <a href="/work/" class="btn btn-dark">See our work</a>
         <a href="/celebrations/" class="btn btn-ghost">Celebrations</a>
@@ -77,26 +103,62 @@ import { site } from '../data/site';
   .rf-in {
     display: grid;
     gap: clamp(2.5rem, 6vw, 4.5rem);
-    padding-top: calc(var(--header-h) + clamp(2.5rem, 7vw, 5rem));
+    padding-top: calc(var(--header-h) + clamp(2rem, 6vw, 4.5rem));
     padding-bottom: clamp(3rem, 7vw, 5rem);
   }
-  .rf h1 { max-width: 10ch; }
-  .rf .lede { margin-top: 1.3rem; max-width: 42ch; }
-  @media (min-width: 900px) { .rf-in { grid-template-columns: 1.1fr 1fr; align-items: center; } }
+  @media (min-width: 960px) { .rf-in { grid-template-columns: 1fr 1fr; align-items: start; } }
 
-  .card { border: 1px solid var(--line-dark); padding: clamp(1.6rem, 4vw, 2.6rem); }
-  .form { display: grid; gap: 1.6rem; }
+  .pill {
+    display: inline-block;
+    background: var(--white);
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 0.6em 1.2em 0.45em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .prizes { list-style: none; margin: 1.4rem 0 0; padding: 0; font-family: var(--display); font-weight: 700; line-height: 1.1; }
+  .prizes li { font-size: clamp(2rem, 5.4vw, 3.6rem); }
+  .prizes li:first-child { font-size: clamp(2.6rem, 7vw, 4.6rem); }
+  .prizes span { color: rgba(255, 255, 255, 0.45); font-size: 0.6em; margin-right: 0.2em; }
+  .prizes sup { font-size: 0.45em; }
+  .rf .lede { margin-top: 1.4rem; max-width: 44ch; }
+
+  .card { border: 1px solid var(--line-dark); padding: clamp(1.5rem, 4vw, 2.4rem); }
   .card [hidden] { display: none; }
 
   .lbl {
-    display: block;
     font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.66);
-    margin-bottom: 0.55rem;
+    margin: 0 0 1.4rem;
   }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.8rem; }
+  .steps li { display: flex; gap: 1rem; align-items: flex-start; }
+  .steps .n {
+    flex: none;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--ink);
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+  }
+  .step { flex: 1; min-width: 0; }
+  .step strong { display: block; font-size: 1.2rem; margin-top: 0.2rem; }
+  .step .muted { margin: 0.3rem 0 0.9rem; font-size: 0.98rem; }
+  .later { transition: opacity 0.4s var(--ease); }
+  .card:not(.is-in) .later { opacity: 0.45; }
+
+  .form { display: grid; gap: 1.1rem; }
   .field input {
     width: 100%;
     border: 0;
@@ -104,43 +166,65 @@ import { site } from '../data/site';
     border-radius: 0;
     background: transparent;
     color: var(--white);
-    padding: 0.7rem 0 0.6rem;
+    padding: 0.6rem 0 0.5rem;
     font-size: 1.1rem;
     -webkit-appearance: none;
     appearance: none;
   }
   .field input:focus { outline: none; border-color: var(--white); }
-  .field input::placeholder { color: rgba(255, 255, 255, 0.35); }
+  .field input::placeholder { color: rgba(255, 255, 255, 0.4); }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   .err { color: #ffb4b4; font-size: 0.95rem; }
-  .form .btn { justify-self: start; }
+  .form .btn { justify-self: start; margin-top: 0.3rem; }
   .form .btn[disabled] { opacity: 0.6; pointer-events: none; }
+  .ok { font-weight: 600; margin: 0 0 0.9rem; }
+  .ok:focus { outline: none; }
 
-  .tick { font-size: 2rem; margin: 0 0 0.4rem; }
-  .done .muted { margin-top: 0.6rem; }
-  .steps { list-style: none; margin: 1.6rem 0 0; padding: 0; display: grid; gap: 1.2rem; }
-  .steps li { display: flex; gap: 1rem; align-items: flex-start; }
-  .steps .n {
-    flex: none;
-    width: 2rem;
-    height: 2rem;
-    border: 1px solid var(--line-dark);
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
+  .link-box {
+    border: 1px dashed rgba(255, 255, 255, 0.35);
+    padding: 0.7rem 0.9rem 0.55rem;
+    margin: 0 0 0.9rem;
     font-weight: 600;
+    word-break: break-all;
   }
-  .steps strong { display: block; margin: 0.3rem 0 0.8rem; }
+  .fine { margin: 2rem 0 0; font-size: 0.8rem; color: rgba(255, 255, 255, 0.5); }
 
   .explore .muted { margin: 1rem 0 1.8rem; max-width: 48ch; }
 </style>
 
 <script>
   const WA = '18453766359';
+  const SHARE_URL = 'https://apexconcierge.co/raffle';
+  const SHARE_TEXT = 'Apex Chanukah Giveaway: $1,000 cash or an event on the house. Free to enter:';
+  const STORE = 'apex-raffle';
+
+  const card = document.querySelector('.card')!;
   const form = document.getElementById('raffle') as HTMLFormElement;
   const err = document.getElementById('rf-err')!;
-  const done = document.getElementById('done')!;
   const btn = form.querySelector('button')!;
+  const wa = (text: string) => `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
+
+  const showEntered = (name: string, already: boolean, focus: boolean) => {
+    const first = name.split(' ')[0];
+    (document.getElementById('wa-sub') as HTMLAnchorElement).href = wa(
+      `Hi Daniel, it's ${name}. Please subscribe me to the Apex Chanukah Giveaway!`,
+    );
+    (document.getElementById('wa-shot') as HTMLAnchorElement).href = wa(
+      `Hi Daniel, it's ${name}. Here's my status screenshot for the Chanukah Giveaway:`,
+    );
+    const ok = document.getElementById('ok')!;
+    ok.textContent = already ? `✓ You're on the list, ${first}. Now send us the message:` : `✓ Thanks, ${first}! Now send us the message:`;
+    form.hidden = true;
+    document.getElementById('subbed')!.hidden = false;
+    card.classList.add('is-in');
+    if (focus) ok.focus();
+  };
+
+  // Returning visitors (e.g. coming back for step 3) skip the form.
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORE) || 'null');
+    if (saved?.name) showEntered(saved.name, true, false);
+  } catch {}
 
   const fail = (msg: string, field?: string) => {
     err.textContent = msg;
@@ -158,7 +242,7 @@ import { site } from '../data/site';
     err.hidden = true;
 
     btn.disabled = true;
-    btn.textContent = 'Entering…';
+    btn.textContent = 'Saving…';
     try {
       const res = await fetch('/api/raffle', {
         method: 'POST',
@@ -167,19 +251,29 @@ import { site } from '../data/site';
       });
       const out = await res.json().catch(() => ({}));
       if (!res.ok || !out.ok) throw new Error(out.error || 'Something went wrong. Please try again.');
-
-      const first = name.split(' ')[0];
-      const text = `Hi Daniel, it's ${name}. I just entered the raffle. Please add me to your status!`;
-      (document.getElementById('wa') as HTMLAnchorElement).href = `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
-      const title = document.getElementById('done-title')!;
-      title.textContent = out.already ? `You're already in, ${first}.` : `You're in, ${first}.`;
-      form.hidden = true;
-      done.hidden = false;
-      title.focus();
+      try { localStorage.setItem(STORE, JSON.stringify({ name })); } catch {}
+      showEntered(name, !!out.already, true);
     } catch (x) {
       fail(x instanceof Error && x.message !== 'Failed to fetch' ? x.message : 'Something went wrong. Please try again.');
       btn.disabled = false;
-      btn.textContent = 'Enter the raffle';
+      btn.textContent = 'Subscribe';
     }
   });
+
+  const copyBtn = document.getElementById('copy')!;
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(SHARE_URL);
+      copyBtn.textContent = 'Copied ✓';
+      setTimeout(() => (copyBtn.textContent = 'Copy link'), 2000);
+    } catch {
+      copyBtn.textContent = 'Copy failed';
+    }
+  });
+
+  const shareBtn = document.getElementById('share')!;
+  if (navigator.share) {
+    shareBtn.hidden = false;
+    shareBtn.addEventListener('click', () => navigator.share({ text: SHARE_TEXT, url: SHARE_URL }).catch(() => {}));
+  }
 </script>
