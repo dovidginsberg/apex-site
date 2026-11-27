@@ -19,3 +19,7 @@ npm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# local wrangler dev
+.wrangler/
+.dev.vars

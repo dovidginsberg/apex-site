@@ -1,12 +1,17 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "apex-event-management",
+  "main": "./worker/index.js",
   "compatibility_date": "2026-07-21",
   "build": {
     "command": "npm run build"
   },
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "404-page"
-  }
+    "not_found_handling": "404-page",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*", "/raffle/entries*"]
+  },
+  // Raffle sign-ups. No id needed: wrangler creates the namespace on first deploy.
+  "kv_namespaces": [{ "binding": "RAFFLE" }]
 }

@@ -1,0 +1,185 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site';
+---
+
+<Layout
+  title="Enter the Raffle"
+  description="Enter Daniel Pearlman's raffle: add your name and number, then follow his WhatsApp status."
+>
+  <section class="rf dark" data-hero>
+    <div class="wrap rf-in">
+      <div class="rf-copy">
+        <h1 class="h-xl">Enter the <em>raffle.</em></h1>
+        <p class="lede">
+          Add your name and number to enter. Then save Daniel's number and send him a quick
+          WhatsApp so you're on his status.
+        </p>
+      </div>
+
+      <div class="card">
+        <form id="raffle" class="form" novalidate>
+          <label class="field">
+            <span class="lbl">Your name</span>
+            <input name="name" autocomplete="name" required maxlength="80" />
+          </label>
+          <label class="field">
+            <span class="lbl">WhatsApp number</span>
+            <input name="phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="(555) 123-4567" />
+          </label>
+          <!-- Honeypot for bots; hidden from people and screen readers. -->
+          <label class="hp" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off" /></label>
+
+          <p class="err" id="rf-err" role="alert" hidden></p>
+          <button type="submit" class="btn btn-light">Enter the raffle</button>
+        </form>
+
+        <div id="done" class="done" hidden>
+          <p class="tick" aria-hidden="true">✓</p>
+          <h2 class="h-md" id="done-title" tabindex="-1">You're in.</h2>
+          <p class="muted">Two quick steps so you see Daniel's status:</p>
+          <ol class="steps">
+            <li>
+              <span class="n">1</span>
+              <div>
+                <strong>Save Daniel's number</strong>
+                <a class="btn btn-ghost-light" href="/daniel-pearlman.vcf" download>Save contact</a>
+              </div>
+            </li>
+            <li>
+              <span class="n">2</span>
+              <div>
+                <strong>Say hi on WhatsApp</strong>
+                <a class="btn btn-light" id="wa" href={site.whatsapp} target="_blank" rel="noopener">Open WhatsApp</a>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap explore">
+      <h2 class="h-md">While you're here.</h2>
+      <p class="muted">Weddings, galas and private celebrations, planned and run by Daniel and the Apex team.</p>
+      <div class="btn-row">
+        <a href="/work/" class="btn btn-dark">See our work</a>
+        <a href="/celebrations/" class="btn btn-ghost">Celebrations</a>
+        <a href="/corporate/" class="btn btn-ghost">Corporate</a>
+        <a href="/" class="btn btn-ghost">Home</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .rf-in {
+    display: grid;
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+    padding-top: calc(var(--header-h) + clamp(2.5rem, 7vw, 5rem));
+    padding-bottom: clamp(3rem, 7vw, 5rem);
+  }
+  .rf h1 { max-width: 10ch; }
+  .rf .lede { margin-top: 1.3rem; max-width: 42ch; }
+  @media (min-width: 900px) { .rf-in { grid-template-columns: 1.1fr 1fr; align-items: center; } }
+
+  .card { border: 1px solid var(--line-dark); padding: clamp(1.6rem, 4vw, 2.6rem); }
+  .form { display: grid; gap: 1.6rem; }
+  .card [hidden] { display: none; }
+
+  .lbl {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.66);
+    margin-bottom: 0.55rem;
+  }
+  .field input {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 0;
+    background: transparent;
+    color: var(--white);
+    padding: 0.7rem 0 0.6rem;
+    font-size: 1.1rem;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .field input:focus { outline: none; border-color: var(--white); }
+  .field input::placeholder { color: rgba(255, 255, 255, 0.35); }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .err { color: #ffb4b4; font-size: 0.95rem; }
+  .form .btn { justify-self: start; }
+  .form .btn[disabled] { opacity: 0.6; pointer-events: none; }
+
+  .tick { font-size: 2rem; margin: 0 0 0.4rem; }
+  .done .muted { margin-top: 0.6rem; }
+  .steps { list-style: none; margin: 1.6rem 0 0; padding: 0; display: grid; gap: 1.2rem; }
+  .steps li { display: flex; gap: 1rem; align-items: flex-start; }
+  .steps .n {
+    flex: none;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--line-dark);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 600;
+  }
+  .steps strong { display: block; margin: 0.3rem 0 0.8rem; }
+
+  .explore .muted { margin: 1rem 0 1.8rem; max-width: 48ch; }
+</style>
+
+<script>
+  const WA = '18453766359';
+  const form = document.getElementById('raffle') as HTMLFormElement;
+  const err = document.getElementById('rf-err')!;
+  const done = document.getElementById('done')!;
+  const btn = form.querySelector('button')!;
+
+  const fail = (msg: string, field?: string) => {
+    err.textContent = msg;
+    err.hidden = false;
+    if (field) form.querySelector<HTMLInputElement>(`[name="${field}"]`)!.focus();
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const d = new FormData(form);
+    const name = String(d.get('name') || '').trim();
+    const phone = String(d.get('phone') || '').trim();
+    if (!name) return fail('Please add your name.', 'name');
+    if (phone.replace(/\D/g, '').length < 8) return fail('Please add your WhatsApp number.', 'phone');
+    err.hidden = true;
+
+    btn.disabled = true;
+    btn.textContent = 'Entering…';
+    try {
+      const res = await fetch('/api/raffle', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ name, phone, website: d.get('website') }),
+      });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok || !out.ok) throw new Error(out.error || 'Something went wrong. Please try again.');
+
+      const first = name.split(' ')[0];
+      const text = `Hi Daniel, it's ${name}. I just entered the raffle. Please add me to your status!`;
+      (document.getElementById('wa') as HTMLAnchorElement).href = `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
+      const title = document.getElementById('done-title')!;
+      title.textContent = out.already ? `You're already in, ${first}.` : `You're in, ${first}.`;
+      form.hidden = true;
+      done.hidden = false;
+      title.focus();
+    } catch (x) {
+      fail(x instanceof Error && x.message !== 'Failed to fetch' ? x.message : 'Something went wrong. Please try again.');
+      btn.disabled = false;
+      btn.textContent = 'Enter the raffle';
+    }
+  });
+</script>
