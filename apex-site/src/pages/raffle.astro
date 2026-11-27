@@ -10,7 +10,7 @@ const caption = `🕎 Apex Chanukah Giveaway: $500 cash + two events on the hous
 <Layout
   title="Chanukah Giveaway"
   description="$500 cash and two events on the house. Free to enter. Winners drawn the last night of Chanukah, Dec 11."
-  image="/images/chanukah-flyer.jpg?v=3"
+  image="/images/chanukah-flyer.jpg?v=4"
 >
   <section class="rf dark" data-hero>
     <div class="wrap rf-in">
@@ -64,10 +64,10 @@ const caption = `🕎 Apex Chanukah Giveaway: $500 cash + two events on the hous
           <p class="note" id="post-msg" role="status"></p>
           <details class="manual">
             <summary>Doing it by hand?</summary>
-            <img src="/images/chanukah-flyer.jpg" alt="Apex Chanukah Giveaway flyer" width="1080" height="1920" loading="lazy" />
+            <img src="/images/chanukah-flyer.jpg?v=4" alt="Apex Chanukah Giveaway flyer" width="1080" height="1920" loading="lazy" />
             <p class="caption" id="caption">{caption}</p>
             <div class="btn-row">
-              <a class="btn btn-ghost-light" href="/images/chanukah-flyer.jpg" download="Apex Chanukah Giveaway.jpg">Download flyer</a>
+              <a class="btn btn-ghost-light" href="/images/chanukah-flyer.jpg?v=4" download="Apex Chanukah Giveaway.jpg">Download flyer</a>
               <button type="button" class="btn btn-ghost-light" id="copy">Copy caption</button>
             </div>
           </details>
@@ -306,7 +306,7 @@ const caption = `🕎 Apex Chanukah Giveaway: $500 cash + two events on the hous
   const postMsg = document.getElementById('post-msg')!;
   // Fetch the flyer up front: iOS only allows sharing during the tap itself.
   let flyer: File | null = null;
-  fetch("/images/chanukah-flyer.jpg?v=3")
+  fetch("/images/chanukah-flyer.jpg?v=4")
     .then((r) => r.blob())
     .then((b) => (flyer = new File([b], 'Apex Chanukah Giveaway.jpg', { type: 'image/jpeg' })))
     .catch(() => {});
